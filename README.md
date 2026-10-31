@@ -79,5 +79,3 @@ find ~/.config/hypr -name "*.sh" -exec chmod +x {} +
 
 ---
 
-## 🤝 Благодарности
-- [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland) — за великолепную основу и архитектуру Lua-конфигов Hyprland.
