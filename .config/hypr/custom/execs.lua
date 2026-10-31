@@ -1,0 +1,8 @@
+hl.on("hyprland.start", function()
+    hl.exec_cmd("pipewire")
+    hl.exec_cmd("sh -c 'sleep 1 && wireplumber'")
+    hl.exec_cmd("sh -c 'sleep 2 && pipewire-pulse'")
+--    hl.exec_cmd("sh -c 'sleep 3 && noctalia > /tmp/noctalia.log 2>&1'")
+    hl.exec_cmd("swaybg -i /home/zhenya/Изображения/Wallpapers/189d538e3d89f6dcbb4b430d2afb2019.jpg -m fill")
+    hl.exec_cmd("waybar")
+end)
