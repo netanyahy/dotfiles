@@ -1,6 +1,6 @@
 # 🌌 dotfiles
 
-Моя персональная конфигурация **Hyprland** на **Gentoo Linux** с базой от [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland) и кастомным стилем Waybar.
+Моя персональная конфигурация **Hyprland** на **Gentoo Linux**
 
 ![Gentoo](https://img.shields.io/badge/OS-Gentoo_Linux-purple?logo=gentoo&logoColor=white)
 ![Hyprland](https://img.shields.io/badge/WM-Hyprland-blue?logo=wayland&logoColor=white)
