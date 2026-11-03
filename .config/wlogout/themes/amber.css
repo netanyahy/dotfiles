@@ -1,0 +1,8 @@
+/* Gruvbox Gold theme */
+@define-color overlay rgba(24, 18, 10, 0.65);
+@define-color btn_bg rgba(30, 23, 14, 0.55);
+@define-color btn_border rgba(250, 189, 47, 0.2);
+@define-color btn_text #fbf1c7;
+@define-color btn_hover_bg rgba(56, 42, 24, 0.75);
+@define-color btn_hover_border #fabd2f;
+@define-color btn_glow rgba(250, 189, 47, 0.5);

@@ -2,9 +2,11 @@
 
 THEMES_WAYBAR="$HOME/.config/waybar/themes"
 THEMES_FUZZEL="$HOME/.config/fuzzel/themes"
+THEMES_WLOGOUT="$HOME/.config/wlogout/themes"
 
 WAYBAR_CURRENT="$THEMES_WAYBAR/current.css"
 FUZZEL_CURRENT="$HOME/.config/fuzzel/fuzzel_theme.ini"
+WLOGOUT_CURRENT="$HOME/.config/wlogout/theme.css"
 
 # Список вариантов для меню Fuzzel
 options="Dark Glass\nWhite Frost\nMidnight Lavender\nNeon Cyan\nRosé Sakura\nTokyo Night\nNord Ice\nCyber Emerald\nGruvbox Gold\nRuby Crimson"
@@ -39,7 +41,12 @@ if [ -f "$THEMES_FUZZEL/$theme.ini" ]; then
     cp "$THEMES_FUZZEL/$theme.ini" "$FUZZEL_CURRENT"
 fi
 
-# 3. Перезагружаем Waybar через SIGUSR2 (мягкая перезагрузка стилей)
+# 3. Применяем тему для Wlogout
+if [ -f "$THEMES_WLOGOUT/$theme.css" ]; then
+    cp "$THEMES_WLOGOUT/$theme.css" "$WLOGOUT_CURRENT"
+fi
+
+# 4. Перезагружаем Waybar через SIGUSR2 (мягкая перезагрузка стилей)
 if pgrep -x waybar >/dev/null; then
     killall -SIGUSR2 waybar 2>/dev/null || true
 fi

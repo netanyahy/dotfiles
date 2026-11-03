@@ -1,0 +1,8 @@
+/* Midnight Lavender theme */
+@define-color overlay rgba(15, 10, 25, 0.65);
+@define-color btn_bg rgba(22, 16, 32, 0.55);
+@define-color btn_border rgba(198, 160, 246, 0.2);
+@define-color btn_text #f5e0dc;
+@define-color btn_hover_bg rgba(40, 28, 60, 0.75);
+@define-color btn_hover_border #c6a0f6;
+@define-color btn_glow rgba(198, 160, 246, 0.5);

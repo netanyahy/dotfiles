@@ -1,0 +1,8 @@
+/* Rosé Sakura theme */
+@define-color overlay rgba(25, 15, 22, 0.65);
+@define-color btn_bg rgba(30, 18, 26, 0.55);
+@define-color btn_border rgba(246, 193, 196, 0.2);
+@define-color btn_text #faf4ed;
+@define-color btn_hover_bg rgba(55, 30, 46, 0.75);
+@define-color btn_hover_border #f6c1c4;
+@define-color btn_glow rgba(246, 193, 196, 0.5);

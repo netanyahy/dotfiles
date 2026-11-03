@@ -1,0 +1,8 @@
+/* Neon Cyan theme */
+@define-color overlay rgba(8, 20, 28, 0.65);
+@define-color btn_bg rgba(12, 26, 35, 0.55);
+@define-color btn_border rgba(80, 250, 230, 0.2);
+@define-color btn_text #e6fbff;
+@define-color btn_hover_bg rgba(20, 48, 64, 0.75);
+@define-color btn_hover_border #50fae6;
+@define-color btn_glow rgba(80, 250, 230, 0.5);
