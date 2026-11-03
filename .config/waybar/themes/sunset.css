@@ -1,0 +1,15 @@
+/* Sunset Twilight theme */
+@define-color bg-color rgba(36, 20, 40, 0.7);
+@define-color border-color rgba(255, 123, 0, 0.45);
+@define-color text-color #ffeedd;
+@define-color accent-color #ff7b00;
+@define-color bt-color #9d4edd;
+@define-color ws-inactive #8f6280;
+@define-color ws-hover-bg rgba(157, 78, 221, 0.2);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #ff7b00;
+@define-color ws-active-fg #200f24;
+@define-color ws-active-shadow rgba(255, 123, 0, 0.65);
+@define-color ws-shadow rgba(255, 123, 0, 0.65);
+@define-color ws-glow rgba(157, 78, 221, 0.35);
+@define-color hover-bg rgba(157, 78, 221, 0.2);

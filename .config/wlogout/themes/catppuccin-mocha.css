@@ -1,0 +1,8 @@
+/* Catppuccin Mocha theme */
+@define-color overlay rgba(17, 17, 27, 0.65);
+@define-color btn_bg rgba(24, 24, 37, 0.55);
+@define-color btn_border rgba(203, 166, 247, 0.25);
+@define-color btn_text #cdd6f4;
+@define-color btn_hover_bg rgba(49, 50, 68, 0.75);
+@define-color btn_hover_border #cba6f7;
+@define-color btn_glow rgba(203, 166, 247, 0.5);

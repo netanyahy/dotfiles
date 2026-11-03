@@ -1,0 +1,15 @@
+/* One Dark Pro theme */
+@define-color bg-color rgba(40, 44, 52, 0.68);
+@define-color border-color rgba(97, 175, 239, 0.45);
+@define-color text-color #abb2bf;
+@define-color accent-color #61afef;
+@define-color bt-color #61afef;
+@define-color ws-inactive #5c6370;
+@define-color ws-hover-bg rgba(97, 175, 239, 0.18);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #61afef;
+@define-color ws-active-fg #1e2227;
+@define-color ws-active-shadow rgba(97, 175, 239, 0.65);
+@define-color ws-shadow rgba(97, 175, 239, 0.65);
+@define-color ws-glow rgba(97, 175, 239, 0.3);
+@define-color hover-bg rgba(97, 175, 239, 0.18);

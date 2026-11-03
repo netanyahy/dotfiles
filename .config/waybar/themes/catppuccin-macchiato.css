@@ -1,0 +1,15 @@
+/* Catppuccin Macchiato theme */
+@define-color bg-color rgba(36, 39, 58, 0.65);
+@define-color border-color rgba(245, 189, 230, 0.45);
+@define-color text-color #cad3f5;
+@define-color accent-color #f5bde6;
+@define-color bt-color #f5bde6;
+@define-color ws-inactive #6e738d;
+@define-color ws-hover-bg rgba(245, 189, 230, 0.18);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #f5bde6;
+@define-color ws-active-fg #181926;
+@define-color ws-active-shadow rgba(245, 189, 230, 0.65);
+@define-color ws-shadow rgba(245, 189, 230, 0.65);
+@define-color ws-glow rgba(245, 189, 230, 0.3);
+@define-color hover-bg rgba(245, 189, 230, 0.18);

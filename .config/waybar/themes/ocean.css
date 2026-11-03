@@ -1,0 +1,15 @@
+/* Ocean Abyss theme */
+@define-color bg-color rgba(10, 25, 47, 0.7);
+@define-color border-color rgba(0, 180, 216, 0.45);
+@define-color text-color #caf0f8;
+@define-color accent-color #00b4d8;
+@define-color bt-color #00b4d8;
+@define-color ws-inactive #49709c;
+@define-color ws-hover-bg rgba(0, 180, 216, 0.18);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #00b4d8;
+@define-color ws-active-fg #05101e;
+@define-color ws-active-shadow rgba(0, 180, 216, 0.65);
+@define-color ws-shadow rgba(0, 180, 216, 0.65);
+@define-color ws-glow rgba(144, 224, 239, 0.3);
+@define-color hover-bg rgba(0, 180, 216, 0.18);

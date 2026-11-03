@@ -1,0 +1,15 @@
+/* Kanagawa Wave theme */
+@define-color bg-color rgba(31, 31, 40, 0.7);
+@define-color border-color rgba(126, 156, 216, 0.45);
+@define-color text-color #dcd7ba;
+@define-color accent-color #7e9cd8;
+@define-color bt-color #76946a;
+@define-color ws-inactive #727169;
+@define-color ws-hover-bg rgba(118, 148, 106, 0.2);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #7e9cd8;
+@define-color ws-active-fg #16161d;
+@define-color ws-active-shadow rgba(126, 156, 216, 0.65);
+@define-color ws-shadow rgba(126, 156, 216, 0.65);
+@define-color ws-glow rgba(118, 148, 106, 0.3);
+@define-color hover-bg rgba(118, 148, 106, 0.2);

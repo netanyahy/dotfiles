@@ -1,0 +1,15 @@
+/* Dracula Vampire theme */
+@define-color bg-color rgba(40, 42, 54, 0.7);
+@define-color border-color rgba(189, 147, 249, 0.45);
+@define-color text-color #f8f8f2;
+@define-color accent-color #bd93f9;
+@define-color bt-color #ff79c6;
+@define-color ws-inactive #6272a4;
+@define-color ws-hover-bg rgba(255, 121, 198, 0.2);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #bd93f9;
+@define-color ws-active-fg #282a36;
+@define-color ws-active-shadow rgba(189, 147, 249, 0.7);
+@define-color ws-shadow rgba(189, 147, 249, 0.7);
+@define-color ws-glow rgba(255, 121, 198, 0.35);
+@define-color hover-bg rgba(255, 121, 198, 0.2);

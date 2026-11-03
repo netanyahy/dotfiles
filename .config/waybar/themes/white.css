@@ -11,3 +11,5 @@
 @define-color ws-glow rgba(0, 0, 0, 0.12);
 @define-color accent-color #202025;
 @define-color bt-color #202025;
+@define-color ws-active-shadow rgba(255, 255, 255, 0.9);
+@define-color hover-bg rgba(0, 0, 0, 0.08);

@@ -1,0 +1,8 @@
+/* Catppuccin Latte theme */
+@define-color overlay rgba(230, 233, 239, 0.55);
+@define-color btn_bg rgba(255, 255, 255, 0.75);
+@define-color btn_border rgba(30, 102, 245, 0.25);
+@define-color btn_text #4c4f69;
+@define-color btn_hover_bg rgba(220, 224, 232, 0.9);
+@define-color btn_hover_border #1e66f5;
+@define-color btn_glow rgba(30, 102, 245, 0.4);

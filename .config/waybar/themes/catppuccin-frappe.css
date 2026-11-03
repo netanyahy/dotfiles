@@ -1,0 +1,15 @@
+/* Catppuccin Frappé theme */
+@define-color bg-color rgba(48, 52, 70, 0.65);
+@define-color border-color rgba(129, 200, 190, 0.45);
+@define-color text-color #c6d0f5;
+@define-color accent-color #81c8be;
+@define-color bt-color #81c8be;
+@define-color ws-inactive #737994;
+@define-color ws-hover-bg rgba(129, 200, 190, 0.18);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #81c8be;
+@define-color ws-active-fg #232634;
+@define-color ws-active-shadow rgba(129, 200, 190, 0.65);
+@define-color ws-shadow rgba(129, 200, 190, 0.65);
+@define-color ws-glow rgba(129, 200, 190, 0.3);
+@define-color hover-bg rgba(129, 200, 190, 0.18);

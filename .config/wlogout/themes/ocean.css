@@ -1,0 +1,8 @@
+/* Ocean Abyss theme */
+@define-color overlay rgba(6, 16, 31, 0.7);
+@define-color btn_bg rgba(10, 25, 47, 0.6);
+@define-color btn_border rgba(0, 180, 216, 0.25);
+@define-color btn_text #caf0f8;
+@define-color btn_hover_bg rgba(16, 42, 77, 0.8);
+@define-color btn_hover_border #00b4d8;
+@define-color btn_glow rgba(0, 180, 216, 0.5);

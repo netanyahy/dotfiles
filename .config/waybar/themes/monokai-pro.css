@@ -1,0 +1,15 @@
+/* Monokai Pro theme */
+@define-color bg-color rgba(45, 42, 46, 0.72);
+@define-color border-color rgba(169, 220, 118, 0.45);
+@define-color text-color #fcfcfa;
+@define-color accent-color #a9dc76;
+@define-color bt-color #ff6188;
+@define-color ws-inactive #727072;
+@define-color ws-hover-bg rgba(255, 97, 136, 0.2);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #a9dc76;
+@define-color ws-active-fg #221f22;
+@define-color ws-active-shadow rgba(169, 220, 118, 0.65);
+@define-color ws-shadow rgba(169, 220, 118, 0.65);
+@define-color ws-glow rgba(255, 97, 136, 0.3);
+@define-color hover-bg rgba(255, 97, 136, 0.2);

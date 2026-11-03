@@ -1,0 +1,8 @@
+/* Solarized Light theme */
+@define-color overlay rgba(238, 232, 213, 0.6);
+@define-color btn_bg rgba(253, 246, 227, 0.75);
+@define-color btn_border rgba(203, 75, 22, 0.25);
+@define-color btn_text #073642;
+@define-color btn_hover_bg rgba(238, 232, 213, 0.9);
+@define-color btn_hover_border #cb4b16;
+@define-color btn_glow rgba(203, 75, 22, 0.4);

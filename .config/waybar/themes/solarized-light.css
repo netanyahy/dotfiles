@@ -1,0 +1,15 @@
+/* Solarized Light theme */
+@define-color bg-color rgba(253, 246, 227, 0.8);
+@define-color border-color rgba(203, 75, 22, 0.35);
+@define-color text-color #073642;
+@define-color accent-color #cb4b16;
+@define-color bt-color #cb4b16;
+@define-color ws-inactive rgba(88, 110, 117, 0.65);
+@define-color ws-hover-bg rgba(203, 75, 22, 0.12);
+@define-color ws-hover-fg #cb4b16;
+@define-color ws-active-bg #cb4b16;
+@define-color ws-active-fg #fdf6e3;
+@define-color ws-active-shadow rgba(203, 75, 22, 0.5);
+@define-color ws-shadow rgba(203, 75, 22, 0.5);
+@define-color ws-glow rgba(181, 137, 0, 0.25);
+@define-color hover-bg rgba(203, 75, 22, 0.12);

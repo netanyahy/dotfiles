@@ -1,0 +1,15 @@
+/* Catppuccin Latte theme */
+@define-color bg-color rgba(239, 241, 245, 0.8);
+@define-color border-color rgba(30, 102, 245, 0.35);
+@define-color text-color #4c4f69;
+@define-color accent-color #1e66f5;
+@define-color bt-color #1e66f5;
+@define-color ws-inactive rgba(76, 79, 105, 0.55);
+@define-color ws-hover-bg rgba(30, 102, 245, 0.12);
+@define-color ws-hover-fg #1e66f5;
+@define-color ws-active-bg #1e66f5;
+@define-color ws-active-fg #ffffff;
+@define-color ws-active-shadow rgba(30, 102, 245, 0.5);
+@define-color ws-shadow rgba(30, 102, 245, 0.5);
+@define-color ws-glow rgba(30, 102, 245, 0.25);
+@define-color hover-bg rgba(30, 102, 245, 0.12);

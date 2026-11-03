@@ -1,0 +1,8 @@
+/* Gruvbox Light theme */
+@define-color overlay rgba(235, 219, 178, 0.6);
+@define-color btn_bg rgba(251, 241, 219, 0.75);
+@define-color btn_border rgba(175, 58, 3, 0.25);
+@define-color btn_text #3c3836;
+@define-color btn_hover_bg rgba(235, 219, 178, 0.9);
+@define-color btn_hover_border #af3a03;
+@define-color btn_glow rgba(175, 58, 3, 0.4);

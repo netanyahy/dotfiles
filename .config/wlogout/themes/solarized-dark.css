@@ -1,0 +1,8 @@
+/* Solarized Dark theme */
+@define-color overlay rgba(0, 43, 54, 0.7);
+@define-color btn_bg rgba(7, 54, 66, 0.6);
+@define-color btn_border rgba(42, 161, 152, 0.25);
+@define-color btn_text #93a1a1;
+@define-color btn_hover_bg rgba(10, 75, 92, 0.8);
+@define-color btn_hover_border #2aa198;
+@define-color btn_glow rgba(42, 161, 152, 0.5);

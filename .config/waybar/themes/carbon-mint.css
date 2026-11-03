@@ -1,0 +1,15 @@
+/* Carbon Mint theme */
+@define-color bg-color rgba(18, 18, 18, 0.75);
+@define-color border-color rgba(0, 245, 212, 0.45);
+@define-color text-color #f0fbf9;
+@define-color accent-color #00f5d4;
+@define-color bt-color #00f5d4;
+@define-color ws-inactive #5f7571;
+@define-color ws-hover-bg rgba(0, 245, 212, 0.18);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #00f5d4;
+@define-color ws-active-fg #081a17;
+@define-color ws-active-shadow rgba(0, 245, 212, 0.65);
+@define-color ws-shadow rgba(0, 245, 212, 0.65);
+@define-color ws-glow rgba(0, 245, 212, 0.3);
+@define-color hover-bg rgba(0, 245, 212, 0.18);

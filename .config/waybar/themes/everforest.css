@@ -1,0 +1,15 @@
+/* Everforest theme */
+@define-color bg-color rgba(43, 51, 57, 0.7);
+@define-color border-color rgba(167, 192, 128, 0.45);
+@define-color text-color #d3c6aa;
+@define-color accent-color #a7c080;
+@define-color bt-color #a7c080;
+@define-color ws-inactive #7a8478;
+@define-color ws-hover-bg rgba(167, 192, 128, 0.18);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #a7c080;
+@define-color ws-active-fg #232a2e;
+@define-color ws-active-shadow rgba(167, 192, 128, 0.65);
+@define-color ws-shadow rgba(167, 192, 128, 0.65);
+@define-color ws-glow rgba(167, 192, 128, 0.3);
+@define-color hover-bg rgba(167, 192, 128, 0.18);

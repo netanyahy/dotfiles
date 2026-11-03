@@ -1,0 +1,8 @@
+/* Catppuccin Macchiato theme */
+@define-color overlay rgba(24, 25, 38, 0.65);
+@define-color btn_bg rgba(30, 32, 48, 0.55);
+@define-color btn_border rgba(245, 189, 230, 0.25);
+@define-color btn_text #cad3f5;
+@define-color btn_hover_bg rgba(54, 58, 79, 0.75);
+@define-color btn_hover_border #f5bde6;
+@define-color btn_glow rgba(245, 189, 230, 0.5);

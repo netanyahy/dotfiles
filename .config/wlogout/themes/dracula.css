@@ -1,0 +1,8 @@
+/* Dracula Vampire theme */
+@define-color overlay rgba(25, 26, 34, 0.7);
+@define-color btn_bg rgba(40, 42, 54, 0.6);
+@define-color btn_border rgba(189, 147, 249, 0.25);
+@define-color btn_text #f8f8f2;
+@define-color btn_hover_bg rgba(68, 71, 90, 0.8);
+@define-color btn_hover_border #ff79c6;
+@define-color btn_glow rgba(189, 147, 249, 0.55);

@@ -14,7 +14,7 @@
 | Компонент | Утилита | Описание |
 |---|---|---|
 | **Оконный менеджер** | `Hyprland` | Динамический тайлинг Wayland на Lua/Hyprlang |
-| **Панель статуса** | `Waybar` | Капсульный дизайн, 10 динамических тем со стеклом и свечением |
+| **Панель статуса** | `Waybar` | Капсульный дизайн, 30 динамических тем со стеклом и свечением |
 | **Лаунчер приложений** | `Fuzzel` | Spotlight-стиль, размытие фона, буфер обмена `cliphist` |
 | **Меню выключения** | `Wlogout` | Стеклянные капсулы, неоновое свечение в тон выбранной темы |
 | **Терминал** | `Kitty` / `Foot` | Быстрые эмуляторы терминалов с поддержкой GPU |
@@ -30,8 +30,27 @@
 * Нажмите **`Super + Shift + T`**
 * Либо кликните **ПКМ** по иконке Arch на панели Waybar
 
-Доступно 10 тем (Waybar + Fuzzel + Wlogout меняются одновременно):
-`Dark Glass`, `White Frost`, `Midnight Lavender`, `Neon Cyan`, `Rosé Sakura`, `Tokyo Night`, `Nord Ice`, `Cyber Emerald`, `Gruvbox Gold`, `Ruby Crimson`.
+Всего доступно **30 тем** (Waybar + Fuzzel + Wlogout меняются одновременно):
+
+### 🌟 Базовые темы (10)
+- `Dark Glass` — тёмное стекло
+- `White Frost` — морозная светлая тема
+- `Midnight Lavender` — полуночная лаванда
+- `Neon Cyan` — неоновый кибер-циан
+- `Rosé Sakura` — нежная сакура Rosé Pine
+- `Tokyo Night` — неоновый Токио
+- `Nord Ice` — северный лёд
+- `Cyber Emerald` — изумрудный киберпанк
+- `Gruvbox Gold` — тёплый Gruvbox
+- `Ruby Crimson` — рубиновый кармин
+
+### 🎨 Дизайнерские темы (20)
+- **Catppuccin**: `Catppuccin Mocha`, `Catppuccin Macchiato`, `Catppuccin Frappé`, `Catppuccin Latte`
+- **Классические культовые палитры**: `Dracula Vampire`, `Solarized Dark`, `Solarized Light`, `One Dark Pro`, `Monokai Pro`
+- **Gruvbox серия**: `Gruvbox Dark`, `Gruvbox Light`
+- **Природные и японские эстетики**: `Everforest`, `Kanagawa Wave`, `Ocean Abyss`
+- **Киберпанк и футуризм**: `Synthwave '84`, `Cyberpunk 2077`, `Aura Dark`, `Carbon Mint`
+- **Глубокие атмосферные**: `Sunset Twilight`, `Blood Moon`
 
 ---
 

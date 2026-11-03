@@ -1,0 +1,8 @@
+/* Everforest theme */
+@define-color overlay rgba(35, 42, 46, 0.7);
+@define-color btn_bg rgba(43, 51, 57, 0.6);
+@define-color btn_border rgba(167, 192, 128, 0.25);
+@define-color btn_text #d3c6aa;
+@define-color btn_hover_bg rgba(58, 68, 74, 0.8);
+@define-color btn_hover_border #a7c080;
+@define-color btn_glow rgba(167, 192, 128, 0.5);

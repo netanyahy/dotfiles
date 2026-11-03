@@ -1,0 +1,15 @@
+/* Blood Moon theme */
+@define-color bg-color rgba(18, 12, 14, 0.75);
+@define-color border-color rgba(230, 57, 70, 0.45);
+@define-color text-color #f1faee;
+@define-color accent-color #e63946;
+@define-color bt-color #e63946;
+@define-color ws-inactive #7d5358;
+@define-color ws-hover-bg rgba(230, 57, 70, 0.2);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #e63946;
+@define-color ws-active-fg #10090a;
+@define-color ws-active-shadow rgba(230, 57, 70, 0.7);
+@define-color ws-shadow rgba(230, 57, 70, 0.7);
+@define-color ws-glow rgba(230, 57, 70, 0.35);
+@define-color hover-bg rgba(230, 57, 70, 0.2);

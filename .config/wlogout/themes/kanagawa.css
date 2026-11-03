@@ -1,0 +1,8 @@
+/* Kanagawa Wave theme */
+@define-color overlay rgba(22, 22, 29, 0.7);
+@define-color btn_bg rgba(31, 31, 40, 0.6);
+@define-color btn_border rgba(126, 156, 216, 0.25);
+@define-color btn_text #dcd7ba;
+@define-color btn_hover_bg rgba(45, 45, 58, 0.8);
+@define-color btn_hover_border #76946a;
+@define-color btn_glow rgba(126, 156, 216, 0.5);

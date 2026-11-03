@@ -1,0 +1,8 @@
+/* Aura Dark theme */
+@define-color overlay rgba(15, 14, 22, 0.7);
+@define-color btn_bg rgba(25, 24, 36, 0.6);
+@define-color btn_border rgba(162, 119, 255, 0.25);
+@define-color btn_text #edecee;
+@define-color btn_hover_bg rgba(45, 43, 65, 0.8);
+@define-color btn_hover_border #61ffca;
+@define-color btn_glow rgba(162, 119, 255, 0.5);

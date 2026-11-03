@@ -1,0 +1,8 @@
+/* One Dark Pro theme */
+@define-color overlay rgba(25, 28, 34, 0.7);
+@define-color btn_bg rgba(33, 37, 43, 0.6);
+@define-color btn_border rgba(97, 175, 239, 0.25);
+@define-color btn_text #abb2bf;
+@define-color btn_hover_bg rgba(50, 56, 66, 0.8);
+@define-color btn_hover_border #61afef;
+@define-color btn_glow rgba(97, 175, 239, 0.5);

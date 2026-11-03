@@ -1,0 +1,8 @@
+/* Synthwave '84 theme */
+@define-color overlay rgba(24, 16, 43, 0.7);
+@define-color btn_bg rgba(38, 26, 68, 0.6);
+@define-color btn_border rgba(255, 126, 219, 0.3);
+@define-color btn_text #fede5d;
+@define-color btn_hover_bg rgba(62, 38, 102, 0.8);
+@define-color btn_hover_border #ff7edb;
+@define-color btn_glow rgba(255, 126, 219, 0.6);

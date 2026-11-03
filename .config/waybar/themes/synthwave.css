@@ -1,0 +1,15 @@
+/* Synthwave '84 theme */
+@define-color bg-color rgba(38, 26, 68, 0.7);
+@define-color border-color rgba(255, 126, 219, 0.45);
+@define-color text-color #fede5d;
+@define-color accent-color #ff7edb;
+@define-color bt-color #ff7edb;
+@define-color ws-inactive #725f9c;
+@define-color ws-hover-bg rgba(255, 126, 219, 0.2);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #ff7edb;
+@define-color ws-active-fg #241734;
+@define-color ws-active-shadow rgba(255, 126, 219, 0.7);
+@define-color ws-shadow rgba(255, 126, 219, 0.7);
+@define-color ws-glow rgba(254, 222, 93, 0.35);
+@define-color hover-bg rgba(255, 126, 219, 0.2);
