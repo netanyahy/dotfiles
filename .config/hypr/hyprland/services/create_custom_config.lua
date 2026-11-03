@@ -1,4 +1,4 @@
-require("hyprland/lib")
+require("hyprland.lib")
 
 hl.on("hyprland.start", function()
    local homeDir = os.getenv("HOME")

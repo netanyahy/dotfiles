@@ -66,14 +66,15 @@ cd dotfiles
 
 # Создание бэкапа
 mkdir -p ~/.config-backup
-cp -r ~/.config/{hypr,waybar,kitty,rofi,fuzzel,dunst,foot} ~/.config-backup/ 2>/dev/null
+cp -r ~/.config/{hypr,waybar,kitty,fuzzel,dunst,foot,wlogout} ~/.config-backup/ 2>/dev/null
 
 # Копирование конфигов
 cp -rf .config/* ~/.config/
 
 # Установка обоев
-mkdir -p ~/Изображения/Wallpapers
+mkdir -p ~/Изображения/Wallpapers ~/Pictures/Wallpapers
 cp wallpapers/default.jpg ~/Изображения/Wallpapers/189d538e3d89f6dcbb4b430d2afb2019.jpg
+cp wallpapers/default.jpg ~/Pictures/Wallpapers/default.jpg
 
 # Права на скрипты
 find ~/.config/hypr -name "*.sh" -exec chmod +x {} +
@@ -83,12 +84,18 @@ find ~/.config/hypr -name "*.sh" -exec chmod +x {} +
 
 ## ⌨️ Основные горячие клавиши (Keybinds)
 
-- `Super + Enter` — Запуск терминала Kitty
-- `Super + D` / `Super + Space` — Меню приложений (Rofi / Fuzzel)
-- `Super + Q` / `Super + C` — Закрыть активное окно
-- `Super + M` — Выход / Меню питания (wlogout)
-- `Ctrl + Super + Alt + /` — Редактировать пользовательские хоткеи (`custom/keybinds.lua`)
-- `Super + 1..9` — Переключение рабочих столов (с анимацией Waybar)
+| Комбинация | Действие |
+|---|---|
+| `Super` | Запуск Fuzzel (меню приложений) |
+| `Super + Enter` | Запуск терминала Kitty |
+| `Super + Q` | Закрыть активное окно |
+| `Super + V` | Буфер обмена (Fuzzel + cliphist) |
+| `Super + Shift + T` | Смена темы Waybar/Fuzzel/Wlogout |
+| `Ctrl + Alt + Delete` (или клик по питанию Waybar) | Меню выключения (wlogout) |
+| `Print` | Скриншот в буфер обмена |
+| `Ctrl + Print` | Скриншот в файл и буфер обмена |
+| `Super + 1..9` | Переключение рабочих столов |
+| `Ctrl + Super + Alt + /` | Редактировать пользовательские хоткеи (`custom/keybinds.lua`) |
 
 ---
 

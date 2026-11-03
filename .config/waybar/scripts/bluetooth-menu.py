@@ -594,7 +594,7 @@ def main():
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 
     # Toggle: kill existing instance
-    pid_file = "/tmp/bt-menu-popup.pid"
+    pid_file = f"{os.environ.get('XDG_RUNTIME_DIR', '/tmp')}/bt-menu-popup.pid"
     if os.path.exists(pid_file):
         try:
             old_pid = int(open(pid_file).read().strip())

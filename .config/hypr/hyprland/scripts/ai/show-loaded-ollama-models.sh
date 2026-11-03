@@ -53,7 +53,7 @@ compare_running_models_and_modelfiles() {
     OLDIFS=$IFS
     for ((i=0; i<${#model_name_paths[@]}; i++)); do  # Iterate over the array of modelname,blob-path
         for blob in "${blobs[@]}"; do
-            IFS=',', read -ra fields <<< "${model_name_paths[i]}"    # Split the string into parts
+            IFS=',' read -ra fields <<< "${model_name_paths[i]}"    # Split the string into parts
             if [ "${fields[1]}" == "$blob" ]; then  # Check if current 'field' matches a blob
                 matching_models+=( '{ "model": "'"${fields[0]}"'", "path": "'"${fields[1]}"'"}') # Add to list of matching models
             fi

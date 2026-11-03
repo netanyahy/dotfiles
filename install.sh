@@ -141,6 +141,11 @@ install_packages_gentoo() {
         "gui-libs/gtk-layer-shell"
         "dev-python/pygobject"
         "app-portage/portage-utils"
+        "app-misc/jq"
+        "gui-apps/hyprshot"
+        "media-sound/playerctl"
+        "sys-devel/bc"
+        "app-shells/fish"
     )
 
     local to_install=()
@@ -204,6 +209,10 @@ install_packages_arch() {
         "bluez-utils"
         "gtk-layer-shell"
         "python-gobject"
+        "jq"
+        "playerctl"
+        "bc"
+        "fish"
     )
 
     local to_install_arch=()
@@ -352,17 +361,29 @@ install_wallpapers() {
     heading "6. Установка обоев"
 
     local wp_src="$SCRIPT_DIR/wallpapers/default.jpg"
-    if [ -f "$wp_src" ]; then
-        local target_dir1="$HOME/Изображения/Wallpapers"
-        local target_dir2="$HOME/Pictures/Wallpapers"
+    local target_dir1="$HOME/Изображения/Wallpapers"
+    local target_dir2="$HOME/Pictures/Wallpapers"
 
-        mkdir -p "$target_dir1" "$target_dir2"
+    mkdir -p "$target_dir1" "$target_dir2"
+
+    if [ -f "$wp_src" ]; then
         cp -f "$wp_src" "$target_dir1/189d538e3d89f6dcbb4b430d2afb2019.jpg" 2>/dev/null || true
+        cp -f "$wp_src" "$target_dir1/default.jpg" 2>/dev/null || true
+        cp -f "$wp_src" "$target_dir2/189d538e3d89f6dcbb4b430d2afb2019.jpg" 2>/dev/null || true
         cp -f "$wp_src" "$target_dir2/default.jpg" 2>/dev/null || true
         log "Обои по умолчанию установлены в $target_dir1 и $target_dir2"
     else
-        info "Файл обоев не найден в репозитории, пропуск."
+        info "Файл обоев не найден в репозитории, проверка существующих каталогов."
     fi
+
+    # Гарантируем наличие 189d538e3d89f6dcbb4b430d2afb2019.jpg и default.jpg в обеих директориях
+    for f in "189d538e3d89f6dcbb4b430d2afb2019.jpg" "default.jpg"; do
+        if [ -f "$target_dir1/$f" ] && [ ! -f "$target_dir2/$f" ]; then
+            ln -sf "$target_dir1/$f" "$target_dir2/$f" 2>/dev/null || cp -f "$target_dir1/$f" "$target_dir2/$f" 2>/dev/null || true
+        elif [ -f "$target_dir2/$f" ] && [ ! -f "$target_dir1/$f" ]; then
+            ln -sf "$target_dir2/$f" "$target_dir1/$f" 2>/dev/null || cp -f "$target_dir2/$f" "$target_dir1/$f" 2>/dev/null || true
+        fi
+    done
 }
 
 # 7. Кэширование иконок
