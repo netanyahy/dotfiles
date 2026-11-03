@@ -1,0 +1,11 @@
+/* Rosé Sakura theme */
+@define-color bg-color rgba(38, 23, 32, 0.7);
+@define-color border-color rgba(246, 193, 196, 0.45);
+@define-color text-color #faf4ed;
+@define-color ws-inactive #b38e9b;
+@define-color ws-hover-bg rgba(246, 193, 196, 0.18);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #f6c1c4;
+@define-color ws-active-fg #261720;
+@define-color ws-shadow rgba(246, 193, 196, 0.6);
+@define-color ws-glow rgba(235, 111, 146, 0.3);

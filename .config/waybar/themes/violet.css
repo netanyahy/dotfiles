@@ -1,11 +1,11 @@
-/* Violet / Lavender theme */
-@define-color bg-color rgba(36, 27, 47, 0.7);
-@define-color border-color rgba(198, 160, 246, 0.4);
+/* Midnight Lavender theme */
+@define-color bg-color rgba(28, 20, 42, 0.7);
+@define-color border-color rgba(198, 160, 246, 0.45);
 @define-color text-color #f5e0dc;
-@define-color ws-inactive #a594c7;
-@define-color ws-hover-bg rgba(198, 160, 246, 0.15);
+@define-color ws-inactive #988bc7;
+@define-color ws-hover-bg rgba(198, 160, 246, 0.18);
 @define-color ws-hover-fg #ffffff;
 @define-color ws-active-bg #c6a0f6;
-@define-color ws-active-fg #1e1e2e;
-@define-color ws-shadow rgba(198, 160, 246, 0.5);
-@define-color ws-glow rgba(198, 160, 246, 0.25);
+@define-color ws-active-fg #181126;
+@define-color ws-shadow rgba(198, 160, 246, 0.6);
+@define-color ws-glow rgba(198, 160, 246, 0.3);

@@ -1,0 +1,11 @@
+/* Gruvbox Gold theme */
+@define-color bg-color rgba(38, 30, 20, 0.72);
+@define-color border-color rgba(250, 189, 47, 0.45);
+@define-color text-color #fbf1c7;
+@define-color ws-inactive #9a8258;
+@define-color ws-hover-bg rgba(250, 189, 47, 0.18);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #fabd2f;
+@define-color ws-active-fg #282012;
+@define-color ws-shadow rgba(250, 189, 47, 0.65);
+@define-color ws-glow rgba(250, 189, 47, 0.3);

@@ -1,0 +1,11 @@
+/* Cyber Emerald theme */
+@define-color bg-color rgba(16, 32, 24, 0.72);
+@define-color border-color rgba(80, 250, 123, 0.45);
+@define-color text-color #eafaf1;
+@define-color ws-inactive #5d8e72;
+@define-color ws-hover-bg rgba(80, 250, 123, 0.18);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #50fa7b;
+@define-color ws-active-fg #0f2416;
+@define-color ws-shadow rgba(80, 250, 123, 0.65);
+@define-color ws-glow rgba(80, 250, 123, 0.3);

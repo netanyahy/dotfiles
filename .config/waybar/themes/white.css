@@ -1,11 +1,11 @@
-/* White glass theme */
-@define-color bg-color rgba(255, 255, 255, 0.55);
-@define-color border-color rgba(255, 255, 255, 0.9);
-@define-color text-color #1e1e2e;
-@define-color ws-inactive rgba(30, 30, 46, 0.6);
+/* White Frost theme */
+@define-color bg-color rgba(245, 245, 250, 0.7);
+@define-color border-color rgba(255, 255, 255, 0.95);
+@define-color text-color #1c1d21;
+@define-color ws-inactive rgba(28, 29, 33, 0.55);
 @define-color ws-hover-bg rgba(0, 0, 0, 0.08);
-@define-color ws-hover-fg #11111b;
+@define-color ws-hover-fg #111115;
 @define-color ws-active-bg #ffffff;
-@define-color ws-active-fg #11111b;
-@define-color ws-shadow rgba(255, 255, 255, 0.8);
-@define-color ws-glow rgba(0, 0, 0, 0.15);
+@define-color ws-active-fg #000000;
+@define-color ws-shadow rgba(255, 255, 255, 0.9);
+@define-color ws-glow rgba(0, 0, 0, 0.12);

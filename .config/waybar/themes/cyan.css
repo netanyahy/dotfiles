@@ -1,11 +1,11 @@
-/* Cyan / Aquamarine theme */
-@define-color bg-color rgba(18, 38, 45, 0.7);
-@define-color border-color rgba(139, 233, 253, 0.4);
-@define-color text-color #f8f8f2;
-@define-color ws-inactive #729ea8;
-@define-color ws-hover-bg rgba(139, 233, 253, 0.15);
+/* Neon Cyan theme */
+@define-color bg-color rgba(14, 32, 42, 0.7);
+@define-color border-color rgba(80, 250, 230, 0.45);
+@define-color text-color #e6fbff;
+@define-color ws-inactive #68a6b8;
+@define-color ws-hover-bg rgba(80, 250, 230, 0.18);
 @define-color ws-hover-fg #ffffff;
-@define-color ws-active-bg #8be9fd;
-@define-color ws-active-fg #19232d;
-@define-color ws-shadow rgba(139, 233, 253, 0.5);
-@define-color ws-glow rgba(139, 233, 253, 0.25);
+@define-color ws-active-bg #50fae6;
+@define-color ws-active-fg #0b2029;
+@define-color ws-shadow rgba(80, 250, 230, 0.65);
+@define-color ws-glow rgba(80, 250, 230, 0.3);
