@@ -1,8 +1,9 @@
 # 🌌 dotfiles
 
-Моя персональная конфигурация **Hyprland** на **Gentoo Linux**
+Моя персональная конфигурация **Hyprland** для **Gentoo Linux** и **Arch Linux**
 
 ![Gentoo](https://img.shields.io/badge/OS-Gentoo_Linux-purple?logo=gentoo&logoColor=white)
+![Arch](https://img.shields.io/badge/OS-Arch_Linux-blue?logo=arch-linux&logoColor=white)
 ![Hyprland](https://img.shields.io/badge/WM-Hyprland-blue?logo=wayland&logoColor=white)
 ![Shell](https://img.shields.io/badge/Shell-Bash-green?logo=gnu-bash&logoColor=white)
 
@@ -11,14 +12,26 @@
 ## 📸 Стек и компоненты
 
 | Компонент | Утилита | Описание |
-|-----------|---------|----------|
-| **Оконный менеджер** | `Hyprland` | Динамический тайлинг Wayland на Lua/Hyprlang (база end-4) |
-| **Панель статуса** | `Waybar` | Капсульный дизайн, анимированные воркспейсы со свечением |
-| **Терминал** | `Kitty` / `Foot` | Быстрый эмулятор терминала с поддержкой GPU |
-| **Лаунчер приложений** | `Rofi-Wayland` / `Fuzzel` | Меню приложений, выбор стилей, селектор обоев |
+|---|---|---|
+| **Оконный менеджер** | `Hyprland` | Динамический тайлинг Wayland на Lua/Hyprlang |
+| **Панель статуса** | `Waybar` | Капсульный дизайн, 10 динамических тем со стеклом и свечением |
+| **Лаунчер приложений** | `Fuzzel` | Spotlight-стиль, размытие фона, буфер обмена `cliphist` |
+| **Меню выключения** | `Wlogout` | Стеклянные капсулы, неоновое свечение в тон выбранной темы |
+| **Терминал** | `Kitty` / `Foot` | Быстрые эмуляторы терминалов с поддержкой GPU |
 | **Уведомления** | `Dunst` | Минималистичный демон уведомлений |
-| **Блокировка экрана** | `Hyprlock` + `Hypridle` | Экран блокировки со стилями matugen |
+| **Блокировка экрана** | `Hyprlock` + `Hypridle` | Экран блокировки и демон ожидания |
 | **Звук** | `Pipewire` + `Wireplumber` | Современный звуковой сервер |
+
+---
+
+## 🎨 Темы оформления
+
+Переключение тем доступно в любой момент:
+* Нажмите **`Super + Shift + T`**
+* Либо кликните **ПКМ** по иконке Arch на панели Waybar
+
+Доступно 10 тем (Waybar + Fuzzel + Wlogout меняются одновременно):
+`Dark Glass`, `White Frost`, `Midnight Lavender`, `Neon Cyan`, `Rosé Sakura`, `Tokyo Night`, `Nord Ice`, `Cyber Emerald`, `Gruvbox Gold`, `Ruby Crimson`.
 
 ---
 
