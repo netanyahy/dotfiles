@@ -37,6 +37,12 @@ hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("pidof slurp || hyprshot --freeze -
 hl.bind("SUPER + SHIFT + T", hl.dsp.exec_cmd("~/.config/waybar/scripts/theme-switcher.sh"),
     { description = "Utilities: Switch Waybar theme" })
 
+--# Wallpaper Pickers
+hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/wallpaper-picker.py"),
+    { description = "Wallpaper: GUI gallery picker" })
+hl.bind("SUPER + ALT + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/wallpaper-fuzzel.sh"),
+    { description = "Wallpaper: Fast Fuzzel picker" })
+
 --# Google Lens search
 hl.bind("SUPER + SHIFT + A", hl.dsp.exec_cmd("pidof slurp || " .. hyprScripts .. "/snip_to_search.sh"),
     { description = "Utilities: Google Lens" })

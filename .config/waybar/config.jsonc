@@ -25,9 +25,10 @@
     // Левый логотип
     "custom/arch": {
         "format": "  ",
-        "tooltip": false,
+        "tooltip-format": "ЛКМ: Меню • ПКМ: Темы • СКМ: Обои",
         "on-click": "fuzzel",
-        "on-click-right": "~/.config/waybar/scripts/theme-switcher.sh"
+        "on-click-right": "~/.config/waybar/scripts/theme-switcher.sh",
+        "on-click-middle": "~/.config/hypr/scripts/wallpaper-picker.py"
     },
 
     // Часы слева

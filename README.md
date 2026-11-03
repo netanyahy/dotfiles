@@ -20,6 +20,7 @@
 | **Терминал** | `Kitty` / `Foot` | Быстрые эмуляторы терминалов с поддержкой GPU |
 | **Уведомления** | `Dunst` | Минималистичный демон уведомлений |
 | **Блокировка экрана** | `Hyprlock` + `Hypridle` | Экран блокировки и демон ожидания |
+| **Обои** | `swaybg` + `wallpaper-picker.py` | Галерея обоев на GTK3 + Layer Shell со стеклянным фоном, миниатюрами и быстрой сменой |
 | **Звук** | `Pipewire` + `Wireplumber` | Современный звуковой сервер |
 
 ---
@@ -96,8 +97,18 @@ cp wallpapers/default.jpg ~/Изображения/Wallpapers/189d538e3d89f6dcbb
 cp wallpapers/default.jpg ~/Pictures/Wallpapers/default.jpg
 
 # Права на скрипты
-find ~/.config/hypr -name "*.sh" -exec chmod +x {} +
+find ~/.config/hypr -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {} +
 ```
+
+---
+
+## 🖼️ Выбор и управление обоями
+
+В конфигурацию интегрирован графический селектор обоев и быстрый dmenu-селектор:
+* **`Super + Shift + W`** (или **СКМ** по иконке Arch на панели Waybar) — запуск элегантной GUI-галереи миниатюр на GTK3 + Layer Shell с полупрозрачным стеклянным фоном, рамкой в тон текущей темы, навигацией клавишами (стрелки, Enter, Esc), мышью и кнопкой «🎲 Случайные обои».
+* **`Super + Alt + W`** — быстрый текстовый селектор обоев через меню `Fuzzel`.
+* При выборе обоев путь автоматически сохраняется в `~/.config/hypr/current_wallpaper`, перезапускается демон `swaybg` и выводится системное уведомление.
+* При старте Hyprland скрипт `apply_wallpaper.sh` автоматически восстанавливает выбранные обои.
 
 ---
 
@@ -109,7 +120,9 @@ find ~/.config/hypr -name "*.sh" -exec chmod +x {} +
 | `Super + Enter` | Запуск терминала Kitty |
 | `Super + Q` | Закрыть активное окно |
 | `Super + V` | Буфер обмена (Fuzzel + cliphist) |
-| `Super + Shift + T` | Смена темы Waybar/Fuzzel/Wlogout |
+| `Super + Shift + T` | Смена темы Waybar/Fuzzel/Wlogout (или ПКМ по логотипу Arch) |
+| `Super + Shift + W` | Выбор обоев — графическая галерея миниатюр (или СКМ по логотипу Arch) |
+| `Super + Alt + W` | Быстрый выбор обоев через Fuzzel |
 | `Ctrl + Alt + Delete` (или клик по питанию Waybar) | Меню выключения (wlogout) |
 | `Print` | Скриншот в буфер обмена |
 | `Ctrl + Print` | Скриншот в файл и буфер обмена |

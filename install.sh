@@ -347,7 +347,7 @@ install_configs() {
 
     # Делаем скрипты исполняемыми
     if [ -d "$HOME/.config/hypr" ]; then
-        find "$HOME/.config/hypr" -type f -name "*.sh" -exec chmod +x {} + 2>/dev/null || true
+        find "$HOME/.config/hypr" -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {} + 2>/dev/null || true
         log "Права на исполнение для скриптов Hyprland выданы (+x)"
     fi
     if [ -d "$HOME/.config/waybar/scripts" ]; then
