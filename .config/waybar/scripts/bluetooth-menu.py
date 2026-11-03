@@ -465,7 +465,7 @@ class BluetoothMenu(Gtk.Window):
                 ))
                 row.pack_start(dc, False, False, 0)
 
-                rm = Gtk.Button(label="")
+                rm = Gtk.Button(label="󰆴")
                 ctx2 = rm.get_style_context()
                 ctx2.add_class("act-btn")
                 ctx2.add_class("danger")

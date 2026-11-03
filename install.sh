@@ -65,16 +65,42 @@ install_packages() {
         return 0
     fi
 
+    # Проверка оверлея GURU (требуется для rofi-wayland, fuzzel, wlogout)
+    local has_guru=false
+    if [ -d /var/db/repos/guru ]; then
+        has_guru=true
+    elif command -v eselect >/dev/null 2>&1 && eselect repository list -i 2>/dev/null | grep -qw "guru"; then
+        has_guru=true
+    fi
+
+    if [ "$has_guru" = false ]; then
+        warn "Оверлей GURU не подключен (требуется для rofi-wayland, fuzzel, wlogout)."
+        read -r -p "Подключить оверлей GURU? (sudo eselect repository enable guru && sudo emaint sync -r guru) [Y/n]: " ans
+        if [[ -z "$ans" || "$ans" =~ ^[YyДд]$ ]]; then
+            info "Подключение и синхронизация оверлея GURU..."
+            if sudo eselect repository enable guru && sudo emaint sync -r guru; then
+                log "Оверлей GURU успешно подключен и синхронизирован!"
+            else
+                warn "Не удалось подключить оверлей GURU автоматически. Выполните вручную: sudo eselect repository enable guru && sudo emaint sync -r guru"
+            fi
+        else
+            info "Подключение оверлея GURU пропущено."
+        fi
+    else
+        log "Оверлей GURU уже подключен."
+    fi
+
     local PKGS=(
         "gui-wm/hyprland"
         "gui-apps/waybar"
         "x11-terms/kitty"
-        "x11-misc/rofi-wayland"
+        "gui-apps/rofi-wayland"
         "gui-apps/fuzzel"
         "x11-misc/dunst"
         "gui-apps/foot"
         "gui-apps/swaybg"
         "gui-apps/wl-clipboard"
+        "app-misc/cliphist"
         "media-video/pipewire"
         "media-video/wireplumber"
         "gui-apps/hypridle"
@@ -82,19 +108,22 @@ install_packages() {
         "gnome-base/gnome-keyring"
         "gui-apps/wlogout"
         "media-fonts/jetbrains-mono"
-        "app-misc/btop"
+        "sys-process/btop"
         "media-sound/pavucontrol"
-        "x11-misc/brightnessctl"
-        "media-gfx/grim"
+        "app-misc/brightnessctl"
+        "gui-apps/grim"
         "gui-apps/slurp"
+        "net-wireless/bluez"
+        "gui-libs/gtk-layer-shell"
+        "dev-python/pygobject"
+        "app-portage/portage-utils"
     )
 
     local to_install=()
     echo -e "${WHITE}Статус ключевых пакетов:${NC}"
 
     for pkg in "${PKGS[@]}"; do
-        pkg_name="${pkg##*/}"
-        if command -v qlist >/dev/null 2>&1 && qlist -I "$pkg_name" >/dev/null 2>&1; then
+        if command -v qlist >/dev/null 2>&1 && (qlist -I "$pkg" >/dev/null 2>&1 || qlist -I "${pkg##*/}" >/dev/null 2>&1); then
             echo -e "  ${GREEN}●${NC} $pkg (установлен)"
         else
             echo -e "  ${YELLOW}○${NC} $pkg (требуется)"
@@ -159,7 +188,7 @@ install_fonts() {
 backup_configs() {
     heading "4. Резервное копирование текущих конфигов"
 
-    local configs=("hypr" "waybar" "kitty" "rofi" "fuzzel" "dunst" "foot")
+    local configs=("hypr" "waybar" "kitty" "rofi" "fuzzel" "dunst" "foot" "wlogout")
     local found=()
 
     for cfg in "${configs[@]}"; do
@@ -188,7 +217,7 @@ install_configs() {
     heading "5. Установка dotfiles"
 
     mkdir -p "$HOME/.config"
-    local configs=("hypr" "waybar" "kitty" "rofi" "fuzzel" "dunst" "foot")
+    local configs=("hypr" "waybar" "kitty" "rofi" "fuzzel" "dunst" "foot" "wlogout")
 
     for cfg in "${configs[@]}"; do
         local src="$SCRIPT_DIR/.config/$cfg"
@@ -205,6 +234,10 @@ install_configs() {
     if [ -d "$HOME/.config/hypr" ]; then
         find "$HOME/.config/hypr" -type f -name "*.sh" -exec chmod +x {} + 2>/dev/null || true
         log "Права на исполнение для скриптов Hyprland выданы (+x)"
+    fi
+    if [ -d "$HOME/.config/waybar/scripts" ]; then
+        find "$HOME/.config/waybar/scripts" -type f -exec chmod +x {} + 2>/dev/null || true
+        log "Права на исполнение для скриптов Waybar выданы (+x)"
     fi
 }
 
