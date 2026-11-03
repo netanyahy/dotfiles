@@ -135,166 +135,192 @@ def bt_power_off():
 
 
 # ── CSS ───────────────────────────────────────────────────────────────────────
-CSS = """
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
+def get_theme_css():
+    bt_theme = os.path.expanduser("~/.config/waybar/themes/bluetooth_theme.css")
+    curr_theme = os.path.expanduser("~/.config/waybar/themes/current.css")
+    theme_file = None
+    if os.path.isfile(bt_theme):
+        theme_file = bt_theme
+    elif os.path.isfile(curr_theme):
+        theme_file = curr_theme
 
-window {
+    import_line = f'@import "{theme_file}";\n' if theme_file else ""
+
+    return f"""
+/* Fallback theme variables */
+@define-color bg-color rgba(18, 18, 22, 0.85);
+@define-color border-color rgba(255, 255, 255, 0.2);
+@define-color text-color #ffffff;
+@define-color accent-color #ffffff;
+@define-color ws-inactive rgba(255, 255, 255, 0.45);
+@define-color ws-hover-bg rgba(255, 255, 255, 0.12);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #ffffff;
+@define-color ws-active-fg #000000;
+@define-color ws-shadow rgba(255, 255, 255, 0.5);
+@define-color ws-glow rgba(255, 255, 255, 0.2);
+
+{import_line}
+
+@keyframes fadeIn {{
+    from {{ opacity: 0; }}
+    to   {{ opacity: 1; }}
+}}
+
+window {{
     background: transparent;
-}
+}}
 
-#main-frame {
-    background: rgba(18, 18, 22, 0.65);
-    border: 1px solid #ffffff;
+#main-frame {{
+    background: @bg-color;
+    border: 1px solid @accent-color;
     border-radius: 18px;
-    box-shadow: none;
+    box-shadow: 0 4px 20px @ws-glow;
     padding: 16px;
     animation: fadeIn 0.3s ease-out;
-}
+}}
 
-#title-label {
-    color: rgba(255,255,255,0.92);
+#title-label {{
+    color: @text-color;
     font-size: 15px;
     font-weight: bold;
     padding: 2px 0 4px 2px;
-}
+}}
 
-#section-label {
-    color: rgba(255,255,255,0.38);
+#section-label {{
+    color: @ws-inactive;
     font-size: 10px;
     font-weight: bold;
     letter-spacing: 2px;
     margin-top: 10px;
     margin-bottom: 4px;
     padding: 0 4px;
-}
+}}
 
 /* ── Device buttons ───────────────────────────────────── */
-.device-btn {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.07);
+.device-btn {{
+    background: @ws-hover-bg;
+    border: 1px solid @border-color;
     border-radius: 12px;
-    color: #e0e0e0;
+    color: @text-color;
     padding: 11px 14px;
     margin: 3px 0;
     font-size: 13px;
     transition: all 0.3s ease;
-}
+}}
 
-.device-btn:hover {
-    background: rgba(255,255,255,0.13);
-    border-color: rgba(255,255,255,0.22);
-}
+.device-btn:hover {{
+    background: @ws-hover-bg;
+    border-color: @accent-color;
+}}
 
-.device-btn:active {
-    background: rgba(255,255,255,0.20);
+.device-btn:active {{
+    background: @ws-active-bg;
+    color: @ws-active-fg;
     transition: all 0.08s ease;
-}
+}}
 
-.connected {
-    border-left: 3px solid rgba(255,255,255,0.55);
-}
-.connected:hover {
-    border-left-color: rgba(255,255,255,0.85);
-}
+.connected {{
+    border-left: 3px solid @accent-color;
+}}
+.connected:hover {{
+    border-left-color: @accent-color;
+}}
 
-.paired {
-    border-left: 3px solid rgba(255,255,255,0.18);
-}
-.paired:hover {
-    border-left-color: rgba(255,255,255,0.45);
-}
+.paired {{
+    border-left: 3px solid @border-color;
+}}
+.paired:hover {{
+    border-left-color: @accent-color;
+}}
 
-.discovered {
-    border-left: 3px solid rgba(130,180,255,0.35);
-}
-.discovered:hover {
-    border-left-color: rgba(130,180,255,0.65);
-}
+.discovered {{
+    border-left: 3px solid @accent-color;
+}}
+.discovered:hover {{
+    border-left-color: @accent-color;
+}}
 
 /* ── Inline action buttons (disconnect / remove) ─────── */
-.act-btn {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.10);
+.act-btn {{
+    background: @ws-hover-bg;
+    border: 1px solid @border-color;
     border-radius: 10px;
-    color: rgba(255,255,255,0.65);
+    color: @text-color;
     padding: 8px 10px;
     margin: 2px 2px;
     font-size: 13px;
     transition: all 0.25s ease;
-}
-.act-btn:hover {
-    background: rgba(255,255,255,0.16);
-    color: #fff;
-}
+}}
+.act-btn:hover {{
+    background: @ws-active-bg;
+    color: @ws-active-fg;
+}}
 
-.danger:hover {
+.danger:hover {{
     background: rgba(240,70,70,0.22);
     border-color: rgba(240,70,70,0.35);
     color: #ff9090;
-}
+}}
 
 /* ── Scan button ──────────────────────────────────────── */
-.scan-btn {
-    background: rgba(255,255,255,0.03);
-    border: 1px dashed rgba(255,255,255,0.14);
+.scan-btn {{
+    background: @ws-hover-bg;
+    border: 1px dashed @border-color;
     border-radius: 12px;
-    color: rgba(255,255,255,0.60);
+    color: @text-color;
     padding: 11px 14px;
     margin: 3px 0;
     font-size: 13px;
     transition: all 0.3s ease;
-}
-.scan-btn:hover {
-    background: rgba(255,255,255,0.10);
-    border-color: rgba(255,255,255,0.28);
-    color: #fff;
-}
+}}
+.scan-btn:hover {{
+    border-color: @accent-color;
+    color: @accent-color;
+}}
 
 /* ── Power off ────────────────────────────────────────── */
-.power-btn {
+.power-btn {{
     background: rgba(255,55,55,0.08);
     border: 1px solid rgba(255,55,55,0.18);
     border-radius: 12px;
-    color: rgba(255,140,140,0.75);
+    color: rgba(255,140,140,0.85);
     padding: 11px 14px;
     margin-top: 6px;
     font-size: 13px;
     transition: all 0.3s ease;
-}
-.power-btn:hover {
+}}
+.power-btn:hover {{
     background: rgba(255,55,55,0.22);
     border-color: rgba(255,55,55,0.38);
     color: #ff9999;
-}
+}}
 
 /* ── Misc ─────────────────────────────────────────────── */
-.sep {
-    background: rgba(255,255,255,0.07);
+.sep {{
+    background: @border-color;
     min-height: 1px;
     margin: 8px 0;
-}
+}}
 
-#status-label {
-    color: rgba(255,255,255,0.42);
+#status-label {{
+    color: @ws-inactive;
     font-size: 11px;
     padding: 4px 4px 2px;
     font-style: italic;
-}
+}}
 
-.back-btn {
+.back-btn {{
     background: transparent;
     border: none;
-    color: rgba(255,255,255,0.50);
+    color: @ws-inactive;
     padding: 6px 10px;
     font-size: 13px;
     transition: all 0.25s ease;
-}
-.back-btn:hover {
-    color: #fff;
-}
+}}
+.back-btn:hover {{
+    color: @text-color;
+}}
 """
 
 
@@ -344,7 +370,7 @@ class BluetoothMenu(Gtk.Window):
 
         # Load CSS
         css_prov = Gtk.CssProvider()
-        css_prov.load_from_data(CSS.encode())
+        css_prov.load_from_data(get_theme_css().encode())
         Gtk.StyleContext.add_provider_for_screen(
             screen, css_prov, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )

@@ -9,3 +9,5 @@
 @define-color ws-active-fg #0b2029;
 @define-color ws-shadow rgba(80, 250, 230, 0.65);
 @define-color ws-glow rgba(80, 250, 230, 0.3);
+@define-color accent-color #00e5ff;
+@define-color bt-color #00e5ff;

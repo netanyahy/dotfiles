@@ -5,6 +5,7 @@ THEMES_FUZZEL="$HOME/.config/fuzzel/themes"
 THEMES_WLOGOUT="$HOME/.config/wlogout/themes"
 
 WAYBAR_CURRENT="$THEMES_WAYBAR/current.css"
+BT_CURRENT="$THEMES_WAYBAR/bluetooth_theme.css"
 FUZZEL_CURRENT="$HOME/.config/fuzzel/fuzzel_theme.ini"
 WLOGOUT_CURRENT="$HOME/.config/wlogout/theme.css"
 
@@ -31,9 +32,10 @@ case "$chosen" in
     *)                   exit 0 ;;
 esac
 
-# 1. Применяем тему для Waybar
+# 1. Применяем тему для Waybar и Bluetooth меню
 if [ -f "$THEMES_WAYBAR/$theme.css" ]; then
     cp "$THEMES_WAYBAR/$theme.css" "$WAYBAR_CURRENT"
+    cp "$THEMES_WAYBAR/$theme.css" "$BT_CURRENT"
 fi
 
 # 2. Применяем тему для Fuzzel

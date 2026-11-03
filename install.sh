@@ -365,7 +365,36 @@ install_wallpapers() {
     fi
 }
 
-# 7. Финал
+# 7. Кэширование иконок
+update_icon_caches() {
+    heading "7. Обновление кэша иконок"
+
+    if ! command -v gtk-update-icon-cache >/dev/null 2>&1; then
+        warn "gtk-update-icon-cache не найден, пропуск кэширования иконок."
+        return 0
+    fi
+
+    local updated=0
+    local icon_dirs=("$HOME/.local/share/icons" "$HOME/.icons")
+
+    for parent_dir in "${icon_dirs[@]}"; do
+        if [ -d "$parent_dir" ]; then
+            for dir in "$parent_dir"/*; do
+                if [ -d "$dir" ] && [ -f "$dir/index.theme" ]; then
+                    gtk-update-icon-cache -f -q "$dir" 2>/dev/null || true
+                    log "Обновлен кэш иконок: $(basename "$dir")"
+                    updated=$((updated + 1))
+                fi
+            done
+        fi
+    done
+
+    if [ "$updated" -eq 0 ]; then
+        info "Директории пользовательских иконок не найдены."
+    fi
+}
+
+# 8. Финал
 finish_up() {
     heading "Готово!"
     echo -e "${GREEN}${BOLD}Все компоненты успешно установлены!${NC}\n"
@@ -392,6 +421,7 @@ main() {
     backup_configs
     install_configs
     install_wallpapers
+    update_icon_caches
     finish_up
 }
 
