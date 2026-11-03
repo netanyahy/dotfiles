@@ -31,11 +31,6 @@ window#waybar {
     border: 1px solid @border-color;
 }
 
-/* Иконка Bluetooth в цвет текущей темы */
-#custom-bluetooth {
-    color: @accent-color;
-}
-
 /* Капсула воркспейсов */
 #workspaces {
     padding: 4px 8px;
