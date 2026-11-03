@@ -11,7 +11,6 @@
         "clock"
     ],
     "modules-center": [
-        "niri/workspaces",
         "hyprland/workspaces"
     ],
     "modules-right": [
@@ -27,7 +26,8 @@
     "custom/arch": {
         "format": "  ",
         "tooltip": false,
-        "on-click": "rofi -show drun || fuzzel || wofi --show drun"
+        "on-click": "fuzzel",
+        "on-click-right": "~/.config/waybar/scripts/theme-switcher.sh"
     },
 
     // Часы слева
@@ -43,11 +43,6 @@
         "all-outputs": true,
         "format": "{name}",
         "on-click": "activate"
-    },
-
-    // Воркспейсы для Niri
-    "niri/workspaces": {
-        "format": "{name}"
     },
 
     // Bluetooth
@@ -98,6 +93,6 @@
     "custom/power": {
         "format": "",
         "tooltip": false,
-        "on-click": "wlogout || rofi -show power-menu || poweroff"
+        "on-click": "wlogout"
     }
 }

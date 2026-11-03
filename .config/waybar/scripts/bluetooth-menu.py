@@ -517,7 +517,10 @@ class BluetoothMenu(Gtk.Window):
         btn.set_label("⏳  Сканирование…")
         btn.set_sensitive(False)
         self._set_status("Поиск устройств (5 сек)…")
-        self._threaded(scan_devices, callback=lambda: self._view_scan(scan_devices()))
+        def _bg_scan():
+            devs = scan_devices()
+            GLib.idle_add(lambda: self._view_scan(devs))
+        threading.Thread(target=_bg_scan, daemon=True).start()
 
     def _view_scan(self, devices):
         self._clear()

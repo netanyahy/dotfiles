@@ -1,0 +1,11 @@
+/* Dark theme (default) */
+@define-color bg-color rgba(30, 30, 30, 0.6);
+@define-color border-color rgba(255, 255, 255, 0.1);
+@define-color text-color #e0e0e0;
+@define-color ws-inactive #888888;
+@define-color ws-hover-bg rgba(255, 255, 255, 0.08);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #c5c5c5;
+@define-color ws-active-fg #1a1a1a;
+@define-color ws-shadow rgba(255, 255, 255, 0.4);
+@define-color ws-glow rgba(255, 255, 255, 0.15);

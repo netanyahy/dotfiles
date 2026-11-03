@@ -65,7 +65,7 @@ install_packages() {
         return 0
     fi
 
-    # Проверка оверлея GURU (требуется для rofi-wayland, fuzzel, wlogout)
+    # Проверка оверлея GURU (требуется для fuzzel, wlogout)
     local has_guru=false
     if [ -d /var/db/repos/guru ]; then
         has_guru=true
@@ -74,7 +74,7 @@ install_packages() {
     fi
 
     if [ "$has_guru" = false ]; then
-        warn "Оверлей GURU не подключен (требуется для rofi-wayland, fuzzel, wlogout)."
+        warn "Оверлей GURU не подключен (требуется для fuzzel, wlogout)."
         read -r -p "Подключить оверлей GURU? (sudo eselect repository enable guru && sudo emaint sync -r guru) [Y/n]: " ans
         if [[ -z "$ans" || "$ans" =~ ^[YyДд]$ ]]; then
             info "Подключение и синхронизация оверлея GURU..."
@@ -94,7 +94,6 @@ install_packages() {
         "gui-wm/hyprland"
         "gui-apps/waybar"
         "x11-terms/kitty"
-        "gui-apps/rofi-wayland"
         "gui-apps/fuzzel"
         "x11-misc/dunst"
         "gui-apps/foot"
@@ -188,7 +187,7 @@ install_fonts() {
 backup_configs() {
     heading "4. Резервное копирование текущих конфигов"
 
-    local configs=("hypr" "waybar" "kitty" "rofi" "fuzzel" "dunst" "foot" "wlogout")
+    local configs=("hypr" "waybar" "kitty" "fuzzel" "dunst" "foot" "wlogout")
     local found=()
 
     for cfg in "${configs[@]}"; do
@@ -217,7 +216,7 @@ install_configs() {
     heading "5. Установка dotfiles"
 
     mkdir -p "$HOME/.config"
-    local configs=("hypr" "waybar" "kitty" "rofi" "fuzzel" "dunst" "foot" "wlogout")
+    local configs=("hypr" "waybar" "kitty" "fuzzel" "dunst" "foot" "wlogout")
 
     for cfg in "${configs[@]}"; do
         local src="$SCRIPT_DIR/.config/$cfg"

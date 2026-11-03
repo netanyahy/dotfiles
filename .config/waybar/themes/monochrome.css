@@ -1,0 +1,11 @@
+/* Monochrome theme */
+@define-color bg-color rgba(12, 12, 12, 0.85);
+@define-color border-color rgba(255, 255, 255, 0.5);
+@define-color text-color #ffffff;
+@define-color ws-inactive #777777;
+@define-color ws-hover-bg rgba(255, 255, 255, 0.2);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #ffffff;
+@define-color ws-active-fg #000000;
+@define-color ws-shadow rgba(255, 255, 255, 0.6);
+@define-color ws-glow rgba(255, 255, 255, 0.3);

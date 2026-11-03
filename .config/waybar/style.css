@@ -1,3 +1,5 @@
+@import "themes/current.css";
+
 * {
     border: none;
     border-radius: 0;
@@ -11,7 +13,7 @@ window#waybar {
     background: transparent;
 }
 
-/* Все плашки: темное полупрозрачное стекло */
+/* Все плашки */
 #custom-arch,
 #clock,
 #workspaces,
@@ -21,12 +23,12 @@ window#waybar {
 #cpu,
 #tray,
 #custom-power {
-    background: rgba(30, 30, 30, 0.6);
-    color: #e0e0e0;
+    background: @bg-color;
+    color: @text-color;
     padding: 6px 14px;
     margin: 4px 3px;
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid @border-color;
 }
 
 /* Капсула воркспейсов */
@@ -39,24 +41,24 @@ window#waybar {
     padding: 2px 12px;
     margin: 2px 3px;
     font-size: 15px;
-    color: #888888;
+    color: @ws-inactive;
     background: transparent;
     border-radius: 8px;
     transition: all 0.2s ease;
 }
 
 #workspaces button:hover {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.08);
+    color: @ws-hover-fg;
+    background: @ws-hover-bg;
 }
 
-/* Активный рабочий стол: светло-серый + белое свечение */
+/* Активный рабочий стол */
 #workspaces button.active,
 #workspaces button.focused {
-    color: #1a1a1a;
-    background: #c5c5c5;
+    color: @ws-active-fg;
+    background: @ws-active-bg;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 10px @ws-shadow, 0 0 20px @ws-glow;
 }
 
 #custom-power {
