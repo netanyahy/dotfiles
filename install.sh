@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # ╔═══════════════════════════════════════════════════════════════╗
-# ║             netanyahy/dotfiles — Auto-Installer               ║
-# ║        Hyprland • Waybar • Gentoo Linux • end-4 Base          ║
+# ║        Hyprland • Waybar • Gentoo / Arch Linux • Fuzzel       ║
 # ╚═══════════════════════════════════════════════════════════════╝
 
 # Не используем жесткий 'set -e', чтобы мелкие ошибки не прерывали работу
@@ -20,6 +19,7 @@ WHITE='\033[1;37m'
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKUP_DIR="$HOME/.config-backup-$(date +%Y%m%d-%H%M%S)"
+DISTRO="unknown"
 
 log()     { echo -e "  ${GREEN}✓${NC} $1"; }
 info()    { echo -e "  ${CYAN}ℹ${NC} $1"; }
@@ -38,8 +38,8 @@ print_banner() {
        |__/|_|    netanyahy/dotfiles   
 EOF
     echo -e "${NC}"
-    echo -e "${WHITE}Окружение:${NC} Hyprland (база end-4) + Waybar + Kitty + Rofi/Fuzzel"
-    echo -e "${WHITE}Дистрибутив:${NC} Gentoo Linux"
+    echo -e "${WHITE}Окружение:${NC} Hyprland + Waybar + Kitty + Fuzzel + Wlogout"
+    echo -e "${WHITE}Поддерживаемые ОС:${NC} Gentoo Linux, Arch Linux"
     echo -e "${WHITE}Репозиторий:${NC} https://github.com/netanyahy/dotfiles\n"
 }
 
@@ -47,25 +47,55 @@ EOF
 check_system() {
     heading "1. Проверка системы"
     if [ -f /etc/gentoo-release ]; then
+        DISTRO="gentoo"
         log "Обнаружен $(cat /etc/gentoo-release 2>/dev/null || echo 'Gentoo Linux')"
-        IS_GENTOO=true
+    elif [ -f /etc/arch-release ] || grep -qi "arch" /etc/os-release 2>/dev/null; then
+        DISTRO="arch"
+        log "Обнаружен Arch Linux"
     else
-        warn "Система не определена как Gentoo. Установка пакетов через emerge будет пропущена."
-        info "Вы можете продолжить для установки конфигурационных файлов и шрифтов."
-        IS_GENTOO=false
+        warn "Дистрибутив не определен как Gentoo или Arch Linux."
+        info "Установка пакетов через пакетный менеджер будет пропущена."
+        info "Вы можете продолжить для установки конфигурационных файлов и тем."
     fi
 }
 
-# 2. Установка пакетов Gentoo
+# 2. Установка пакетов (Gentoo / Arch)
 install_packages() {
     heading "2. Проверка и установка пакетов"
     
-    if [ "$IS_GENTOO" = false ]; then
-        info "Пропуск пакетного менеджера (не Gentoo)."
-        return 0
+    if [ "$DISTRO" = "gentoo" ]; then
+        install_packages_gentoo
+    elif [ "$DISTRO" = "arch" ]; then
+        install_packages_arch
+    else
+        info "Пропуск пакетного менеджера (неизвестный дистрибутив)."
+    fi
+}
+
+install_packages_gentoo() {
+    info "Настройка пакетного менеджера Gentoo (Portage)..."
+
+    # 1. Автоматическое подключение hyproverlay (требуется для Hyprland, hypridle, hyprlock)
+    local has_hyproverlay=false
+    if [ -d /var/db/repos/hyproverlay ]; then
+        has_hyproverlay=true
+    elif command -v eselect >/dev/null 2>&1 && eselect repository list -i 2>/dev/null | grep -qw "hyproverlay"; then
+        has_hyproverlay=true
     fi
 
-    # Проверка оверлея GURU (требуется для fuzzel, wlogout)
+    if [ "$has_hyproverlay" = false ]; then
+        info "Автоматическое подключение оверлея hyproverlay..."
+        if sudo eselect repository enable hyproverlay && sudo emaint sync -r hyproverlay; then
+            log "Оверлей hyproverlay успешно подключен и синхронизирован!"
+        else
+            warn "Не удалось подключить оверлей hyproverlay автоматически."
+            info "Выполните вручную: sudo eselect repository enable hyproverlay && sudo emaint sync -r hyproverlay"
+        fi
+    else
+        log "Оверлей hyproverlay уже подключен."
+    fi
+
+    # 2. Автоматическое подключение GURU (требуется для fuzzel, wlogout)
     local has_guru=false
     if [ -d /var/db/repos/guru ]; then
         has_guru=true
@@ -74,17 +104,12 @@ install_packages() {
     fi
 
     if [ "$has_guru" = false ]; then
-        warn "Оверлей GURU не подключен (требуется для fuzzel, wlogout)."
-        read -r -p "Подключить оверлей GURU? (sudo eselect repository enable guru && sudo emaint sync -r guru) [Y/n]: " ans
-        if [[ -z "$ans" || "$ans" =~ ^[YyДд]$ ]]; then
-            info "Подключение и синхронизация оверлея GURU..."
-            if sudo eselect repository enable guru && sudo emaint sync -r guru; then
-                log "Оверлей GURU успешно подключен и синхронизирован!"
-            else
-                warn "Не удалось подключить оверлей GURU автоматически. Выполните вручную: sudo eselect repository enable guru && sudo emaint sync -r guru"
-            fi
+        info "Автоматическое подключение оверлея GURU..."
+        if sudo eselect repository enable guru && sudo emaint sync -r guru; then
+            log "Оверлей GURU успешно подключен и синхронизирован!"
         else
-            info "Подключение оверлея GURU пропущено."
+            warn "Не удалось подключить оверлей GURU автоматически."
+            info "Выполните вручную: sudo eselect repository enable guru && sudo emaint sync -r guru"
         fi
     else
         log "Оверлей GURU уже подключен."
@@ -119,7 +144,7 @@ install_packages() {
     )
 
     local to_install=()
-    echo -e "${WHITE}Статус ключевых пакетов:${NC}"
+    echo -e "${WHITE}Статус ключевых пакетов Gentoo:${NC}"
 
     for pkg in "${PKGS[@]}"; do
         if command -v qlist >/dev/null 2>&1 && (qlist -I "$pkg" >/dev/null 2>&1 || qlist -I "${pkg##*/}" >/dev/null 2>&1); then
@@ -132,7 +157,7 @@ install_packages() {
 
     echo ""
     if [ ${#to_install[@]} -eq 0 ]; then
-        log "Все необходимые пакеты уже установлены!"
+        log "Все необходимые пакеты Gentoo уже установлены!"
         return 0
     fi
 
@@ -147,6 +172,88 @@ install_packages() {
         fi
     else
         info "Установка пакетов пропущена пользователем."
+    fi
+}
+
+install_packages_arch() {
+    info "Настройка пакетного менеджера Arch Linux (pacman)..."
+
+    local ARCH_PKGS=(
+        "hyprland"
+        "waybar"
+        "kitty"
+        "fuzzel"
+        "dunst"
+        "foot"
+        "swaybg"
+        "wl-clipboard"
+        "cliphist"
+        "pipewire"
+        "wireplumber"
+        "pipewire-pulse"
+        "hypridle"
+        "hyprlock"
+        "gnome-keyring"
+        "ttf-jetbrains-mono-nerd"
+        "btop"
+        "pavucontrol"
+        "brightnessctl"
+        "grim"
+        "slurp"
+        "bluez"
+        "bluez-utils"
+        "gtk-layer-shell"
+        "python-gobject"
+    )
+
+    local to_install_arch=()
+    echo -e "${WHITE}Статус ключевых пакетов Arch Linux:${NC}"
+
+    for pkg in "${ARCH_PKGS[@]}"; do
+        if pacman -Qi "$pkg" >/dev/null 2>&1; then
+            echo -e "  ${GREEN}●${NC} $pkg (установлен)"
+        else
+            echo -e "  ${YELLOW}○${NC} $pkg (требуется)"
+            to_install_arch+=("$pkg")
+        fi
+    done
+
+    if [ ${#to_install_arch[@]} -gt 0 ]; then
+        echo -e "${YELLOW}Отсутствует пакетов pacman: ${#to_install_arch[@]}${NC}"
+        read -r -p "Установить отсутствующие пакеты через sudo pacman? [Y/n]: " ans
+        if [[ -z "$ans" || "$ans" =~ ^[YyДд]$ ]]; then
+            sudo pacman -S --needed "${to_install_arch[@]}"
+        fi
+    else
+        log "Все официальные пакеты Arch Linux уже установлены!"
+    fi
+
+    # Проверка AUR пакетов (wlogout, hyprshot)
+    local AUR_PKGS=("wlogout" "hyprshot")
+    local to_install_aur=()
+    for pkg in "${AUR_PKGS[@]}"; do
+        if ! pacman -Qi "$pkg" >/dev/null 2>&1; then
+            to_install_aur+=("$pkg")
+        fi
+    done
+
+    if [ ${#to_install_aur[@]} -gt 0 ]; then
+        echo -e "\n${YELLOW}Требуются пакеты из AUR:${NC} ${to_install_aur[*]}"
+        local aur_helper=""
+        if command -v yay >/dev/null 2>&1; then
+            aur_helper="yay"
+        elif command -v paru >/dev/null 2>&1; then
+            aur_helper="paru"
+        fi
+
+        if [ -n "$aur_helper" ]; then
+            read -r -p "Установить AUR пакеты через $aur_helper? [Y/n]: " ans
+            if [[ -z "$ans" || "$ans" =~ ^[YyДд]$ ]]; then
+                $aur_helper -S --needed "${to_install_aur[@]}"
+            fi
+        else
+            warn "AUR хелпер (yay / paru) не найден. Установите вручную: ${to_install_aur[*]}"
+        fi
     fi
 }
 
