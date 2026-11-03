@@ -16,6 +16,7 @@
     ],
     "modules-right": [
         "pulseaudio",
+        "custom/bluetooth",
         "memory",
         "cpu",
         "tray",
@@ -47,6 +48,14 @@
     // Воркспейсы для Niri
     "niri/workspaces": {
         "format": "{name}"
+    },
+
+    // Bluetooth
+    "custom/bluetooth": {
+        "format": "󰂯",
+        "tooltip-format": "Bluetooth",
+        "on-click": "~/.config/waybar/scripts/bluetooth-menu.py",
+        "tooltip": true
     },
 
     // Звук
@@ -87,7 +96,7 @@
 
     // Кнопка питания
     "custom/power": {
-        "format": " ",
+        "format": "",
         "tooltip": false,
         "on-click": "wlogout || rofi -show power-menu || poweroff"
     }

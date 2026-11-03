@@ -16,6 +16,7 @@ window#waybar {
 #clock,
 #workspaces,
 #pulseaudio,
+#custom-bluetooth,
 #memory,
 #cpu,
 #tray,
@@ -58,6 +59,6 @@ window#waybar {
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.15);
 }
 
-#custom-power:hover {
-    background: rgba(255, 255, 255, 0.15);
+#custom-power {
+    padding: 6px 17px 6px 15px;
 }
