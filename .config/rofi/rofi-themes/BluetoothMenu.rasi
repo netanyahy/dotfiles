@@ -14,7 +14,7 @@ configuration {
     selected-text:   #ffffff;
     active:          rgba(255, 255, 255, 0.12);
     urgent:          #f7768e;
-    border-glow:     rgba(255, 255, 255, 0.35);
+    border-glow:     #ffffff;
     border-soft:     rgba(255, 255, 255, 0.10);
 }
 

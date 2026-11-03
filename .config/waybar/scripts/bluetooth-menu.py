@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Bluetooth popup menu for Waybar.
-Transparent glass panel with white glow, smooth CSS animations.
-Positioned left-center via gtk-layer-shell (ctypes).
+Transparent glass panel with crisp white border.
+Positioned top-center under workspaces via gtk-layer-shell (ctypes).
 """
 
 import gi
@@ -141,25 +141,17 @@ CSS = """
     to   { opacity: 1; }
 }
 
-@keyframes pulseGlow {
-    0%   { box-shadow: 0 0 14px rgba(255,255,255,0.22), 0 0 28px rgba(255,255,255,0.07); }
-    50%  { box-shadow: 0 0 20px rgba(255,255,255,0.32), 0 0 40px rgba(255,255,255,0.10); }
-    100% { box-shadow: 0 0 14px rgba(255,255,255,0.22), 0 0 28px rgba(255,255,255,0.07); }
-}
-
 window {
     background: transparent;
 }
 
 #main-frame {
-    background: rgba(18, 18, 22, 0.80);
-    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(18, 18, 22, 0.65);
+    border: 1px solid #ffffff;
     border-radius: 18px;
-    box-shadow: 0 0 14px rgba(255,255,255,0.22),
-                0 0 28px rgba(255,255,255,0.07),
-                inset 0 1px 0 rgba(255,255,255,0.08);
+    box-shadow: none;
     padding: 16px;
-    animation: fadeIn 0.3s ease-out, pulseGlow 4s ease-in-out infinite;
+    animation: fadeIn 0.3s ease-out;
 }
 
 #title-label {
@@ -194,7 +186,6 @@ window {
 .device-btn:hover {
     background: rgba(255,255,255,0.13);
     border-color: rgba(255,255,255,0.22);
-    box-shadow: 0 0 8px rgba(255,255,255,0.10);
 }
 
 .device-btn:active {
@@ -260,7 +251,6 @@ window {
     background: rgba(255,255,255,0.10);
     border-color: rgba(255,255,255,0.28);
     color: #fff;
-    box-shadow: 0 0 8px rgba(255,255,255,0.08);
 }
 
 /* ── Power off ────────────────────────────────────────── */
@@ -334,15 +324,16 @@ class BluetoothMenu(Gtk.Window):
                 _ls.gtk_layer_set_keyboard_mode(gptr, KB_ON_DEMAND)
                 _ls.gtk_layer_set_exclusive_zone(gptr, -1)
 
-                # Anchor: left side, centered vertically
-                _ls.gtk_layer_set_anchor(gptr, EDGE_LEFT, True)
+                # Anchor: top-center (under workspaces panel)
                 _ls.gtk_layer_set_anchor(gptr, EDGE_TOP, True)
-                _ls.gtk_layer_set_anchor(gptr, EDGE_BOTTOM, True)
+                _ls.gtk_layer_set_anchor(gptr, EDGE_BOTTOM, False)
+                _ls.gtk_layer_set_anchor(gptr, EDGE_LEFT, False)
                 _ls.gtk_layer_set_anchor(gptr, EDGE_RIGHT, False)
 
-                _ls.gtk_layer_set_margin(gptr, EDGE_LEFT, 16)
-                _ls.gtk_layer_set_margin(gptr, EDGE_TOP, 0)
+                _ls.gtk_layer_set_margin(gptr, EDGE_TOP, 62)
                 _ls.gtk_layer_set_margin(gptr, EDGE_BOTTOM, 0)
+                _ls.gtk_layer_set_margin(gptr, EDGE_LEFT, 0)
+                _ls.gtk_layer_set_margin(gptr, EDGE_RIGHT, 0)
 
                 self._layer_ok = True
             except Exception as e:
@@ -401,9 +392,8 @@ class BluetoothMenu(Gtk.Window):
 
     # ── Build ─────────────────────────────────────────────────────────────────
     def _build(self):
-        # Outer alignment to keep content centered vertically
-        # when layer shell stretches the window top-to-bottom
-        align = Gtk.Alignment(xalign=0, yalign=0.5, xscale=0, yscale=0)
+        # Outer alignment: centered horizontally, aligned to top
+        align = Gtk.Alignment(xalign=0.5, yalign=0.0, xscale=0, yscale=0)
         self.add(align)
 
         frame = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
