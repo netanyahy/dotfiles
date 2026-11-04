@@ -1,0 +1,88 @@
+/* Style: Pill Compact (Ультра-компактные пилюли) */
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrains Mono Nerd Font", monospace;
+    font-size: 13px;
+    font-weight: bold;
+    min-height: 0;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+/* Максимальная экономия экранного пространства: низкий профиль */
+#custom-arch,
+#clock,
+#pulseaudio,
+#custom-bluetooth,
+#memory,
+#cpu,
+#tray,
+#custom-power {
+    background: @bg-color;
+    color: @text-color;
+    padding: 3px 8px;
+    margin: 2px 2px;
+    border-radius: 8px;
+    border: 1px solid @border-color;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+}
+
+#custom-arch {
+    color: @accent-color;
+    padding-left: 9px;
+    padding-right: 7px;
+}
+
+#custom-power {
+    color: @accent-color;
+    padding-left: 9px;
+    padding-right: 11px;
+}
+
+#custom-arch:hover,
+#clock:hover,
+#pulseaudio:hover,
+#custom-bluetooth:hover,
+#memory:hover,
+#cpu:hover,
+#custom-power:hover {
+    background: @hover-bg;
+}
+
+/* Компактный контейнер воркспейсов */
+#workspaces {
+    background: @bg-color;
+    border: 1px solid @border-color;
+    border-radius: 8px;
+    padding: 2px 4px;
+    margin: 2px 2px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+#workspaces button {
+    padding: 2px 7px;
+    margin: 1px 2px;
+    font-size: 12px;
+    color: @ws-inactive;
+    background: transparent;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+}
+
+#workspaces button:hover {
+    color: @ws-hover-fg;
+    background: @ws-hover-bg;
+}
+
+#workspaces button.active,
+#workspaces button.focused {
+    color: @ws-active-fg;
+    background: @ws-active-bg;
+    border-radius: 6px;
+    box-shadow: 0 0 8px @ws-shadow;
+}

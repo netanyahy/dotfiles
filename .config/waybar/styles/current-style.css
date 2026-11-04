@@ -1,4 +1,4 @@
-/* Style: Floating Capsules (Раздельные капсулы) */
+/* Style: Three Floating Islands (Три парящих острова) */
 
 * {
     border: none;
@@ -13,23 +13,43 @@ window#waybar {
     background: transparent;
 }
 
-/* Раздельные парящие стеклянные капсулы */
+/* Ровно 3 парящих острова: левый, центральный и правый */
+.modules-left,
+.modules-center,
+.modules-right {
+    background: @bg-color;
+    border: 1px solid @border-color;
+    border-radius: 16px;
+    padding: 3px 8px;
+    margin: 4px 0;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+/* Модули сидят внутри островов без индивидуальных рамок */
 #custom-arch,
 #clock,
-#workspaces,
 #pulseaudio,
 #custom-bluetooth,
 #memory,
 #cpu,
 #tray,
 #custom-power {
-    background: @bg-color;
+    background: transparent;
+    border: none;
     color: @text-color;
-    padding: 6px 14px;
-    margin: 4px 3px;
-    border-radius: 12px;
-    border: 1px solid @border-color;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    padding: 4px 8px;
+    margin: 2px 2px;
+    border-radius: 10px;
+}
+
+#custom-arch {
+    color: @accent-color;
+    padding-left: 8px;
+}
+
+#custom-power {
+    padding-right: 12px;
+    color: @accent-color;
 }
 
 #custom-arch:hover,
@@ -42,18 +62,21 @@ window#waybar {
     background: @hover-bg;
 }
 
-/* Капсула воркспейсов */
+/* Центральный остров: воркспейсы */
 #workspaces {
-    padding: 4px 8px;
+    background: transparent;
+    border: none;
+    padding: 0 2px;
+    margin: 0;
 }
 
 #workspaces button {
-    padding: 2px 12px;
+    padding: 2px 10px;
     margin: 2px 3px;
-    font-size: 15px;
+    font-size: 14px;
     color: @ws-inactive;
     background: transparent;
-    border-radius: 8px;
+    border-radius: 10px;
     transition: all 0.2s ease;
 }
 
@@ -66,10 +89,6 @@ window#waybar {
 #workspaces button.focused {
     color: @ws-active-fg;
     background: @ws-active-bg;
-    border-radius: 8px;
-    box-shadow: 0 0 10px @ws-shadow, 0 0 20px @ws-glow;
-}
-
-#custom-power {
-    padding: 6px 17px 6px 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px @ws-shadow, 0 0 18px @ws-glow;
 }

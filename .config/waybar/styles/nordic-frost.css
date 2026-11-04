@@ -1,0 +1,91 @@
+/* Style: Nordic Frost (Арктический матовый фрост) */
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrains Mono Nerd Font", monospace;
+    font-size: 14px;
+    font-weight: bold;
+    min-height: 0;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+/* Крупные овальные пилюли с мягкими ледяными тенями */
+#custom-arch,
+#clock,
+#pulseaudio,
+#custom-bluetooth,
+#memory,
+#cpu,
+#tray,
+#custom-power {
+    background: @bg-color;
+    color: @text-color;
+    padding: 6px 16px;
+    margin: 4px 4px;
+    border-radius: 20px;
+    border: 1px solid @border-color;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), 0 0 10px @ws-glow;
+    transition: all 0.25s ease;
+}
+
+#custom-arch {
+    color: @accent-color;
+    font-size: 16px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#custom-power {
+    color: @accent-color;
+    padding-left: 15px;
+    padding-right: 17px;
+}
+
+#custom-arch:hover,
+#clock:hover,
+#pulseaudio:hover,
+#custom-bluetooth:hover,
+#memory:hover,
+#cpu:hover,
+#custom-power:hover {
+    background: @hover-bg;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45), 0 0 16px @ws-glow;
+}
+
+/* Овальная морозная капсула воркспейсов */
+#workspaces {
+    background: @bg-color;
+    border: 1px solid @border-color;
+    border-radius: 20px;
+    padding: 4px 8px;
+    margin: 4px 4px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), 0 0 10px @ws-glow;
+}
+
+#workspaces button {
+    padding: 3px 12px;
+    margin: 2px 3px;
+    font-size: 14px;
+    color: @ws-inactive;
+    background: transparent;
+    border-radius: 14px;
+    transition: all 0.2s ease;
+}
+
+#workspaces button:hover {
+    color: @ws-hover-fg;
+    background: @ws-hover-bg;
+}
+
+/* Активный воркспейс: ледяная матовая капсула */
+#workspaces button.active,
+#workspaces button.focused {
+    color: @ws-active-fg;
+    background: @ws-active-bg;
+    border-radius: 14px;
+    box-shadow: 0 0 12px @ws-shadow, 0 0 20px @ws-glow;
+}
