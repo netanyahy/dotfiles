@@ -1,10 +1,40 @@
 -- ######## Window rules ########
 
 -- Disable blur for xwayland context menus
-hl.window_rule({match = {class = "^()$", title = "^()$" },                   no_blur = true })
+--hl.window_rule({match = {class = "^()$", title = "^()$" },                   no_blur = true })
 
 -- Disable blur for every window
-hl.window_rule({match = {class = ".*" }, no_blur = true })
+--hl.window_rule({match = {class = ".*" }, no_blur = true })
+
+hl.config({
+    decoration = {
+        blur = {
+            enabled = true,
+			size = 6,
+            passes = 1,    -- МЕНЬШЕ ЭТО ЗНАЧЕНИЕ (было 3). 1 проход даст легкое, едва заметное размытие.
+            
+            -- Опционально: можно снизить контраст и яркость, чтобы размытие меньше бросалось в глаза
+            contrast = 0.8,   
+            brightness = 0.9, 
+        }
+    }
+})
+
+
+
+
+-- 1. Отключаем размытие для контекстных меню XWayland (чтобы не было багов)
+hl.window_rule({ match = { class = "^()$", title = "^()$" }, no_blur = true })
+
+-- 2. Отключаем размытие для ВСЕХ окон по умолчанию
+hl.window_rule({ match = { class = ".*" }, no_blur = true })
+
+-- 3. ВКЛЮЧАЕМ размытие эксклюзивно для Kitty (это правило перекроет предыдущее)
+hl.window_rule({ match = { class = "^(kitty)$" }, no_blur = false })
+
+
+
+
 
 -- Floating
 hl.window_rule({match = {title = "^(Open File)(.*)$" },                      center = true})
