@@ -95,7 +95,7 @@ install_packages_gentoo() {
         log "Оверлей hyproverlay уже подключен."
     fi
 
-    # 2. Автоматическое подключение GURU (требуется для fuzzel, wlogout)
+    # 2. Автоматическое подключение GURU (требуется для fuzzel, wlogout, mpvpaper)
     local has_guru=false
     if [ -d /var/db/repos/guru ]; then
         has_guru=true
@@ -123,6 +123,7 @@ install_packages_gentoo() {
         "x11-misc/dunst"
         "gui-apps/foot"
         "gui-apps/swaybg"
+        "media-video/mpv"
         "gui-apps/mpvpaper"
         "media-video/ffmpeg"
         "gui-apps/wl-clipboard"
@@ -193,7 +194,7 @@ install_packages_arch() {
         "dunst"
         "foot"
         "swaybg"
-        "mpvpaper"
+        "mpv"
         "ffmpeg"
         "wl-clipboard"
         "cliphist"
@@ -241,8 +242,8 @@ install_packages_arch() {
         log "Все официальные пакеты Arch Linux уже установлены!"
     fi
 
-    # Проверка AUR пакетов (wlogout, hyprshot)
-    local AUR_PKGS=("wlogout" "hyprshot")
+    # Проверка AUR пакетов (wlogout, hyprshot, mpvpaper)
+    local AUR_PKGS=("wlogout" "hyprshot" "mpvpaper")
     local to_install_aur=()
     for pkg in "${AUR_PKGS[@]}"; do
         if ! pacman -Qi "$pkg" >/dev/null 2>&1; then

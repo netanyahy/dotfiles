@@ -31,6 +31,14 @@ window#waybar {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6), 0 0 6px @ws-glow;
 }
 
+/* Смещение кнопки Bluetooth на 1px правее */
+#custom-bluetooth {
+    margin-left: 4px;
+    margin-right: 2px;
+    padding-left: 13px;
+    padding-right: 11px;
+}
+
 #custom-arch {
     color: @accent-color;
     font-size: 16px;
