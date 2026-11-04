@@ -21,6 +21,16 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKUP_DIR="$HOME/.config-backup-$(date +%Y%m%d-%H%M%S)"
 DISTRO="unknown"
 
+# Определение команды повышения привилегий (sudo / doas)
+ROOT_CMD="sudo"
+if ! command -v sudo >/dev/null 2>&1; then
+    if command -v doas >/dev/null 2>&1; then
+        ROOT_CMD="doas"
+    else
+        ROOT_CMD=""
+    fi
+fi
+
 log()     { echo -e "  ${GREEN}✓${NC} $1"; }
 info()    { echo -e "  ${CYAN}ℹ${NC} $1"; }
 warn()    { echo -e "  ${YELLOW}⚠${NC} $1"; }
@@ -85,11 +95,12 @@ install_packages_gentoo() {
 
     if [ "$has_hyproverlay" = false ]; then
         info "Автоматическое подключение оверлея hyproverlay..."
-        if sudo eselect repository enable hyproverlay && sudo emaint sync -r hyproverlay; then
+        local root_prefix="${ROOT_CMD:+$ROOT_CMD }"
+        if ${ROOT_CMD:-sudo} eselect repository enable hyproverlay && ${ROOT_CMD:-sudo} emaint sync -r hyproverlay; then
             log "Оверлей hyproverlay успешно подключен и синхронизирован!"
         else
             warn "Не удалось подключить оверлей hyproverlay автоматически."
-            info "Выполните вручную: sudo eselect repository enable hyproverlay && sudo emaint sync -r hyproverlay"
+            info "Выполните вручную: ${root_prefix}eselect repository enable hyproverlay && ${root_prefix}emaint sync -r hyproverlay"
         fi
     else
         log "Оверлей hyproverlay уже подключен."
@@ -105,11 +116,12 @@ install_packages_gentoo() {
 
     if [ "$has_guru" = false ]; then
         info "Автоматическое подключение оверлея GURU..."
-        if sudo eselect repository enable guru && sudo emaint sync -r guru; then
+        local root_prefix="${ROOT_CMD:+$ROOT_CMD }"
+        if ${ROOT_CMD:-sudo} eselect repository enable guru && ${ROOT_CMD:-sudo} emaint sync -r guru; then
             log "Оверлей GURU успешно подключен и синхронизирован!"
         else
             warn "Не удалось подключить оверлей GURU автоматически."
-            info "Выполните вручную: sudo eselect repository enable guru && sudo emaint sync -r guru"
+            info "Выполните вручную: ${root_prefix}eselect repository enable guru && ${root_prefix}emaint sync -r guru"
         fi
     else
         log "Оверлей GURU уже подключен."
@@ -169,14 +181,19 @@ install_packages_gentoo() {
         return 0
     fi
 
+    local root_name="${ROOT_CMD:-sudo}"
     echo -e "${YELLOW}Найдено отсутствующих пакетов: ${#to_install[@]}${NC}"
-    read -r -p "Установить недостающие пакеты через sudo emerge? [y/N]: " ans
+    read -r -p "Установить недостающие пакеты через $root_name emerge? [y/N]: " ans
     if [[ "$ans" =~ ^[YyДд]$ ]]; then
-        info "Запуск emerge (может потребоваться ввод пароля sudo)..."
-        if sudo emerge --ask=n --noreplace "${to_install[@]}"; then
-            log "Пакеты успешно установлены!"
+        info "Запуск emerge (может потребоваться ввод пароля $root_name)..."
+        if [ -n "$ROOT_CMD" ]; then
+            if $ROOT_CMD emerge --ask=n --noreplace "${to_install[@]}"; then
+                log "Пакеты успешно установлены!"
+            else
+                warn "Emerge завершился с ошибкой. Проверьте USE-флаги/маскировки вручную."
+            fi
         else
-            warn "Emerge завершился с ошибкой. Проверьте USE-флаги/маскировки вручную."
+            warn "Утилита повышения привилегий (sudo / doas) не найдена. Запустите emerge от root."
         fi
     else
         info "Установка пакетов пропущена пользователем."
@@ -233,10 +250,15 @@ install_packages_arch() {
     done
 
     if [ ${#to_install_arch[@]} -gt 0 ]; then
+        local root_name="${ROOT_CMD:-sudo}"
         echo -e "${YELLOW}Отсутствует пакетов pacman: ${#to_install_arch[@]}${NC}"
-        read -r -p "Установить отсутствующие пакеты через sudo pacman? [Y/n]: " ans
+        read -r -p "Установить отсутствующие пакеты через $root_name pacman? [Y/n]: " ans
         if [[ -z "$ans" || "$ans" =~ ^[YyДд]$ ]]; then
-            sudo pacman -S --needed "${to_install_arch[@]}"
+            if [ -n "$ROOT_CMD" ]; then
+                $ROOT_CMD pacman -S --needed "${to_install_arch[@]}"
+            else
+                pacman -S --needed "${to_install_arch[@]}"
+            fi
         fi
     else
         log "Все официальные пакеты Arch Linux уже установлены!"
