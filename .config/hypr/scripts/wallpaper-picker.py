@@ -20,6 +20,7 @@ import os
 import sys
 import glob
 import shlex
+import shutil
 import ctypes
 import hashlib
 import random
@@ -106,6 +107,10 @@ def _gptr(gobject):
 CACHE_DIR = os.path.expanduser("~/.cache/wallpaper-picker")
 CURRENT_WALL_FILE = os.path.expanduser("~/.config/hypr/current_wallpaper")
 
+IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".webp"}
+VIDEO_EXTS = {".mp4", ".webm", ".mkv", ".mov", ".gif"}
+ALL_EXTS = IMAGE_EXTS | VIDEO_EXTS
+
 def get_current_wallpaper():
     if os.path.isfile(CURRENT_WALL_FILE):
         try:
@@ -122,7 +127,6 @@ def find_wallpapers():
         os.path.expanduser("~/Изображения/Wallpapers"),
         os.path.expanduser("~/Pictures/Wallpapers"),
     ]
-    valid_exts = {".jpg", ".jpeg", ".png", ".webp"}
     discovered = []
     seen_reals = set()
     seen_names = set()
@@ -136,7 +140,7 @@ def find_wallpapers():
             continue
         for fname in entries:
             _, ext = os.path.splitext(fname)
-            if ext.lower() not in valid_exts:
+            if ext.lower() not in ALL_EXTS:
                 continue
             fpath = os.path.join(sdir, fname)
             if not os.path.isfile(fpath):
@@ -155,10 +159,13 @@ def find_wallpapers():
 
     return discovered
 
-def get_thumbnail(path, width=210, height=130):
+def get_thumbnail_path(path, width=210, height=130):
     os.makedirs(CACHE_DIR, exist_ok=True)
     h = hashlib.md5(f"{path}_{width}_{height}".encode()).hexdigest()
-    cache_path = os.path.join(CACHE_DIR, f"{h}.png")
+    return os.path.join(CACHE_DIR, f"{h}.png")
+
+def get_thumbnail(path, width=210, height=130):
+    cache_path = get_thumbnail_path(path, width, height)
 
     try:
         mtime = os.path.getmtime(path)
@@ -167,12 +174,47 @@ def get_thumbnail(path, width=210, height=130):
     except Exception:
         pass
 
-    try:
-        pb = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, width, height, True)
-        pb.savev(cache_path, "png", [], [])
-        return pb
-    except Exception:
+    _, ext = os.path.splitext(path.lower())
+    if ext in (VIDEO_EXTS - {".gif"}):
+        temp_frame = f"{cache_path}.tmp.png"
+        try:
+            res = subprocess.run(
+                ["ffmpeg", "-y", "-ss", "00:00:01", "-i", path, "-frames:v", "1", "-update", "1", "-q:v", "2", temp_frame],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                timeout=5
+            )
+            if res.returncode != 0 or not os.path.exists(temp_frame) or os.path.getsize(temp_frame) == 0:
+                subprocess.run(
+                    ["ffmpeg", "-y", "-i", path, "-frames:v", "1", "-update", "1", "-q:v", "2", temp_frame],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    timeout=5
+                )
+
+            if os.path.exists(temp_frame) and os.path.getsize(temp_frame) > 0:
+                pb = GdkPixbuf.Pixbuf.new_from_file_at_scale(temp_frame, width, height, True)
+                pb.savev(cache_path, "png", [], [])
+                try:
+                    os.remove(temp_frame)
+                except Exception:
+                    pass
+                return pb
+        except Exception as e:
+            print(f"Error generating thumbnail for video {path}: {e}")
+            try:
+                if os.path.exists(temp_frame):
+                    os.remove(temp_frame)
+            except Exception:
+                pass
         return None
+    else:
+        try:
+            pb = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, width, height, True)
+            pb.savev(cache_path, "png", [], [])
+            return pb
+        except Exception:
+            return None
 
 def apply_wallpaper(path):
     if not path or not os.path.isfile(path):
@@ -186,14 +228,32 @@ def apply_wallpaper(path):
     except Exception as e:
         print(f"Error saving current_wallpaper: {e}")
 
-    # 2. Restart swaybg
-    cmd = f"pkill swaybg; nohup swaybg -i {shlex.quote(path)} -m fill >/dev/null 2>&1 &"
-    subprocess.Popen(cmd, shell=True)
+    _, ext = os.path.splitext(path.lower())
+    is_animated = ext in VIDEO_EXTS
+
+    # 2. Restart appropriate background player
+    if is_animated:
+        if shutil.which("mpvpaper"):
+            cmd = f"pkill swaybg; pkill mpvpaper; nohup mpvpaper -o \"no-audio --loop-playlist shuffle=no\" '*' {shlex.quote(path)} >/dev/null 2>&1 &"
+            subprocess.Popen(cmd, shell=True)
+        else:
+            subprocess.Popen([
+                "notify-send",
+                "Требуется mpvpaper",
+                "Для воспроизведения анимированных обоев установите mpvpaper:\ndoas emerge gui-apps/mpvpaper (Gentoo) или pacman -S mpvpaper (Arch)",
+                "-i", "video"
+            ])
+            return
+    else:
+        cmd = f"pkill mpvpaper; pkill swaybg; nohup swaybg -i {shlex.quote(path)} -m fill >/dev/null 2>&1 &"
+        subprocess.Popen(cmd, shell=True)
 
     # 3. Notification
     basename = os.path.basename(path)
+    thumb_path = get_thumbnail_path(path)
+    icon_path = thumb_path if os.path.isfile(thumb_path) else path
     try:
-        subprocess.Popen(["notify-send", "Обои обновлены", basename, "-i", path])
+        subprocess.Popen(["notify-send", "Обои обновлены", basename, "-i", icon_path])
     except Exception:
         pass
 
@@ -502,6 +562,10 @@ class WallpaperPicker(Gtk.Window):
             child.wallpaper_path = fpath
             is_current = (self.current_wall and rpath == self.current_wall)
 
+            clean_name, ext = os.path.splitext(fname)
+            is_animated = ext.lower() in VIDEO_EXTS
+            icon_badge = "🎬 " if is_animated else ""
+
             card_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
             card_box.get_style_context().add_class("wallpaper-card")
             if is_current:
@@ -521,8 +585,7 @@ class WallpaperPicker(Gtk.Window):
             card_box.pack_start(img_container, False, False, 0)
 
             # Title label
-            clean_name, _ = os.path.splitext(fname)
-            display_name = f"✓ {clean_name}" if is_current else clean_name
+            display_name = f"✓ {icon_badge}{clean_name}" if is_current else f"{icon_badge}{clean_name}"
             name_lbl = Gtk.Label(label=display_name)
             name_lbl.get_style_context().add_class("card-label")
             if is_current:
@@ -532,6 +595,7 @@ class WallpaperPicker(Gtk.Window):
             name_lbl.set_alignment(0.5, 0.5)
             card_box.pack_start(name_lbl, False, False, 0)
 
+            child.set_tooltip_text(fname)
             child.add(card_box)
             self.flowbox.add(child)
 

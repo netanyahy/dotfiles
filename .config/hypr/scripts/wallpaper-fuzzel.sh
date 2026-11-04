@@ -14,12 +14,22 @@ for dir in "${WALL_DIRS[@]}"; do
             real=$(realpath "$file" 2>/dev/null || echo "$file")
             [ -f "$real" ] || continue
             name=$(basename "$file")
-            [ -n "${WALLPAPERS[$name]}" ] && continue
+            ext="${file##*.}"
+            ext_lower=$(echo "$ext" | tr '[:upper:]' '[:lower:]')
+            case "$ext_lower" in
+                mp4|webm|mkv|mov|gif)
+                    display_name="🎬 $name"
+                    ;;
+                *)
+                    display_name="$name"
+                    ;;
+            esac
+            [ -n "${WALLPAPERS[$display_name]}" ] && continue
             [ -n "${SEEN_REAL[$real]}" ] && continue
-            WALLPAPERS["$name"]="$real"
+            WALLPAPERS["$display_name"]="$real"
             SEEN_REAL["$real"]=1
-            WALL_NAMES+=("$name")
-        done < <(find -L "$dir" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) -print0 2>/dev/null)
+            WALL_NAMES+=("$display_name")
+        done < <(find -L "$dir" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" -o -iname "*.mp4" -o -iname "*.webm" -o -iname "*.mkv" -o -iname "*.mov" -o -iname "*.gif" \) -print0 2>/dev/null)
     fi
 done
 
@@ -35,7 +45,7 @@ unset IFS
 # Menu with Random option at top
 menu_items="🎲 Случайные обои"$'\n'"$(printf '%s\n' "${sorted_names[@]}")"
 
-chosen=$(echo -e "$menu_items" | fuzzel --dmenu --lines 12 --width 32 --prompt "🖼️ Обои: ")
+chosen=$(echo -e "$menu_items" | fuzzel --dmenu --lines 12 --width 36 --prompt "🖼️ Обои: ")
 
 [ -z "$chosen" ] && exit 0
 
@@ -50,7 +60,25 @@ fi
 if [ -n "$selected_wall" ] && [ -f "$selected_wall" ]; then
     mkdir -p "$HOME/.config/hypr"
     echo "$selected_wall" > "$HOME/.config/hypr/current_wallpaper"
-    pkill swaybg || true
-    nohup swaybg -i "$selected_wall" -m fill >/dev/null 2>&1 &
-    notify-send "Обои обновлены" "$(basename "$selected_wall")" -i "$selected_wall"
+
+    ext="${selected_wall##*.}"
+    ext_lower=$(echo "$ext" | tr '[:upper:]' '[:lower:]')
+    case "$ext_lower" in
+        mp4|webm|mkv|mov|gif)
+            if command -v mpvpaper >/dev/null 2>&1; then
+                pkill swaybg || true
+                pkill mpvpaper || true
+                nohup mpvpaper -o "no-audio --loop-playlist shuffle=no" '*' "$selected_wall" >/dev/null 2>&1 &
+                notify-send "Обои обновлены" "$(basename "$selected_wall")" -i video
+            else
+                notify-send "Требуется mpvpaper" "Для воспроизведения анимированных обоев установите mpvpaper:\ndoas emerge gui-apps/mpvpaper (Gentoo) или pacman -S mpvpaper (Arch)" -i video
+            fi
+            ;;
+        *)
+            pkill mpvpaper || true
+            pkill swaybg || true
+            nohup swaybg -i "$selected_wall" -m fill >/dev/null 2>&1 &
+            notify-send "Обои обновлены" "$(basename "$selected_wall")" -i "$selected_wall"
+            ;;
+    esac
 fi
