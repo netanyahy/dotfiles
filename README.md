@@ -1,11 +1,177 @@
 # 🌌 dotfiles
 
-Моя персональная конфигурация **Hyprland** для **Gentoo Linux** и **Arch Linux**
+My personal **Hyprland** configuration for **Gentoo Linux** and **Arch Linux**.
 
 ![Gentoo](https://img.shields.io/badge/OS-Gentoo_Linux-purple?logo=gentoo&logoColor=white)
 ![Arch](https://img.shields.io/badge/OS-Arch_Linux-blue?logo=arch-linux&logoColor=white)
 ![Hyprland](https://img.shields.io/badge/WM-Hyprland-blue?logo=wayland&logoColor=white)
+![Waybar](https://img.shields.io/badge/Bar-Waybar-teal?logo=wayland&logoColor=white)
+![Themes](https://img.shields.io/badge/Themes-30_Palettes-orange)
+![Styles](https://img.shields.io/badge/Bar_Styles-16_Layouts-violet)
 ![Shell](https://img.shields.io/badge/Shell-Bash-green?logo=gnu-bash&logoColor=white)
+
+[**English**](#-dotfiles) | [**Русский**](#-dotfiles-на-русском)
+
+---
+
+## 📸 Stack & Components
+
+| Component | Tool | Description |
+|---|---|---|
+| **Window Manager** | `Hyprland` | Smooth dynamic Wayland tiling powered by Lua/Hyprlang |
+| **Status Bar** | `Waybar` | 16 top-bar styles + 30 dynamic color themes with glassmorphism & neon glows |
+| **App Launcher** | `Fuzzel` | Spotlight-style centered launcher, zero latency, `cliphist` clipboard integration |
+| **Power Menu** | `Wlogout` | Glass capsules with neon hover glow matching the active theme |
+| **Terminal** | `Kitty` / `Foot` | Lightning-fast GPU-accelerated terminal emulators |
+| **Notifications** | `Dunst` | Lightweight, minimalist notification daemon |
+| **Lock Screen** | `Hyprlock` + `Hypridle` | Secure lock screen with auto-dim and idle management |
+| **Wallpapers** | `swaybg` + `mpvpaper` + `wallpaper-picker.py` | GTK3 + Layer Shell visual thumbnail gallery with video/animation support (`.mp4`, `.webm`, `.mkv`, `.mov`, `.gif`) and static images |
+| **Audio** | `Pipewire` + `Wireplumber` | Modern Wayland audio stack with low latency |
+
+---
+
+## 🎨 Color Themes (30 Modular Themes)
+
+Switch themes seamlessly at any moment:
+* Press **`Super + Shift + T`**
+* Or **Right-Click** the Arch logo on the Waybar
+
+All **30 themes** sync instantly across Waybar, Fuzzel, and Wlogout:
+
+### 🌟 Base Themes (10)
+- `Dark Glass` — Dark frosted glass
+- `White Frost` — Crisp clean light theme
+- `Midnight Lavender` — Midnight purple & lavender
+- `Neon Cyan` — High-tech electric cyan
+- `Rosé Sakura` — Delicate Rosé Pine sakura
+- `Tokyo Night` — Neon Tokyo cyber vibe
+- `Nord Ice` — Arctic pastel coolness
+- `Cyber Emerald` — Emerald cyberpunk matrix
+- `Gruvbox Gold` — Warm retro Gruvbox
+- `Ruby Crimson` — Deep crimson ruby
+
+### 🎨 Designer Themes (20)
+- **Catppuccin Palette**: `Catppuccin Mocha`, `Catppuccin Macchiato`, `Catppuccin Frappé`, `Catppuccin Latte`
+- **Iconic Legends**: `Dracula Vampire`, `Solarized Dark`, `Solarized Light`, `One Dark Pro`, `Monokai Pro`
+- **Gruvbox Editions**: `Gruvbox Dark`, `Gruvbox Light`
+- **Nature & Japanese Aesthetics**: `Everforest`, `Kanagawa Wave`, `Ocean Abyss`
+- **Cyberpunk & Synthwave**: `Synthwave '84`, `Cyberpunk 2077`, `Aura Dark`, `Carbon Mint`
+- **Atmospheric**: `Sunset Twilight`, `Blood Moon`
+
+---
+
+## 🪄 Waybar Styles (16 Top-Bar Layouts)
+
+The status bar is permanently positioned at the top (`position: top`), and its visual geometry can be swapped on the fly between 16 unixporn layout styles:
+
+* Switch layout shortcut: **`Super + Shift + B`**
+
+### Available Styles:
+1. 💊 **Floating Capsules** — Classic floating pills with 12px rounded borders and subtle outline.
+2. 🧊 **Unified Glass Bar** — Monolithic translucent glass strip spanning the top edge with rounded corners.
+3. 🏝️ **Three Islands** — Three distinct floating islands: Left (Arch + Clock), Center (Workspaces), Right (System status + Power).
+4. ✨ **Minimalist Underline** — Ultra-clean borderless bar with text shadows; active workspace accented with an underline strip.
+5. ⚡ **Cyberpunk Sharp** — Strict rectangular blocks (`border-radius: 0px`) with sharp neon borders and retro-tech aesthetics.
+6. ● **Dot Matrix** — Minimalist circular dots (10px) that expand into an oval capsule (24px) for the active workspace.
+7. 🌈 **Gradient Border** — High-contrast neon borders around every widget with soft glowing aura.
+8. 📐 **Pill Compact** — Dense, low-profile design (`font-size: 13px`, `padding: 3px 8px`) maximizing usable screen real estate.
+9. 📟 **Powerline Chevrons** — Iconic terminal powerline ribbon: seamless connected segments with divider borders.
+10. ❄️ **Nordic Frost** — Frosted matte finish, generous 20px pill radiuses and soft arctic shadows.
+11. 🫧 **Bubble Float** — Playful 24px bubble capsules with airy spacing.
+12. 🎀 **Ribbon Top** — Seamless top ribbon flush with the upper display edge (`margin-top: 0`) and 16px bottom rounded corners.
+13. 💻 **Bracket Tech** — Cyberpunk HUD layout with transparent background and accent brackets (`border-left` & `border-right`).
+14. 🔳 **Double Border** — Dual neon outlines (`border: 3px double @accent-color`) giving modules a distinct retro-futuristic depth.
+15. 💫 **Glowing Strip** — Continuous neon glow line across the entire bottom edge of the bar.
+16. ⏰ **Center Clock Focus** — Clock placed in the spotlight as the dominant center widget with an intense glow pill.
+
+> [!TIP]
+> All 30 color themes are 100% compatible with each of the 16 bar styles! Mix and match any color palette (`Super + Shift + T`) with any layout (`Super + Shift + B`).
+
+---
+
+## 🖼️ Wallpaper Management & Video Wallpapers
+
+Integrated with both a GUI thumbnail gallery and a lightning-fast Fuzzel selector:
+* **`Super + Shift + W`** (or **Middle-Click** the Arch logo on Waybar) — Launches the GTK3 + Layer Shell visual thumbnail gallery with frosted glass background, theme-matching border, keyboard navigation (arrows, Enter, Esc), mouse clicks, and a «🎲 Random Wallpaper» button.
+* **`Super + Alt + W`** — Fast dmenu wallpaper selector via `Fuzzel`.
+* **Universal Format Support**: Works with static images (`.jpg`, `.jpeg`, `.png`, `.webp`) and animated/video wallpapers (`.mp4`, `.webm`, `.mkv`, `.mov`, `.gif`).
+* For video wallpapers, `ffmpeg` automatically extracts and caches preview thumbnails, cards are labeled with `🎬 `, and playback runs via the hardware-accelerated `mpvpaper` engine (or `swaybg` for static images).
+* Wallpaper selections are saved to `~/.config/hypr/current_wallpaper` and restored automatically upon login via `apply_wallpaper.sh`.
+
+---
+
+## 🚀 Automated Installation
+
+Clone the repository and run the automated installer:
+
+```bash
+git clone https://github.com/netanyahy/dotfiles.git
+cd dotfiles
+chmod +x install.sh
+./install.sh
+```
+
+### What `install.sh` does:
+1. 🔍 **Detects distribution** (Gentoo Linux with GURU & hyproverlay, Arch Linux with pacman & AUR helpers).
+2. 📦 **Verifies and installs dependencies** (`hyprland`, `waybar`, `fuzzel`, `swaybg`, `mpvpaper`, `ffmpeg`, `gtk-layer-shell`, `jetbrains-mono`, etc.).
+3. 💾 **Creates a full backup** of your existing configs in `~/.config-backup-<timestamp>`.
+4. 📂 **Deploys dotfiles** into `~/.config/` with executable script permissions.
+5. 🖼️ **Sets up wallpapers** in `~/Pictures/Wallpapers/` and `~/Изображения/Wallpapers/`.
+
+---
+
+## 🛠️ Manual Installation
+
+If you prefer to copy the configurations manually:
+
+```bash
+git clone https://github.com/netanyahy/dotfiles.git
+cd dotfiles
+
+# Backup existing configs
+mkdir -p ~/.config-backup
+cp -r ~/.config/{hypr,waybar,kitty,fuzzel,dunst,foot,wlogout} ~/.config-backup/ 2>/dev/null
+
+# Copy configs
+cp -rf .config/* ~/.config/
+
+# Setup default wallpaper
+mkdir -p ~/Pictures/Wallpapers ~/Изображения/Wallpapers
+cp wallpapers/default.jpg ~/Pictures/Wallpapers/default.jpg
+cp wallpapers/default.jpg ~/Изображения/Wallpapers/189d538e3d89f6dcbb4b430d2afb2019.jpg
+
+# Set executable permissions
+find ~/.config/hypr ~/.config/waybar -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {} +
+```
+
+---
+
+## ⌨️ Keybindings
+
+| Keybinding | Action |
+|---|---|
+| `Super` | App Launcher (Fuzzel) |
+| `Super + Enter` | Terminal (Kitty) |
+| `Super + Q` | Close active window |
+| `Super + V` | Clipboard manager (Fuzzel + cliphist) |
+| `Super + Shift + T` | Theme switcher (or Right-Click Arch icon) |
+| `Super + Shift + B` | Bar style switcher (16 top-bar layouts) |
+| `Super + Shift + W` | Wallpaper gallery picker (or Middle-Click Arch icon) |
+| `Super + Alt + W` | Quick wallpaper selector (Fuzzel) |
+| `Ctrl + Alt + Delete` | Power menu (Wlogout, or click power button on Waybar) |
+| `Print` | Screenshot to clipboard |
+| `Ctrl + Print` | Screenshot to file and clipboard |
+| `Super + 1..9` | Switch workspace |
+| `Ctrl + Super + Alt + /` | Edit custom keybindings (`custom/keybinds.lua`) |
+
+---
+---
+
+# 🌌 dotfiles (на русском)
+
+Моя персональная конфигурация **Hyprland** для **Gentoo Linux** и **Arch Linux**
+
+[**English**](#-dotfiles) | [**Русский**](#-dotfiles-на-русском)
 
 ---
 
@@ -20,12 +186,12 @@
 | **Терминал** | `Kitty` / `Foot` | Быстрые эмуляторы терминалов с поддержкой GPU |
 | **Уведомления** | `Dunst` | Минималистичный демон уведомлений |
 | **Блокировка экрана** | `Hyprlock` + `Hypridle` | Экран блокировки и демон ожидания |
-| **Обои** | `swaybg` + `mpvpaper` + `wallpaper-picker.py` | Галерея обоев на GTK3 + Layer Shell со стеклянным фоном, миниатюрами и поддержкой как фото, так и любых анимированных/видео обоев (mp4, webm, mkv, mov, gif) |
+| **Обои** | `swaybg` + `mpvpaper` + `wallpaper-picker.py` | Галерея обоев на GTK3 + Layer Shell со стеклянным фоном, миниатюрами и поддержкой как фото, так и любых анимированных/видео обоев (`.mp4`, `.webm`, `.mkv`, `.mov`, `.gif`) |
 | **Звук** | `Pipewire` + `Wireplumber` | Современный звуковой сервер |
 
 ---
 
-## 🎨 Темы оформления
+## 🎨 Темы оформления (30 тем)
 
 Переключение тем доступно в любой момент:
 * Нажмите **`Super + Shift + T`**
@@ -84,6 +250,18 @@
 
 ---
 
+## 🖼️ Выбор и управление обоями
+
+В конфигурацию интегрирован графический селектор обоев и быстрый dmenu-селектор:
+* **`Super + Shift + W`** (или **СКМ** по иконке Arch на панели Waybar) — запуск элегантной GUI-галереи миниатюр на GTK3 + Layer Shell с полупрозрачным стеклянным фоном, рамкой в тон текущей темы, навигацией клавишами (стрелки, Enter, Esc), мышью и кнопкой «🎲 Случайные обои».
+* **`Super + Alt + W`** — быстрый текстовый селектор обоев через меню `Fuzzel`.
+* **Поддержка любых форматов**: как статичных изображений (`.jpg`, `.jpeg`, `.png`, `.webp`), так и любых видео и анимаций (`.mp4`, `.webm`, `.mkv`, `.mov`, `.gif`).
+* Для видео-обоев автоматически генерируются превью-кадры через `ffmpeg`, карточки помечаются иконкой `🎬 `, а воспроизведение осуществляется через аппаратный движок `mpvpaper` (для статичных изображений — `swaybg`).
+* При выборе обоев путь автоматически сохраняется в `~/.config/hypr/current_wallpaper`, перезапускается фоновый плеер (`mpvpaper` или `swaybg`) и выводится системное уведомление.
+* При старте Hyprland скрипт `apply_wallpaper.sh` автоматически восстанавливает выбранные обои (статичные или анимированные).
+
+---
+
 ## 🚀 Автоматическая установка
 
 Склонируйте репозиторий и запустите скрипт `install.sh`:
@@ -96,12 +274,12 @@ chmod +x install.sh
 ```
 
 ### Что делает скрипт:
-1. 🔍 **Проверяет систему** (Gentoo Linux или другие дистрибутивы).
-2. 📦 **Проверяет зависимости** и предлагает установить недостающие пакеты через `emerge`.
+1. 🔍 **Проверяет систему** (Gentoo Linux или Arch Linux).
+2. 📦 **Проверяет зависимости** и предлагает установить недостающие пакеты через `emerge` или `pacman` / AUR.
 3. 🔤 **Устанавливает шрифты** `JetBrains Mono Nerd Font` (при необходимости загружает с GitHub).
 4. 💾 **Делает резервную копию** всех существующих конфигов в `~/.config-backup-<дата>`.
 5. 📂 **Устанавливает конфиги** в `~/.config/` и настраивает права исполнения на скрипты.
-6. 🖼️ **Устанавливает фоновые обои** в директорию `~/Изображения/Wallpapers/`.
+6. 🖼️ **Устанавливает фоновые обои** в директории `~/Изображения/Wallpapers/` и `~/Pictures/Wallpapers/`.
 
 ---
 
@@ -126,20 +304,8 @@ cp wallpapers/default.jpg ~/Изображения/Wallpapers/189d538e3d89f6dcbb
 cp wallpapers/default.jpg ~/Pictures/Wallpapers/default.jpg
 
 # Права на скрипты
-find ~/.config/hypr -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {} +
+find ~/.config/hypr ~/.config/waybar -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {} +
 ```
-
----
-
-## 🖼️ Выбор и управление обоями
-
-В конфигурацию интегрирован графический селектор обоев и быстрый dmenu-селектор:
-* **`Super + Shift + W`** (или **СКМ** по иконке Arch на панели Waybar) — запуск элегантной GUI-галереи миниатюр на GTK3 + Layer Shell с полупрозрачным стеклянным фоном, рамкой в тон текущей темы, навигацией клавишами (стрелки, Enter, Esc), мышью и кнопкой «🎲 Случайные обои».
-* **`Super + Alt + W`** — быстрый текстовый селектор обоев через меню `Fuzzel`.
-* **Поддержка любых форматов**: как статичных изображений (`.jpg`, `.jpeg`, `.png`, `.webp`), так и любых видео и анимаций (`.mp4`, `.webm`, `.mkv`, `.mov`, `.gif`).
-* Для видео-обоев автоматически генерируются превью-кадры через `ffmpeg`, карточки помечаются иконкой `🎬 `, а воспроизведение осуществляется через аппаратный движок `mpvpaper` (для статичных изображений — `swaybg`).
-* При выборе обоев путь автоматически сохраняется в `~/.config/hypr/current_wallpaper`, перезапускается фоновый плеер (`mpvpaper` или `swaybg`) и выводится системное уведомление.
-* При старте Hyprland скрипт `apply_wallpaper.sh` автоматически восстанавливает выбранные обои (статичные или анимированные).
 
 ---
 
@@ -160,6 +326,3 @@ find ~/.config/hypr -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {}
 | `Ctrl + Print` | Скриншот в файл и буфер обмена |
 | `Super + 1..9` | Переключение рабочих столов |
 | `Ctrl + Super + Alt + /` | Редактировать пользовательские хоткеи (`custom/keybinds.lua`) |
-
----
-
