@@ -42,10 +42,10 @@ window#waybar {
     transition: background 0.15s ease;
 }
 
-/* Смещение иконки Bluetooth на 1px правее для идеального оптического центрирования */
+/* Смещение иконки Bluetooth правее для идеального оптического центрирования */
 #custom-bluetooth {
-    padding-left: 13px;
-    padding-right: 11px;
+    padding-left: 14px;
+    padding-right: 10px;
 }
 
 /* Логотип Arch — стартовый монолитный блок Powerline */
