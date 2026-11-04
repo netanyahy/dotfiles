@@ -36,6 +36,8 @@ hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("pidof slurp || hyprshot --freeze -
 --# Waybar Theme Switcher
 hl.bind("SUPER + SHIFT + T", hl.dsp.exec_cmd("~/.config/waybar/scripts/theme-switcher.sh"),
     { description = "Utilities: Switch Waybar theme" })
+--# Waybar Style Switcher
+hl.bind("SUPER + SHIFT + B", hl.dsp.exec_cmd("~/.config/waybar/scripts/style-switcher.sh"), { description = "Waybar: Switch Top Style" })
 
 --# Wallpaper Pickers
 hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/wallpaper-picker.py"),
@@ -95,8 +97,6 @@ hl.bind("XF86AudioNext", hl.dsp.exec_cmd(mediaNextCommand), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 hl.bind("SUPER + SHIFT + ALT + mouse:275", hl.dsp.exec_cmd("playerctl previous"))
 hl.bind("SUPER + SHIFT + ALT + mouse:276", hl.dsp.exec_cmd(mediaNextCommand))
-hl.bind("SUPER + SHIFT + B", hl.dsp.exec_cmd("playerctl previous"),
-    { locked = true, description = "Media: Previous track" })
 hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd("playerctl play-pause"),
     { locked = true, description = "Media: Play/pause media" })
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })

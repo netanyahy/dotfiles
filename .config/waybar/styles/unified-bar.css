@@ -1,0 +1,104 @@
+/* Style: Unified Glass Bar (Монолитная полоса) */
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrains Mono Nerd Font", monospace;
+    font-size: 15px;
+    font-weight: bold;
+    min-height: 0;
+}
+
+/* Единая сплошная стеклянная полоса */
+window#waybar {
+    background: @bg-color;
+    border: 1px solid @border-color;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+/* Модули внутри единой ленты без отдельных рамок */
+#custom-arch,
+#clock,
+#workspaces,
+#pulseaudio,
+#custom-bluetooth,
+#memory,
+#cpu,
+#tray,
+#custom-power {
+    background: transparent;
+    border: none;
+    color: @text-color;
+    padding: 4px 10px;
+    margin: 4px 2px;
+}
+
+#custom-arch {
+    padding-left: 14px;
+    padding-right: 10px;
+    color: @accent-color;
+}
+
+#custom-power {
+    padding-right: 16px;
+    padding-left: 10px;
+    color: @accent-color;
+}
+
+#custom-arch:hover,
+#clock:hover,
+#pulseaudio:hover,
+#custom-bluetooth:hover,
+#memory:hover,
+#cpu:hover,
+#custom-power:hover {
+    background: @hover-bg;
+    border-radius: 8px;
+}
+
+/* Тонкие разделители секций */
+#clock {
+    border-left: 1px solid @border-color;
+    padding-left: 12px;
+    margin-left: 4px;
+}
+
+#pulseaudio {
+    border-left: 1px solid @border-color;
+    padding-left: 12px;
+    margin-left: 4px;
+}
+
+/* Воркспейсы выделены внутренней плашкой */
+#workspaces {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid @border-color;
+    border-radius: 10px;
+    padding: 2px 6px;
+    margin: 4px 0;
+}
+
+#workspaces button {
+    padding: 2px 10px;
+    margin: 2px 2px;
+    font-size: 14px;
+    color: @ws-inactive;
+    background: transparent;
+    border-radius: 7px;
+    transition: all 0.2s ease;
+}
+
+#workspaces button:hover {
+    color: @ws-hover-fg;
+    background: @ws-hover-bg;
+}
+
+/* Активный воркспейс выделяется пилюлей */
+#workspaces button.active,
+#workspaces button.focused {
+    color: @ws-active-fg;
+    background: @ws-active-bg;
+    border-radius: 7px;
+    box-shadow: 0 0 8px @ws-shadow, 0 0 16px @ws-glow;
+}

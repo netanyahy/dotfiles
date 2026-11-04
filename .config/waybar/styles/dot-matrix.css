@@ -1,0 +1,96 @@
+/* Style: Dot Matrix (Индикаторные точки) */
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrains Mono Nerd Font", monospace;
+    font-size: 15px;
+    font-weight: bold;
+    min-height: 0;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+/* Плавные Dynamic Island капсулы */
+#custom-arch,
+#clock,
+#pulseaudio,
+#custom-bluetooth,
+#memory,
+#cpu,
+#tray,
+#custom-power {
+    background: @bg-color;
+    color: @text-color;
+    border: 1px solid @border-color;
+    border-radius: 20px;
+    padding: 5px 14px;
+    margin: 4px 3px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+#custom-arch {
+    color: @accent-color;
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+#custom-power {
+    color: @accent-color;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#custom-arch:hover,
+#clock:hover,
+#pulseaudio:hover,
+#custom-bluetooth:hover,
+#memory:hover,
+#cpu:hover,
+#custom-power:hover {
+    background: @hover-bg;
+}
+
+/* Воркспейсы: капсула с индикаторными точками */
+#workspaces {
+    background: @bg-color;
+    border: 1px solid @border-color;
+    border-radius: 20px;
+    padding: 5px 12px;
+    margin: 4px 3px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+#workspaces button {
+    font-size: 0;
+    color: transparent;
+    min-width: 10px;
+    min-height: 10px;
+    margin: 5px 5px;
+    padding: 0;
+    background: @ws-inactive;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+#workspaces button label {
+    font-size: 0;
+    color: transparent;
+}
+
+#workspaces button:hover {
+    background: @ws-hover-fg;
+    min-width: 14px;
+}
+
+/* Активный воркспейс растягивается в плавную овальную пилюлю 24px */
+#workspaces button.active,
+#workspaces button.focused {
+    background: @accent-color;
+    min-width: 24px;
+    min-height: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 8px @ws-shadow, 0 0 16px @ws-glow;
+}

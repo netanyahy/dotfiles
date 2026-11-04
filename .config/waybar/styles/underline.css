@@ -1,0 +1,96 @@
+/* Style: Minimalist Underline (Минимализм с полоской) */
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrains Mono Nerd Font", monospace;
+    font-size: 15px;
+    font-weight: bold;
+    min-height: 0;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+    background: transparent;
+    border: none;
+}
+
+/* Прозрачный фон без рамок и плашек, чистый парящий текст */
+#custom-arch,
+#clock,
+#pulseaudio,
+#custom-bluetooth,
+#memory,
+#cpu,
+#tray,
+#custom-power {
+    background: transparent;
+    border: none;
+    color: @text-color;
+    padding: 6px 10px;
+    margin: 4px 4px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+#custom-arch {
+    color: @accent-color;
+    font-size: 17px;
+    padding-left: 12px;
+}
+
+#custom-power {
+    color: @accent-color;
+    padding-right: 12px;
+}
+
+#custom-arch:hover,
+#clock:hover,
+#pulseaudio:hover,
+#custom-bluetooth:hover,
+#memory:hover,
+#cpu:hover,
+#custom-power:hover {
+    color: @accent-color;
+    text-shadow: 0 0 8px @ws-shadow;
+}
+
+/* Воркспейсы: плоские, без плашек */
+#workspaces {
+    background: transparent;
+    border: none;
+    padding: 0 4px;
+}
+
+#workspaces button {
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+    padding: 4px 10px;
+    margin: 0 4px;
+    font-size: 15px;
+    color: @ws-inactive;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+    transition: all 0.25s ease;
+}
+
+#workspaces button:hover {
+    color: @ws-hover-fg;
+    border-bottom: 3px solid @ws-hover-fg;
+}
+
+/* Активный воркспейс подчеркнут неоновой полоской */
+#workspaces button.active,
+#workspaces button.focused {
+    color: @accent-color;
+    background: transparent;
+    border-radius: 0;
+    border-bottom: 3px solid @accent-color;
+    text-shadow: 0 0 10px @ws-shadow, 0 0 20px @ws-glow;
+}
