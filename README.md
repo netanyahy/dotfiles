@@ -1,5 +1,8 @@
 # 🌌 dotfiles
 
+<img width="2559" height="1439" alt="image" src="https://github.com/user-attachments/assets/6cabf959-d66c-42fe-8ed3-f8b4825057fc" />
+
+
 My personal **Hyprland** configuration for **Gentoo Linux** and **Arch Linux**.
 
 ![Gentoo](https://img.shields.io/badge/OS-Gentoo_Linux-purple?logo=gentoo&logoColor=white)
