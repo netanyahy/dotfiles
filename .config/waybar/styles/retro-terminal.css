@@ -1,0 +1,90 @@
+/* Style: Retro Terminal (Классический терминал) */
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrains Mono Nerd Font", monospace;
+    font-size: 14px;
+    font-weight: bold;
+    min-height: 0;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+/* Блочные модули в стиле ретро-терминала с четким квадратным контуром */
+#custom-arch,
+#clock,
+#pulseaudio,
+#custom-bluetooth,
+#memory,
+#cpu,
+#tray,
+#custom-power {
+    background: @bg-color;
+    color: @text-color;
+    border: 1px solid @accent-color;
+    border-radius: 2px;
+    padding: 4px 12px;
+    margin: 4px 3px;
+    transition: all 0.15s ease;
+}
+
+#custom-arch {
+    color: @accent-color;
+    font-size: 16px;
+    padding-left: 13px;
+    padding-right: 13px;
+}
+
+#custom-power {
+    color: @accent-color;
+    padding-left: 13px;
+    padding-right: 15px;
+}
+
+#custom-arch:hover,
+#clock:hover,
+#pulseaudio:hover,
+#custom-bluetooth:hover,
+#memory:hover,
+#cpu:hover,
+#custom-power:hover {
+    background: @hover-bg;
+}
+
+/* Квадратный контейнер воркспейсов */
+#workspaces {
+    background: @bg-color;
+    border: 1px solid @accent-color;
+    border-radius: 2px;
+    padding: 2px 4px;
+    margin: 4px 3px;
+}
+
+#workspaces button {
+    padding: 2px 9px;
+    margin: 2px 2px;
+    font-size: 13px;
+    color: @ws-inactive;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    transition: all 0.15s ease;
+}
+
+#workspaces button:hover {
+    color: @ws-hover-fg;
+    background: @ws-hover-bg;
+    border: 1px solid @border-color;
+}
+
+/* Активный воркспейс: контрастный квадратный терминальный блок */
+#workspaces button.active,
+#workspaces button.focused {
+    color: @ws-active-fg;
+    background: @ws-active-bg;
+    border: 1px solid @accent-color;
+    border-radius: 2px;
+}

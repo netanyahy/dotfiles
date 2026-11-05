@@ -1,0 +1,15 @@
+/* Sakura Pastel theme */
+@define-color bg-color rgba(36, 30, 47, 0.75);
+@define-color border-color rgba(245, 169, 184, 0.4);
+@define-color text-color #fcf1f5;
+@define-color accent-color #f5a9b8;
+@define-color bt-color #b4befe;
+@define-color ws-inactive #6c5f7d;
+@define-color ws-hover-bg rgba(245, 169, 184, 0.18);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #f5a9b8;
+@define-color ws-active-fg #241e2f;
+@define-color ws-active-shadow rgba(245, 169, 184, 0.65);
+@define-color ws-shadow rgba(245, 169, 184, 0.65);
+@define-color ws-glow rgba(180, 190, 254, 0.35);
+@define-color hover-bg rgba(245, 169, 184, 0.18);

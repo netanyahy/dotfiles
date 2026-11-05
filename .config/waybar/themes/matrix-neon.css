@@ -1,0 +1,15 @@
+/* Matrix Neon theme */
+@define-color bg-color rgba(11, 15, 16, 0.78);
+@define-color border-color rgba(0, 255, 102, 0.4);
+@define-color text-color #e0ffe8;
+@define-color accent-color #00ff66;
+@define-color bt-color #00ff66;
+@define-color ws-inactive #2d5a3e;
+@define-color ws-hover-bg rgba(0, 255, 102, 0.18);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #00ff66;
+@define-color ws-active-fg #0b0f10;
+@define-color ws-active-shadow rgba(0, 255, 102, 0.65);
+@define-color ws-shadow rgba(0, 255, 102, 0.65);
+@define-color ws-glow rgba(0, 255, 102, 0.35);
+@define-color hover-bg rgba(0, 255, 102, 0.18);

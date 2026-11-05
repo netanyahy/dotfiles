@@ -1,0 +1,8 @@
+/* Oxocarbon theme */
+@define-color overlay rgba(22, 22, 22, 0.75);
+@define-color btn_bg rgba(38, 38, 38, 0.55);
+@define-color btn_border rgba(61, 219, 217, 0.25);
+@define-color btn_text #f4f4f4;
+@define-color btn_hover_bg rgba(61, 219, 217, 0.2);
+@define-color btn_hover_border #3ddbd9;
+@define-color btn_glow rgba(238, 83, 150, 0.45);

@@ -1,0 +1,15 @@
+/* Solar Flare theme */
+@define-color bg-color rgba(26, 20, 18, 0.78);
+@define-color border-color rgba(255, 119, 51, 0.4);
+@define-color text-color #f8ebe6;
+@define-color accent-color #ff7733;
+@define-color bt-color #ffb454;
+@define-color ws-inactive #6e5246;
+@define-color ws-hover-bg rgba(255, 119, 51, 0.18);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #ff7733;
+@define-color ws-active-fg #1a1412;
+@define-color ws-active-shadow rgba(255, 119, 51, 0.65);
+@define-color ws-shadow rgba(255, 119, 51, 0.65);
+@define-color ws-glow rgba(255, 180, 84, 0.35);
+@define-color hover-bg rgba(255, 119, 51, 0.18);

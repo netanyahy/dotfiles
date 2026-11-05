@@ -1,0 +1,8 @@
+/* Sakura Pastel theme */
+@define-color overlay rgba(30, 24, 40, 0.75);
+@define-color btn_bg rgba(45, 36, 60, 0.55);
+@define-color btn_border rgba(245, 169, 184, 0.25);
+@define-color btn_text #fcf1f5;
+@define-color btn_hover_bg rgba(245, 169, 184, 0.2);
+@define-color btn_hover_border #f5a9b8;
+@define-color btn_glow rgba(180, 190, 254, 0.5);

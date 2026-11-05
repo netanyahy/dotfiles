@@ -1,0 +1,8 @@
+/* Nordic Aurora theme */
+@define-color overlay rgba(24, 28, 36, 0.75);
+@define-color btn_bg rgba(35, 42, 54, 0.55);
+@define-color btn_border rgba(86, 182, 194, 0.25);
+@define-color btn_text #e5e9f0;
+@define-color btn_hover_bg rgba(86, 182, 194, 0.2);
+@define-color btn_hover_border #56b6c2;
+@define-color btn_glow rgba(152, 195, 121, 0.5);

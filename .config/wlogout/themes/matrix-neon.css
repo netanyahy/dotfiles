@@ -1,0 +1,8 @@
+/* Matrix Neon theme */
+@define-color overlay rgba(11, 15, 16, 0.75);
+@define-color btn_bg rgba(16, 26, 20, 0.55);
+@define-color btn_border rgba(0, 255, 102, 0.25);
+@define-color btn_text #e0ffe8;
+@define-color btn_hover_bg rgba(0, 255, 102, 0.2);
+@define-color btn_hover_border #00ff66;
+@define-color btn_glow rgba(0, 255, 102, 0.5);

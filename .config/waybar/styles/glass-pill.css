@@ -1,0 +1,90 @@
+/* Style: Frosted Glass Pills (Матовые пилюли) */
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrains Mono Nerd Font", monospace;
+    font-size: 14px;
+    font-weight: bold;
+    min-height: 0;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+/* Раздельные матовые пилюли с четким контуром */
+#custom-arch,
+#clock,
+#pulseaudio,
+#custom-bluetooth,
+#memory,
+#cpu,
+#tray,
+#custom-power {
+    background: @bg-color;
+    color: @text-color;
+    border: 1px solid @border-color;
+    border-radius: 20px;
+    padding: 4px 14px;
+    margin: 4px 3px;
+    transition: all 0.2s ease;
+}
+
+#custom-arch {
+    color: @accent-color;
+    font-size: 16px;
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+#custom-power {
+    color: @accent-color;
+    padding-left: 14px;
+    padding-right: 16px;
+}
+
+#custom-arch:hover,
+#clock:hover,
+#pulseaudio:hover,
+#custom-bluetooth:hover,
+#memory:hover,
+#cpu:hover,
+#custom-power:hover {
+    background: @hover-bg;
+}
+
+/* Капсула воркспейсов */
+#workspaces {
+    background: @bg-color;
+    border: 1px solid @border-color;
+    border-radius: 20px;
+    padding: 3px 6px;
+    margin: 4px 3px;
+}
+
+#workspaces button {
+    padding: 2px 12px;
+    margin: 2px 2px;
+    font-size: 13px;
+    color: @ws-inactive;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 16px;
+    transition: all 0.15s ease;
+}
+
+#workspaces button:hover {
+    color: @ws-hover-fg;
+    background: @ws-hover-bg;
+    border: 1px solid @border-color;
+}
+
+/* Активный воркспейс в виде пилюли с четким контуром */
+#workspaces button.active,
+#workspaces button.focused {
+    color: @ws-active-fg;
+    background: @ws-active-bg;
+    border: 1px solid @accent-color;
+    border-radius: 16px;
+}

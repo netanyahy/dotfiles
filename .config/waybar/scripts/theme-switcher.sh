@@ -9,7 +9,7 @@ BT_CURRENT="$THEMES_WAYBAR/bluetooth_theme.css"
 FUZZEL_CURRENT="$HOME/.config/fuzzel/fuzzel_theme.ini"
 WLOGOUT_CURRENT="$HOME/.config/wlogout/theme.css"
 
-# Список всех 30 тем (10 базовых + 20 дизайнерских)
+# Список всех 35 тем (10 базовых + 25 дизайнерских)
 options="🌌 Dark Glass
 ❄️ White Frost
 🔮 Midnight Lavender
@@ -39,7 +39,12 @@ options="🌌 Dark Glass
 🌇 Sunset Twilight
 🐬 Ocean Abyss
 🩸 Blood Moon
-🍃 Carbon Mint"
+🍃 Carbon Mint
+🖤 Oxocarbon
+🟢 Matrix Neon
+🌌 Nordic Aurora
+☀️ Solar Flare
+🌸 Sakura Pastel"
 
 chosen=$(echo "$options" | fuzzel --dmenu --lines 12 --width 28 --prompt "🎨 Тема: ")
 
@@ -78,6 +83,11 @@ case "$chosen" in
     *"Ocean Abyss"*)          theme="ocean" ;;
     *"Blood Moon"*)           theme="blood-moon" ;;
     *"Carbon Mint"*)          theme="carbon-mint" ;;
+    *"Oxocarbon"*)            theme="oxocarbon" ;;
+    *"Matrix Neon"*)          theme="matrix-neon" ;;
+    *"Nordic Aurora"*)        theme="nordic-aurora" ;;
+    *"Solar Flare"*)          theme="solar-flare" ;;
+    *"Sakura Pastel"*)        theme="sakura-pastel" ;;
     *)                        exit 0 ;;
 esac
 

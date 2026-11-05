@@ -1,0 +1,8 @@
+/* Solar Flare theme */
+@define-color overlay rgba(26, 20, 18, 0.75);
+@define-color btn_bg rgba(40, 28, 24, 0.55);
+@define-color btn_border rgba(255, 119, 51, 0.25);
+@define-color btn_text #f8ebe6;
+@define-color btn_hover_bg rgba(255, 119, 51, 0.2);
+@define-color btn_hover_border #ff7733;
+@define-color btn_glow rgba(255, 180, 84, 0.5);

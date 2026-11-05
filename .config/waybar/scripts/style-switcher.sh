@@ -18,9 +18,12 @@ options="💊 Floating Capsules (Раздельные капсулы)
 💻 Bracket Tech (Хакерские скобки)
 🔳 Double Border (Двойной контур)
 💫 Glowing Strip (Светящаяся полоса)
-⏰ Center Clock Focus (Акцентные часы)"
+⏰ Center Clock Focus (Акцентные часы)
+🛸 Cyber HUD (Футуристичный интерфейс)
+💊 Frosted Glass Pills (Матовые пилюли)
+📟 Retro Terminal (Классический терминал)"
 
-chosen=$(echo "$options" | fuzzel --dmenu --lines 16 --width 36 --prompt "✨ Стиль Waybar (сверху): ")
+chosen=$(echo "$options" | fuzzel --dmenu --lines 19 --width 38 --prompt "✨ Стиль Waybar (сверху): ")
 
 if [ -z "$chosen" ]; then
     exit 0
@@ -43,6 +46,9 @@ case "$chosen" in
     *"Double Border"*)         style_file="double-border.css"; name="Double Border (Двойной контур)" ;;
     *"Glowing Strip"*)         style_file="glowing-strip.css"; name="Glowing Strip (Светящаяся полоса)" ;;
     *"Center Clock Focus"*)    style_file="split-center-clock.css"; name="Center Clock Focus (Акцентные часы)" ;;
+    *"Cyber HUD"*)             style_file="cyber-hud.css"; name="Cyber HUD (Футуристичный интерфейс)" ;;
+    *"Frosted Glass Pills"*)   style_file="glass-pill.css"; name="Frosted Glass Pills (Матовые пилюли)" ;;
+    *"Retro Terminal"*)        style_file="retro-terminal.css"; name="Retro Terminal (Классический терминал)" ;;
     *)                         exit 0 ;;
 esac
 
