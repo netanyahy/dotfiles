@@ -17,7 +17,7 @@ My personal **Hyprland** configuration for **Gentoo Linux** and **Arch Linux**.
 ![Hyprland](https://img.shields.io/badge/WM-Hyprland-blue?logo=wayland&logoColor=white)
 ![Waybar](https://img.shields.io/badge/Bar-Waybar-teal?logo=wayland&logoColor=white)
 ![Themes](https://img.shields.io/badge/Themes-30_Palettes-orange)
-![Styles](https://img.shields.io/badge/Bar_Styles-16_Layouts-violet)
+![Styles](https://img.shields.io/badge/Bar_Styles-19_Layouts-violet)
 ![Shell](https://img.shields.io/badge/Shell-Bash-green?logo=gnu-bash&logoColor=white)
 
 [**English**](#-dotfiles) | [**Русский**](#-dotfiles-на-русском)
@@ -29,7 +29,7 @@ My personal **Hyprland** configuration for **Gentoo Linux** and **Arch Linux**.
 | Component | Tool | Description |
 |---|---|---|
 | **Window Manager** | `Hyprland` | Smooth dynamic Wayland tiling powered by Lua/Hyprlang |
-| **Status Bar** | `Waybar` | 16 top-bar styles + 30 dynamic color themes with glassmorphism & neon glows |
+| **Status Bar** | `Waybar` | 19 top-bar styles + 39 dynamic color themes with glassmorphism & neon glows |
 | **App Launcher** | `Fuzzel` | Spotlight-style centered launcher, zero latency, `cliphist` clipboard integration |
 | **Power Menu** | `Wlogout` | Glass capsules with neon hover glow matching the active theme |
 | **Terminal** | `Kitty` / `Foot` | Lightning-fast GPU-accelerated terminal emulators |
@@ -70,9 +70,9 @@ All **30 themes** sync instantly across Waybar, Fuzzel, and Wlogout:
 
 ---
 
-## 🪄 Waybar Styles (16 Top-Bar Layouts)
+## 🪄 Waybar Styles (19 Top-Bar Layouts)
 
-The status bar is permanently positioned at the top (`position: top`), and its visual geometry can be swapped on the fly between 16 unixporn layout styles:
+The status bar is permanently positioned at the top (`position: top`), and its visual geometry can be swapped on the fly between 19 unixporn layout styles:
 
 * Switch layout shortcut: **`Super + Shift + B`**
 
@@ -93,9 +93,12 @@ The status bar is permanently positioned at the top (`position: top`), and its v
 14. 🔳 **Double Border** — Dual neon outlines (`border: 3px double @accent-color`) giving modules a distinct retro-futuristic depth.
 15. 💫 **Glowing Strip** — Continuous neon glow line across the entire bottom edge of the bar.
 16. ⏰ **Center Clock Focus** — Clock placed in the spotlight as the dominant center widget with an intense glow pill.
+17. 🛸 **Cyber HUD** — Futuristic sci-fi HUD with top/bottom accent rails and bracketed modules.
+18. 💊 **Frosted Glass Pills** — Separated translucent floating pills with clean border outlines.
+19. 📟 **Retro Terminal** — Boxed high-contrast monospaced classic terminal aesthetic.
 
 > [!TIP]
-> All 30 color themes are 100% compatible with each of the 16 bar styles! Mix and match any color palette (`Super + Shift + T`) with any layout (`Super + Shift + B`).
+> All 39 color themes are 100% compatible with each of the 19 bar styles! Mix and match any color palette (`Super + Shift + T`) with any layout (`Super + Shift + B`).
 
 ---
 
@@ -165,7 +168,8 @@ find ~/.config/hypr ~/.config/waybar -type f \( -name "*.sh" -o -name "*.py" \) 
 | `Super + Q` | Close active window |
 | `Super + V` | Clipboard manager (Fuzzel + cliphist) |
 | `Super + Shift + T` | Theme switcher (or Right-Click Arch icon) |
-| `Super + Shift + B` | Bar style switcher (16 top-bar layouts) |
+| `Super + Shift + B` | Bar style switcher (19 top-bar layouts) |
+| `Super + Alt + C` | Cursor theme switcher (69 cursor packs) |
 | `Super + Shift + W` | Wallpaper gallery picker (or Middle-Click Arch icon) |
 | `Super + Alt + W` | Quick wallpaper selector (Fuzzel) |
 | `Ctrl + Alt + Delete` | Power menu (Wlogout, or click power button on Waybar) |
@@ -190,7 +194,7 @@ find ~/.config/hypr ~/.config/waybar -type f \( -name "*.sh" -o -name "*.py" \) 
 | Компонент | Утилита | Описание |
 |---|---|---|
 | **Оконный менеджер** | `Hyprland` | Динамический тайлинг Wayland на Lua/Hyprlang |
-| **Панель статуса** | `Waybar` | 16 стилей панели (всегда сверху) + 30 динамических тем со стеклом и свечением |
+| **Панель статуса** | `Waybar` | 19 стилей панели (всегда сверху) + 39 динамических тем со стеклом и свечением |
 | **Лаунчер приложений** | `Fuzzel` | Spotlight-стиль, размытие фона, буфер обмена `cliphist` |
 | **Меню выключения** | `Wlogout` | Стеклянные капсулы, неоновое свечение в тон выбранной темы |
 | **Терминал** | `Kitty` / `Foot` | Быстрые эмуляторы терминалов с поддержкой GPU |
@@ -201,13 +205,13 @@ find ~/.config/hypr ~/.config/waybar -type f \( -name "*.sh" -o -name "*.py" \) 
 
 ---
 
-## 🎨 Темы оформления (30 тем)
+## 🎨 Темы оформления (39 тем)
 
 Переключение тем доступно в любой момент:
 * Нажмите **`Super + Shift + T`**
 * Либо кликните **ПКМ** по иконке Arch на панели Waybar
 
-Всего доступно **30 тем** (Waybar + Fuzzel + Wlogout меняются одновременно):
+Всего доступно **39 тем** (Waybar + Fuzzel + Wlogout меняются одновременно):
 
 ### 🌟 Базовые темы (10)
 - `Dark Glass` — тёмное стекло
@@ -254,9 +258,12 @@ find ~/.config/hypr ~/.config/waybar -type f \( -name "*.sh" -o -name "*.py" \) 
 14. 🔳 **Double Border** (Двойной контур) — двойной неоновый контур (`border: 3px double @accent-color`), придающий модулям глубину и футуристичный ретро-вид.
 15. 💫 **Glowing Strip** (Светящаяся полоса) — сплошная неоновая светящаяся полоса вдоль нижней границы всей панели (`border-bottom: 2px solid @accent-color; box-shadow: 0 4px 20px @ws-glow`).
 16. ⏰ **Center Clock Focus** (Акцентные часы) — часы выделены как главный акцентный виджет в центре панели с крупной контрастной пилюлей и интенсивным неоновым ореолом.
+17. 🛸 **Cyber HUD** (Футуристичный интерфейс) — верхние и нижние 2px рельсы, хакерские боковые скобки модулей и четкая окантовка.
+18. 💊 **Frosted Glass Pills** (Матовые пилюли) — раздельные парящие пилюли со стеклянным фоном и аккуратной окантовкой.
+19. 📟 **Retro Terminal** (Классический терминал) — моноширинный строгий терминальный вид с прямоугольными рамками.
 
 > [!TIP]
-> Все 30 цветовых тем полностью совместимы с каждым из 16 стилей оформления! Вы можете комбинировать любую цветовую палитру (`Super + Shift + T`) с любым стилем панели (`Super + Shift + B`).
+> Все 30 цветовых тем полностью совместимы с каждым из 19 стилей оформления! Вы можете комбинировать любую цветовую палитру (`Super + Shift + T`) с любым стилем панели (`Super + Shift + B`).
 
 ---
 
@@ -328,7 +335,8 @@ find ~/.config/hypr ~/.config/waybar -type f \( -name "*.sh" -o -name "*.py" \) 
 | `Super + Q` | Закрыть активное окно |
 | `Super + V` | Буфер обмена (Fuzzel + cliphist) |
 | `Super + Shift + T` | Смена темы Waybar/Fuzzel/Wlogout (или ПКМ по логотипу Arch) |
-| `Super + Shift + B` | Смена стиля Waybar (16 стилей верхней панели) |
+| `Super + Shift + B` | Смена стиля Waybar (19 стилей верхней панели) |
+| `Super + Alt + C` | Смена темы курсора (69 наборов курсоров) |
 | `Super + Shift + W` | Выбор обоев — графическая галерея миниатюр (или СКМ по логотипу Arch) |
 | `Super + Alt + W` | Быстрый выбор обоев через Fuzzel |
 | `Ctrl + Alt + Delete` (или клик по питанию Waybar) | Меню выключения (wlogout) |
