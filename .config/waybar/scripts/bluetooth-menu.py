@@ -175,7 +175,6 @@ window {{
     background: @bg-color;
     border: 1px solid @accent-color;
     border-radius: 18px;
-    box-shadow: 0 4px 20px @ws-glow;
     padding: 16px;
     animation: fadeIn 0.3s ease-out;
 }}

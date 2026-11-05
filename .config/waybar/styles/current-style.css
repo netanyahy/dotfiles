@@ -1,4 +1,4 @@
-/* Style: Three Floating Islands (Три парящих острова) */
+/* Style: Dot Matrix (Индикаторные точки) */
 
 * {
     border: none;
@@ -13,19 +13,7 @@ window#waybar {
     background: transparent;
 }
 
-/* Ровно 3 парящих острова: левый, центральный и правый */
-.modules-left,
-.modules-center,
-.modules-right {
-    background: @bg-color;
-    border: 1px solid @border-color;
-    border-radius: 16px;
-    padding: 3px 8px;
-    margin: 4px 0;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-}
-
-/* Модули сидят внутри островов без индивидуальных рамок */
+/* Плавные Dynamic Island капсулы */
 #custom-arch,
 #clock,
 #pulseaudio,
@@ -34,22 +22,24 @@ window#waybar {
 #cpu,
 #tray,
 #custom-power {
-    background: transparent;
-    border: none;
+    background: @bg-color;
     color: @text-color;
-    padding: 4px 8px;
-    margin: 2px 2px;
-    border-radius: 10px;
+    border: 1px solid @border-color;
+    border-radius: 20px;
+    padding: 5px 14px;
+    margin: 4px 3px;
 }
 
 #custom-arch {
     color: @accent-color;
-    padding-left: 8px;
+    padding-left: 14px;
+    padding-right: 14px;
 }
 
 #custom-power {
-    padding-right: 12px;
     color: @accent-color;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 #custom-arch:hover,
@@ -62,33 +52,43 @@ window#waybar {
     background: @hover-bg;
 }
 
-/* Центральный остров: воркспейсы */
+/* Воркспейсы: капсула с индикаторными точками */
 #workspaces {
-    background: transparent;
-    border: none;
-    padding: 0 2px;
-    margin: 0;
+    background: @bg-color;
+    border: 1px solid @border-color;
+    border-radius: 20px;
+    padding: 5px 12px;
+    margin: 4px 3px;
 }
 
 #workspaces button {
-    padding: 2px 10px;
-    margin: 2px 3px;
-    font-size: 14px;
-    color: @ws-inactive;
-    background: transparent;
+    font-size: 0;
+    color: transparent;
+    min-width: 10px;
+    min-height: 10px;
+    margin: 5px 5px;
+    padding: 0;
+    background: @ws-inactive;
     border-radius: 10px;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+}
+
+#workspaces button label {
+    font-size: 0;
+    color: transparent;
 }
 
 #workspaces button:hover {
-    color: @ws-hover-fg;
-    background: @ws-hover-bg;
+    background: @ws-hover-fg;
+    min-width: 14px;
 }
 
+/* Активный воркспейс растягивается в плавную овальную пилюлю 24px */
 #workspaces button.active,
 #workspaces button.focused {
-    color: @ws-active-fg;
-    background: @ws-active-bg;
+    background: @accent-color;
+    min-width: 24px;
+    min-height: 10px;
     border-radius: 10px;
-    box-shadow: 0 0 10px @ws-shadow, 0 0 18px @ws-glow;
+    border: 1px solid @accent-color;
 }

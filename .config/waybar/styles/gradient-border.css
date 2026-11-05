@@ -28,7 +28,6 @@ window#waybar {
     border-radius: 12px;
     padding: 5px 13px;
     margin: 4px 3px;
-    box-shadow: 0 0 12px @ws-glow, inset 0 0 4px @ws-glow;
     transition: all 0.25s ease;
 }
 
@@ -52,7 +51,6 @@ window#waybar {
 #cpu:hover,
 #custom-power:hover {
     background: @hover-bg;
-    box-shadow: 0 0 16px @accent-color, 0 0 24px @ws-glow;
 }
 
 /* Капсула воркспейсов с неоновой рамкой */
@@ -62,7 +60,6 @@ window#waybar {
     border-radius: 12px;
     padding: 3px 6px;
     margin: 4px 3px;
-    box-shadow: 0 0 12px @ws-glow, inset 0 0 4px @ws-glow;
 }
 
 #workspaces button {
@@ -86,5 +83,5 @@ window#waybar {
     color: @ws-active-fg;
     background: @accent-color;
     border-radius: 8px;
-    box-shadow: 0 0 14px @accent-color, 0 0 20px @ws-glow;
+    border: 1px solid @accent-color;
 }

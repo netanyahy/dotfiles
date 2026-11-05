@@ -28,7 +28,6 @@ window#waybar {
     margin: 4px 4px;
     border-radius: 20px;
     border: 1px solid @border-color;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), 0 0 10px @ws-glow;
     transition: all 0.25s ease;
 }
 
@@ -53,7 +52,6 @@ window#waybar {
 #cpu:hover,
 #custom-power:hover {
     background: @hover-bg;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45), 0 0 16px @ws-glow;
 }
 
 /* Овальная морозная капсула воркспейсов */
@@ -63,7 +61,6 @@ window#waybar {
     border-radius: 20px;
     padding: 4px 8px;
     margin: 4px 4px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), 0 0 10px @ws-glow;
 }
 
 #workspaces button {
@@ -87,5 +84,5 @@ window#waybar {
     color: @ws-active-fg;
     background: @ws-active-bg;
     border-radius: 14px;
-    box-shadow: 0 0 12px @ws-shadow, 0 0 20px @ws-glow;
+    border: 1px solid @accent-color;
 }

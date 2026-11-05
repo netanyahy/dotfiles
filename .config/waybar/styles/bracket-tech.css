@@ -31,7 +31,6 @@ window#waybar {
     border-radius: 0;
     padding: 5px 12px;
     margin: 4px 4px;
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 6px @ws-glow;
     transition: all 0.2s ease;
 }
 
@@ -56,7 +55,6 @@ window#waybar {
 #cpu:hover,
 #custom-power:hover {
     background: @hover-bg;
-    box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.7), 0 0 14px @accent-color;
 }
 
 /* Блок воркспейсов с боковыми скобками */
@@ -69,7 +67,6 @@ window#waybar {
     border-radius: 0;
     padding: 3px 6px;
     margin: 4px 4px;
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 6px @ws-glow;
 }
 
 #workspaces button {
@@ -99,5 +96,4 @@ window#waybar {
     border-left: 2px solid @ws-active-fg;
     border-right: 2px solid @ws-active-fg;
     border-radius: 0;
-    box-shadow: 0 0 10px @accent-color, 0 0 18px @ws-glow;
 }

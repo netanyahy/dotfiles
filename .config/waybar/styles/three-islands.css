@@ -22,7 +22,6 @@ window#waybar {
     border-radius: 16px;
     padding: 3px 8px;
     margin: 4px 0;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
 }
 
 /* Модули сидят внутри островов без индивидуальных рамок */
@@ -90,5 +89,5 @@ window#waybar {
     color: @ws-active-fg;
     background: @ws-active-bg;
     border-radius: 10px;
-    box-shadow: 0 0 10px @ws-shadow, 0 0 18px @ws-glow;
+    border: 1px solid @accent-color;
 }

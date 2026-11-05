@@ -20,7 +20,6 @@ window#waybar {
     border-bottom-right-radius: 16px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
 }
 
 /* Модули внутри ленты */
@@ -91,5 +90,5 @@ window#waybar {
     color: @ws-active-fg;
     background: @accent-color;
     border-radius: 6px;
-    box-shadow: 0 0 10px @ws-shadow, 0 0 16px @ws-glow;
+    border: 1px solid @accent-color;
 }

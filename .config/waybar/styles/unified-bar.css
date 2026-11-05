@@ -14,7 +14,6 @@ window#waybar {
     background: @bg-color;
     border: 1px solid @border-color;
     border-radius: 14px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 }
 
 /* Модули внутри единой ленты без отдельных рамок */
@@ -100,5 +99,5 @@ window#waybar {
     color: @ws-active-fg;
     background: @ws-active-bg;
     border-radius: 7px;
-    box-shadow: 0 0 8px @ws-shadow, 0 0 16px @ws-glow;
+    border: 1px solid @accent-color;
 }

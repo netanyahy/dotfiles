@@ -34,8 +34,7 @@ window#waybar {
     color: @text-color;
     padding: 6px 10px;
     margin: 4px 4px;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
-    transition: color 0.2s ease, text-shadow 0.2s ease;
+    transition: color 0.2s ease;
 }
 
 #custom-arch {
@@ -57,7 +56,6 @@ window#waybar {
 #cpu:hover,
 #custom-power:hover {
     color: @accent-color;
-    text-shadow: 0 0 8px @ws-shadow;
 }
 
 /* Воркспейсы: плоские, без плашек */
@@ -76,7 +74,6 @@ window#waybar {
     margin: 0 4px;
     font-size: 15px;
     color: @ws-inactive;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
     transition: all 0.25s ease;
 }
 
@@ -92,5 +89,4 @@ window#waybar {
     background: transparent;
     border-radius: 0;
     border-bottom: 3px solid @accent-color;
-    text-shadow: 0 0 10px @ws-shadow, 0 0 20px @ws-glow;
 }

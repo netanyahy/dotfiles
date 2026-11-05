@@ -17,7 +17,6 @@ window#waybar {
     border-left: 1px solid @border-color;
     border-right: 1px solid @border-color;
     border-radius: 12px;
-    box-shadow: 0 4px 20px @ws-glow, 0 8px 30px rgba(0, 0, 0, 0.35);
 }
 
 /* Модули внутри светящейся панели */
@@ -56,7 +55,6 @@ window#waybar {
 #cpu:hover,
 #custom-power:hover {
     background: @hover-bg;
-    box-shadow: 0 0 10px @ws-glow;
 }
 
 /* Воркспейсы внутри панели */
@@ -89,5 +87,5 @@ window#waybar {
     color: @ws-active-fg;
     background: @accent-color;
     border-radius: 7px;
-    box-shadow: 0 0 10px @accent-color, 0 0 18px @ws-glow;
+    border: 1px solid @accent-color;
 }
