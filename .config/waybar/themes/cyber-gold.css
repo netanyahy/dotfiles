@@ -1,0 +1,15 @@
+/* Cyber Gold (Золотисто-желтая) */
+@define-color bg-color rgba(18, 17, 10, 0.82);
+@define-color border-color rgba(255, 200, 10, 0.55);
+@define-color text-color #fff8e0;
+@define-color ws-inactive #6e6438;
+@define-color ws-hover-bg rgba(255, 200, 10, 0.22);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #ffd000;
+@define-color ws-active-fg #121004;
+@define-color ws-shadow rgba(255, 200, 10, 0.65);
+@define-color ws-glow rgba(255, 200, 10, 0.3);
+@define-color accent-color #ffd000;
+@define-color bt-color #ffd000;
+@define-color ws-active-shadow rgba(255, 200, 10, 0.65);
+@define-color hover-bg rgba(255, 200, 10, 0.2);

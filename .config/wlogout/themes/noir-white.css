@@ -1,0 +1,8 @@
+/* Noir Monochrome theme */
+@define-color overlay rgba(5, 5, 8, 0.75);
+@define-color btn_bg rgba(12, 12, 16, 0.75);
+@define-color btn_border rgba(255, 255, 255, 0.6);
+@define-color btn_text #ffffff;
+@define-color btn_hover_bg rgba(255, 255, 255, 0.2);
+@define-color btn_hover_border #ffffff;
+@define-color btn_glow rgba(255, 255, 255, 0.5);

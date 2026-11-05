@@ -1,0 +1,15 @@
+/* Noir Monochrome (Черно-белая) */
+@define-color bg-color rgba(10, 10, 12, 0.85);
+@define-color border-color rgba(255, 255, 255, 0.7);
+@define-color text-color #ffffff;
+@define-color ws-inactive #606065;
+@define-color ws-hover-bg rgba(255, 255, 255, 0.2);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #ffffff;
+@define-color ws-active-fg #0a0a0c;
+@define-color ws-shadow rgba(255, 255, 255, 0.6);
+@define-color ws-glow rgba(255, 255, 255, 0.25);
+@define-color accent-color #ffffff;
+@define-color bt-color #ffffff;
+@define-color ws-active-shadow rgba(255, 255, 255, 0.6);
+@define-color hover-bg rgba(255, 255, 255, 0.15);

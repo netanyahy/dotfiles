@@ -1,0 +1,8 @@
+/* Cyber Gold theme */
+@define-color overlay rgba(10, 9, 5, 0.7);
+@define-color btn_bg rgba(18, 17, 10, 0.65);
+@define-color btn_border rgba(255, 200, 10, 0.4);
+@define-color btn_text #fff8e0;
+@define-color btn_hover_bg rgba(45, 40, 15, 0.8);
+@define-color btn_hover_border #ffd000;
+@define-color btn_glow rgba(255, 200, 10, 0.5);

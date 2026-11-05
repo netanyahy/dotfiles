@@ -1,0 +1,15 @@
+/* Stealth Carbon (Черно-серая) */
+@define-color bg-color rgba(18, 18, 20, 0.82);
+@define-color border-color rgba(140, 145, 155, 0.5);
+@define-color text-color #d8dade;
+@define-color ws-inactive #555860;
+@define-color ws-hover-bg rgba(140, 145, 155, 0.22);
+@define-color ws-hover-fg #ffffff;
+@define-color ws-active-bg #8e95a5;
+@define-color ws-active-fg #101012;
+@define-color ws-shadow rgba(140, 145, 155, 0.6);
+@define-color ws-glow rgba(140, 145, 155, 0.25);
+@define-color accent-color #8e95a5;
+@define-color bt-color #8e95a5;
+@define-color ws-active-shadow rgba(140, 145, 155, 0.6);
+@define-color hover-bg rgba(140, 145, 155, 0.18);
