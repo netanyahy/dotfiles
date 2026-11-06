@@ -169,6 +169,8 @@ find ~/.config/hypr ~/.config/waybar -type f \( -name "*.sh" -o -name "*.py" \) 
 | `Super + V` | Clipboard manager (Fuzzel + cliphist) |
 | `Super + Shift + T` | Theme switcher (or Right-Click Arch icon) |
 | `Super + Shift + B` | Bar style switcher (19 top-bar layouts) |
+| `Super + Shift + D` | Window settings & decorations menu (Fuzzel) |
+| `Super + Shift + G` | Window gaps & geometry menu (Fuzzel) |
 | `Super + Alt + C` | Cursor theme switcher (69 cursor packs) |
 | `Super + Shift + W` | Wallpaper gallery picker (or Middle-Click Arch icon) |
 | `Super + Alt + W` | Quick wallpaper selector (Fuzzel) |
@@ -336,6 +338,8 @@ find ~/.config/hypr ~/.config/waybar -type f \( -name "*.sh" -o -name "*.py" \) 
 | `Super + V` | Буфер обмена (Fuzzel + cliphist) |
 | `Super + Shift + T` | Смена темы Waybar/Fuzzel/Wlogout (или ПКМ по логотипу Arch) |
 | `Super + Shift + B` | Смена стиля Waybar (19 стилей верхней панели) |
+| `Super + Shift + D` | Меню настроек окон и декораций (Fuzzel) |
+| `Super + Shift + G` | Меню отступов и геометрии окон (Fuzzel) |
 | `Super + Alt + C` | Смена темы курсора (69 наборов курсоров) |
 | `Super + Shift + W` | Выбор обоев — графическая галерея миниатюр (или СКМ по логотипу Arch) |
 | `Super + Alt + W` | Быстрый выбор обоев через Fuzzel |

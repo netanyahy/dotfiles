@@ -1,0 +1,1032 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# hypr-window-settings (window-settings-fuzzel.sh)
+# Comprehensive interactive Fuzzel menu for Hyprland window decorations & layout.
+# Supports English and Russian, with automatic parser detection (Lua / legacy).
+# ==============================================================================
+
+set -o pipefail
+export LC_NUMERIC=C
+
+STATE_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/hypr/.window-settings-state"
+CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/hypr"
+mkdir -p "$CONFIG_DIR"
+
+# ------------------------------------------------------------------------------
+# 1. Compatibility & Parser Detection
+# ------------------------------------------------------------------------------
+IS_LUA=false
+if hyprctl eval "return 1" 2>&1 | grep -q "ok"; then
+    IS_LUA=true
+fi
+
+# Detect shadow property name
+if hyprctl -j getoption decoration:shadow:enabled 2>&1 | grep -q '"option"'; then
+    SHADOW_KEY="decoration:shadow:enabled"
+else
+    SHADOW_KEY="decoration:drop_shadow"
+fi
+
+# ------------------------------------------------------------------------------
+# 2. Reading Hyprland Settings
+# ------------------------------------------------------------------------------
+get_hl_int() {
+    hyprctl -j getoption "$1" 2>/dev/null | jq -r 'if .int != null then .int else empty end'
+}
+
+get_hl_bool() {
+    hyprctl -j getoption "$1" 2>/dev/null | jq -r 'if .bool != null then .bool else empty end'
+}
+
+get_hl_float() {
+    local val
+    val=$(hyprctl -j getoption "$1" 2>/dev/null | jq -r 'if .float != null then .float else empty end')
+    if [ -n "$val" ]; then
+        awk -v v="$val" 'BEGIN { printf "%.2f", v }'
+    fi
+}
+
+get_hl_gap() {
+    local raw
+    raw=$(hyprctl -j getoption "$1" 2>/dev/null | jq -r 'if .css != null then .css else empty end')
+    echo "${raw%% *}"
+}
+
+# ------------------------------------------------------------------------------
+# 3. Applying Hyprland Settings (Lua eval or hyprctl keyword)
+# ------------------------------------------------------------------------------
+apply_setting() {
+    local opt_key="$1"
+    local opt_val="$2"
+    local lua_code="$3"
+
+    if [ "$IS_LUA" = "true" ] && [ -n "$lua_code" ]; then
+        hyprctl eval "$lua_code" >/dev/null 2>&1
+    else
+        hyprctl keyword "$opt_key" "$opt_val" >/dev/null 2>&1
+    fi
+}
+
+# ------------------------------------------------------------------------------
+# 4. State & Defaults Persistence
+# ------------------------------------------------------------------------------
+load_state() {
+    local created_new=false
+    if [ -f "$STATE_FILE" ]; then
+        # shellcheck disable=SC1090
+        source "$STATE_FILE"
+    else
+        created_new=true
+    fi
+
+    # Read current or provide sane non-zero defaults
+    local cur_r cur_gi cur_go cur_b
+    cur_r=$(get_hl_int decoration:rounding)
+    cur_gi=$(get_hl_gap general:gaps_in)
+    cur_go=$(get_hl_gap general:gaps_out)
+    cur_b=$(get_hl_int general:border_size)
+
+    [ -z "$DEF_ROUNDING" ] && { [ -n "$cur_r" ] && [ "$cur_r" -gt 0 ] && DEF_ROUNDING="$cur_r" || DEF_ROUNDING="18"; }
+    [ -z "$DEF_GAPS_IN" ] && { [ -n "$cur_gi" ] && [ "$cur_gi" -gt 0 ] && DEF_GAPS_IN="$cur_gi" || DEF_GAPS_IN="4"; }
+    [ -z "$DEF_GAPS_OUT" ] && { [ -n "$cur_go" ] && [ "$cur_go" -gt 0 ] && DEF_GAPS_OUT="$cur_go" || DEF_GAPS_OUT="5"; }
+    [ -z "$DEF_BORDER" ] && { [ -n "$cur_b" ] && [ "$cur_b" -gt 0 ] && DEF_BORDER="$cur_b" || DEF_BORDER="1"; }
+
+    [ -z "$DEF_ACTIVE_OPACITY" ] && DEF_ACTIVE_OPACITY="$(get_hl_float decoration:active_opacity)"
+    DEF_ACTIVE_OPACITY="${DEF_ACTIVE_OPACITY:-1.00}"
+
+    [ -z "$DEF_INACTIVE_OPACITY" ] && DEF_INACTIVE_OPACITY="$(get_hl_float decoration:inactive_opacity)"
+    DEF_INACTIVE_OPACITY="${DEF_INACTIVE_OPACITY:-1.00}"
+
+    [ -z "$DEF_BLUR" ] && DEF_BLUR="$(get_hl_bool decoration:blur:enabled)"
+    DEF_BLUR="${DEF_BLUR:-true}"
+
+    [ -z "$DEF_SHADOW" ] && DEF_SHADOW="$(get_hl_bool "$SHADOW_KEY")"
+    DEF_SHADOW="${DEF_SHADOW:-true}"
+
+    [ -z "$DEF_ANIMATIONS" ] && DEF_ANIMATIONS="$(get_hl_bool animations:enabled)"
+    DEF_ANIMATIONS="${DEF_ANIMATIONS:-true}"
+
+    [ -z "$DEF_DIM_INACTIVE" ] && DEF_DIM_INACTIVE="$(get_hl_bool decoration:dim_inactive)"
+    DEF_DIM_INACTIVE="${DEF_DIM_INACTIVE:-true}"
+
+    [ -z "$DEF_DIM_AROUND" ] && DEF_DIM_AROUND="$(get_hl_float decoration:dim_around)"
+    DEF_DIM_AROUND="${DEF_DIM_AROUND:-0.40}"
+
+    if [ "$created_new" = "true" ]; then
+        save_state
+    fi
+}
+
+save_state() {
+    cat <<EOF > "$STATE_FILE"
+# Hyprland Window Settings State
+SAVED_LANG="$CURRENT_LANG"
+DEF_ROUNDING="$DEF_ROUNDING"
+DEF_GAPS_IN="$DEF_GAPS_IN"
+DEF_GAPS_OUT="$DEF_GAPS_OUT"
+DEF_BORDER="$DEF_BORDER"
+DEF_ACTIVE_OPACITY="$DEF_ACTIVE_OPACITY"
+DEF_INACTIVE_OPACITY="$DEF_INACTIVE_OPACITY"
+DEF_BLUR="$DEF_BLUR"
+DEF_SHADOW="$DEF_SHADOW"
+DEF_ANIMATIONS="$DEF_ANIMATIONS"
+DEF_DIM_INACTIVE="$DEF_DIM_INACTIVE"
+DEF_DIM_AROUND="$DEF_DIM_AROUND"
+EOF
+}
+
+# ------------------------------------------------------------------------------
+# 5. Language & Localization
+# ------------------------------------------------------------------------------
+init_language() {
+    if [ -n "$CLI_LANG" ]; then
+        CURRENT_LANG="$CLI_LANG"
+    elif [ -n "$SAVED_LANG" ]; then
+        CURRENT_LANG="$SAVED_LANG"
+    elif [ -n "$HYPR_SETTINGS_LANG" ]; then
+        CURRENT_LANG="$HYPR_SETTINGS_LANG"
+    else
+        case "${LANG:-en}" in
+            ru*|uk*|be*) CURRENT_LANG="ru" ;;
+            *)           CURRENT_LANG="en" ;;
+        esac
+    fi
+}
+
+msg() {
+    local key="$1"
+    if [ "$CURRENT_LANG" = "ru" ]; then
+        case "$key" in
+            # Main Menu
+            main_prompt)        echo "⚙️ Настройки окон Hyprland: " ;;
+            m_rounding)         echo "🔲 Закругление углов" ;;
+            m_gaps)             echo "↔️ Отступы окон (Gaps)" ;;
+            m_border)           echo "🖼️ Рамка окна (Border)" ;;
+            m_opacity)          echo "👁️ Прозрачность (Opacity)" ;;
+            m_blur)             echo "💧 Размытие (Blur)" ;;
+            m_shadow)           echo "🌘 Тени окон (Shadows)" ;;
+            m_animations)       echo "✨ Анимации (Animations)" ;;
+            m_dim_inactive)     echo "🌓 Затемнение неактивных (Dim)" ;;
+            m_dim_around)       echo "🎯 Затемнение фона (Dim around)" ;;
+            m_lang_switch)      echo "🌐 Язык: Русский ➔ English" ;;
+            m_reset)            echo "🔄 Сброс всех настроек к по умолчанию" ;;
+            m_exit)             echo "🚪 Выход" ;;
+
+            # Common labels
+            on)                 echo "ВКЛ" ;;
+            off)                echo "ВЫКЛ" ;;
+            current)            echo "текущее" ;;
+            default)            echo "по умолчанию" ;;
+            back)               echo "⬅ Назад" ;;
+            toggle)             echo "⚡ Быстрое переключение" ;;
+            increase)           echo "➕ Увеличить" ;;
+            decrease)           echo "➖ Уменьшить" ;;
+            none)               echo "Без скругления / 0px" ;;
+            small)              echo "Маленькое" ;;
+            medium)             echo "Среднее" ;;
+            large)              echo "Большое" ;;
+            extra)              echo "Экстра" ;;
+
+            # Submenu Prompts
+            p_rounding)         echo "🔲 Закругление углов [текущее: %spx]: " ;;
+            p_gaps)             echo "↔️ Отступы [Внутри: %spx | Снаружи: %spx]: " ;;
+            p_gaps_in)          echo "📐 Внутренние отступы [текущее: %spx]: " ;;
+            p_gaps_out)         echo "📦 Внешние отступы [текущее: %spx]: " ;;
+            p_border)           echo "🖼️ Рамка окна [текущая: %spx]: " ;;
+            p_opacity)          echo "👁️ Прозрачность [Акт: %s | Неакт: %s]: " ;;
+            p_opacity_act)      echo "🌟 Активные окна [текущее: %s]: " ;;
+            p_opacity_inact)    echo "💤 Неактивные окна [текущее: %s]: " ;;
+            p_dim_around)       echo "🎯 Затемнение фона [текущее: %s]: " ;;
+
+            # Gaps options
+            g_in_menu)          echo "📐 Внутренние отступы (Inner Gaps) ➔" ;;
+            g_out_menu)         echo "📦 Внешние отступы (Outer Gaps) ➔" ;;
+            g_preset_none)      echo "🔘 0 / 0 px — Без отступов" ;;
+            g_preset_compact)   echo "🔘 2 / 3 px — Компактные" ;;
+            g_preset_def)       echo "🔘 4 / 5 px — Стандартные" ;;
+            g_preset_cozy)      echo "🔘 6 / 8 px — Средние" ;;
+            g_preset_wide)      echo "🔘 10 / 14 px — Просторные" ;;
+            g_preset_huge)      echo "🔘 16 / 22 px — Максимальные" ;;
+
+            # Opacity presets
+            op_act_menu)        echo "🌟 Активные окна (Active Opacity) ➔" ;;
+            op_inact_menu)      echo "💤 Неактивные окна (Inactive Opacity) ➔" ;;
+            op_solid)           echo "🔘 1.00 / 1.00 — Непрозрачные окна" ;;
+            op_focus_soft)      echo "🔘 1.00 / 0.90 — Мягкий акцент на фокусе" ;;
+            op_focus_hard)      echo "🔘 1.00 / 0.80 — Выраженный акцент на фокусе" ;;
+            op_glass)           echo "🔘 0.95 / 0.85 — Стеклянный стиль (Glass)" ;;
+            op_ghost)           echo "🔘 0.90 / 0.75 — Высокая полупрозрачность" ;;
+
+            # Notifications
+            notif_title)        echo "Настройки окон Hyprland" ;;
+            notif_rounding)     echo "Закругление углов: %spx" ;;
+            notif_gaps)         echo "Отступы: внутри %spx, снаружи %spx" ;;
+            notif_border)       echo "Толщина рамки: %spx" ;;
+            notif_opacity)      echo "Прозрачность: активные %s, неактивные %s" ;;
+            notif_blur)         echo "Размытие (Blur): %s" ;;
+            notif_shadow)       echo "Тени (Shadows): %s" ;;
+            notif_anim)         echo "Анимации: %s" ;;
+            notif_dim)          echo "Затемнение неактивных: %s" ;;
+            notif_dim_around)   echo "Затемнение фона: %s" ;;
+            notif_reset)        echo "Все настройки сброшены к стандартным" ;;
+            notif_lang)         echo "Язык интерфейса изменен на Русский" ;;
+        esac
+    else
+        case "$key" in
+            # Main Menu
+            main_prompt)        echo "⚙️ Hyprland Window Settings: " ;;
+            m_rounding)         echo "🔲 Window Rounding" ;;
+            m_gaps)             echo "↔️ Window Gaps" ;;
+            m_border)           echo "🖼️ Window Border" ;;
+            m_opacity)          echo "👁️ Window Opacity" ;;
+            m_blur)             echo "💧 Window Blur" ;;
+            m_shadow)           echo "🌘 Window Shadows" ;;
+            m_animations)       echo "✨ Window Animations" ;;
+            m_dim_inactive)     echo "🌓 Dim Inactive Windows" ;;
+            m_dim_around)       echo "🎯 Dim Around Floating" ;;
+            m_lang_switch)      echo "🌐 Language: English ➔ Русский" ;;
+            m_reset)            echo "🔄 Reset All to Defaults" ;;
+            m_exit)             echo "🚪 Exit" ;;
+
+            # Common labels
+            on)                 echo "ON" ;;
+            off)                echo "OFF" ;;
+            current)            echo "current" ;;
+            default)            echo "default" ;;
+            back)               echo "⬅ Back" ;;
+            toggle)             echo "⚡ Quick Toggle" ;;
+            increase)           echo "➕ Increase" ;;
+            decrease)           echo "➖ Decrease" ;;
+            none)               echo "Sharp / 0px" ;;
+            small)              echo "Small" ;;
+            medium)             echo "Medium" ;;
+            large)              echo "Large" ;;
+            extra)              echo "Extra" ;;
+
+            # Submenu Prompts
+            p_rounding)         echo "🔲 Rounding [current: %spx]: " ;;
+            p_gaps)             echo "↔️ Gaps [Inner: %spx | Outer: %spx]: " ;;
+            p_gaps_in)          echo "📐 Inner Gaps [current: %spx]: " ;;
+            p_gaps_out)         echo "📦 Outer Gaps [current: %spx]: " ;;
+            p_border)           echo "🖼️ Window Border [current: %spx]: " ;;
+            p_opacity)          echo "👁️ Opacity [Act: %s | Inact: %s]: " ;;
+            p_opacity_act)      echo "🌟 Active Opacity [current: %s]: " ;;
+            p_opacity_inact)    echo "💤 Inactive Opacity [current: %s]: " ;;
+            p_dim_around)       echo "🎯 Dim Around [current: %s]: " ;;
+
+            # Gaps options
+            g_in_menu)          echo "📐 Inner Gaps (fine tune) ➔" ;;
+            g_out_menu)         echo "📦 Outer Gaps (fine tune) ➔" ;;
+            g_preset_none)      echo "🔘 0 / 0 px — No Gaps" ;;
+            g_preset_compact)   echo "🔘 2 / 3 px — Compact" ;;
+            g_preset_def)       echo "🔘 4 / 5 px — Default" ;;
+            g_preset_cozy)      echo "🔘 6 / 8 px — Cozy" ;;
+            g_preset_wide)      echo "🔘 10 / 14 px — Spacious" ;;
+            g_preset_huge)      echo "🔘 16 / 22 px — Maximum" ;;
+
+            # Opacity presets
+            op_act_menu)        echo "🌟 Active Windows Opacity ➔" ;;
+            op_inact_menu)      echo "💤 Inactive Windows Opacity ➔" ;;
+            op_solid)           echo "🔘 1.00 / 1.00 — Solid Opaque" ;;
+            op_focus_soft)      echo "🔘 1.00 / 0.90 — Soft Inactive Dim" ;;
+            op_focus_hard)      echo "🔘 1.00 / 0.80 — High Contrast Focus" ;;
+            op_glass)           echo "🔘 0.95 / 0.85 — Translucent Glass" ;;
+            op_ghost)           echo "🔘 0.90 / 0.75 — Ghost Translucent" ;;
+
+            # Notifications
+            notif_title)        echo "Hyprland Window Settings" ;;
+            notif_rounding)     echo "Corner Rounding: %spx" ;;
+            notif_gaps)         echo "Gaps: inner %spx, outer %spx" ;;
+            notif_border)       echo "Border Size: %spx" ;;
+            notif_opacity)      echo "Opacity: active %s, inactive %s" ;;
+            notif_blur)         echo "Blur: %s" ;;
+            notif_shadow)       echo "Shadows: %s" ;;
+            notif_anim)         echo "Animations: %s" ;;
+            notif_dim)          echo "Dim Inactive: %s" ;;
+            notif_dim_around)   echo "Dim Around: %s" ;;
+            notif_reset)        echo "All settings restored to defaults" ;;
+            notif_lang)         echo "Interface language switched to English" ;;
+        esac
+    fi
+}
+
+send_notif() {
+    local text="$1"
+    if command -v notify-send >/dev/null 2>&1; then
+        notify-send -h string:x-canonical-private-synchronous:hypr-settings \
+                    -i preferences-desktop-theme \
+                    "$(msg notif_title)" "$text" 2>/dev/null || true
+    fi
+}
+
+# ------------------------------------------------------------------------------
+# 6. Math Helpers
+# ------------------------------------------------------------------------------
+int_adjust() {
+    local val=$1
+    local delta=$2
+    local min=${3:-0}
+    local max=${4:-100}
+    local res=$(( val + delta ))
+    [ "$res" -lt "$min" ] && res=$min
+    [ "$res" -gt "$max" ] && res=$max
+    echo "$res"
+}
+
+float_adjust() {
+    awk -v a="$1" -v b="$2" -v min="$3" -v max="$4" 'BEGIN {
+        res = a + b;
+        if (min != "" && res < min) res = min;
+        if (max != "" && res > max) res = max;
+        printf "%.2f", res;
+    }'
+}
+
+# ------------------------------------------------------------------------------
+# 7. Action Implementations
+# ------------------------------------------------------------------------------
+
+# --- Rounding ---
+set_rounding() {
+    local val="$1"
+    apply_setting "decoration:rounding" "$val" "hl.config({ decoration = { rounding = $val } })"
+    send_notif "$(printf "$(msg notif_rounding)" "$val")"
+}
+
+toggle_rounding() {
+    local cur
+    cur=$(get_hl_int decoration:rounding)
+    if [ "$cur" -gt 0 ]; then
+        set_rounding 0
+    else
+        set_rounding "${DEF_ROUNDING:-18}"
+    fi
+}
+
+menu_rounding() {
+    while true; do
+        local cur
+        cur=$(get_hl_int decoration:rounding)
+        local prompt
+        prompt=$(printf "$(msg p_rounding)" "$cur")
+
+        local items=(
+            "$(msg toggle) (0px ↔ ${DEF_ROUNDING}px)"
+            "$(msg increase) (+2px)"
+            "$(msg decrease) (-2px)"
+            "🔘 0px  — $(msg none)"
+            "🔘 5px  — $(msg small)"
+            "🔘 10px — $(msg medium)"
+            "🔘 14px — $(msg current)"
+            "🔘 18px — $(msg default) (18px)"
+            "🔘 24px — $(msg large)"
+            "🔘 30px — $(msg extra)"
+            "$(msg back)"
+        )
+
+        local chosen
+        chosen=$(printf '%s\n' "${items[@]}" | fuzzel --dmenu --lines 11 --width 46 --prompt "$prompt" --no-sort)
+        [ -z "$chosen" ] && return 0
+
+        case "$chosen" in
+            *"$(msg back)"*) return 0 ;;
+            *"$(msg toggle)"*) toggle_rounding ;;
+            *"$(msg increase)"*) set_rounding "$(int_adjust "$cur" 2 0 60)" ;;
+            *"$(msg decrease)"*) set_rounding "$(int_adjust "$cur" -2 0 60)" ;;
+            *"0px"*)  set_rounding 0 ;;
+            *"5px"*)  set_rounding 5 ;;
+            *"10px"*) set_rounding 10 ;;
+            *"14px"*) set_rounding 14 ;;
+            *"18px"*) set_rounding 18 ;;
+            *"24px"*) set_rounding 24 ;;
+            *"30px"*) set_rounding 30 ;;
+        esac
+    done
+}
+
+# --- Gaps ---
+set_gaps() {
+    local gin="$1"
+    local gout="$2"
+    apply_setting "general:gaps_in" "$gin" "hl.config({ general = { gaps_in = $gin, gaps_out = $gout } })"
+    apply_setting "general:gaps_out" "$gout" ""
+    send_notif "$(printf "$(msg notif_gaps)" "$gin" "$gout")"
+}
+
+toggle_gaps() {
+    local gin gout
+    gin=$(get_hl_gap general:gaps_in)
+    gout=$(get_hl_gap general:gaps_out)
+    if [ "$gin" -gt 0 ] || [ "$gout" -gt 0 ]; then
+        set_gaps 0 0
+    else
+        set_gaps "${DEF_GAPS_IN:-4}" "${DEF_GAPS_OUT:-5}"
+    fi
+}
+
+menu_gaps_in() {
+    while true; do
+        local gin gout
+        gin=$(get_hl_gap general:gaps_in)
+        gout=$(get_hl_gap general:gaps_out)
+        local prompt
+        prompt=$(printf "$(msg p_gaps_in)" "$gin")
+
+        local items=(
+            "$(msg increase) (+2px)"
+            "$(msg decrease) (-2px)"
+            "🔘 0px" "🔘 2px" "🔘 4px" "🔘 6px" "🔘 8px" "🔘 12px" "🔘 16px"
+            "$(msg back)"
+        )
+
+        local chosen
+        chosen=$(printf '%s\n' "${items[@]}" | fuzzel --dmenu --lines 10 --width 46 --prompt "$prompt" --no-sort)
+        [ -z "$chosen" ] && return 0
+
+        case "$chosen" in
+            *"$(msg back)"*) return 0 ;;
+            *"$(msg increase)"*) set_gaps "$(int_adjust "$gin" 2 0 60)" "$gout" ;;
+            *"$(msg decrease)"*) set_gaps "$(int_adjust "$gin" -2 0 60)" "$gout" ;;
+            *"🔘 "*)
+                local val
+                val=$(echo "$chosen" | grep -o '[0-9]\+')
+                [ -n "$val" ] && set_gaps "$val" "$gout"
+                ;;
+        esac
+    done
+}
+
+menu_gaps_out() {
+    while true; do
+        local gin gout
+        gin=$(get_hl_gap general:gaps_in)
+        gout=$(get_hl_gap general:gaps_out)
+        local prompt
+        prompt=$(printf "$(msg p_gaps_out)" "$gout")
+
+        local items=(
+            "$(msg increase) (+2px)"
+            "$(msg decrease) (-2px)"
+            "🔘 0px" "🔘 3px" "🔘 5px" "🔘 8px" "🔘 10px" "🔘 15px" "🔘 20px"
+            "$(msg back)"
+        )
+
+        local chosen
+        chosen=$(printf '%s\n' "${items[@]}" | fuzzel --dmenu --lines 10 --width 46 --prompt "$prompt" --no-sort)
+        [ -z "$chosen" ] && return 0
+
+        case "$chosen" in
+            *"$(msg back)"*) return 0 ;;
+            *"$(msg increase)"*) set_gaps "$gin" "$(int_adjust "$gout" 2 0 80)" ;;
+            *"$(msg decrease)"*) set_gaps "$gin" "$(int_adjust "$gout" -2 0 80)" ;;
+            *"🔘 "*)
+                local val
+                val=$(echo "$chosen" | grep -o '[0-9]\+')
+                [ -n "$val" ] && set_gaps "$gin" "$val"
+                ;;
+        esac
+    done
+}
+
+menu_gaps() {
+    while true; do
+        local gin gout
+        gin=$(get_hl_gap general:gaps_in)
+        gout=$(get_hl_gap general:gaps_out)
+        local prompt
+        prompt=$(printf "$(msg p_gaps)" "$gin" "$gout")
+
+        local items=(
+            "$(msg toggle) (0/0 ↔ ${DEF_GAPS_IN}/${DEF_GAPS_OUT})"
+            "$(msg g_in_menu)"
+            "$(msg g_out_menu)"
+            "$(msg g_preset_none)"
+            "$(msg g_preset_compact)"
+            "$(msg g_preset_def)"
+            "$(msg g_preset_cozy)"
+            "$(msg g_preset_wide)"
+            "$(msg g_preset_huge)"
+            "$(msg back)"
+        )
+
+        local chosen
+        chosen=$(printf '%s\n' "${items[@]}" | fuzzel --dmenu --lines 10 --width 46 --prompt "$prompt" --no-sort)
+        [ -z "$chosen" ] && return 0
+
+        case "$chosen" in
+            *"$(msg back)"*) return 0 ;;
+            *"$(msg toggle)"*) toggle_gaps ;;
+            *"$(msg g_in_menu)"*) menu_gaps_in ;;
+            *"$(msg g_out_menu)"*) menu_gaps_out ;;
+            *"g_preset_none"*|*"0 / 0"*)       set_gaps 0 0 ;;
+            *"g_preset_compact"*|*"2 / 3"*)   set_gaps 2 3 ;;
+            *"g_preset_def"*|*"4 / 5"*)       set_gaps 4 5 ;;
+            *"g_preset_cozy"*|*"6 / 8"*)      set_gaps 6 8 ;;
+            *"g_preset_wide"*|*"10 / 14"*)    set_gaps 10 14 ;;
+            *"g_preset_huge"*|*"16 / 22"*)    set_gaps 16 22 ;;
+        esac
+    done
+}
+
+# --- Border Size ---
+set_border() {
+    local val="$1"
+    apply_setting "general:border_size" "$val" "hl.config({ general = { border_size = $val } })"
+    send_notif "$(printf "$(msg notif_border)" "$val")"
+}
+
+toggle_border() {
+    local cur
+    cur=$(get_hl_int general:border_size)
+    if [ "$cur" -gt 0 ]; then
+        set_border 0
+    else
+        set_border "${DEF_BORDER:-1}"
+    fi
+}
+
+menu_border() {
+    while true; do
+        local cur
+        cur=$(get_hl_int general:border_size)
+        local prompt
+        prompt=$(printf "$(msg p_border)" "$cur")
+
+        local items=(
+            "$(msg toggle) (0px ↔ ${DEF_BORDER}px)"
+            "$(msg increase) (+1px)"
+            "$(msg decrease) (-1px)"
+            "🔘 0px — $(msg none)"
+            "🔘 1px — $(msg default) (1px)"
+            "🔘 2px — $(msg medium) (2px)"
+            "🔘 3px — $(msg large) (3px)"
+            "🔘 4px — $(msg extra) (4px)"
+            "$(msg back)"
+        )
+
+        local chosen
+        chosen=$(printf '%s\n' "${items[@]}" | fuzzel --dmenu --lines 9 --width 46 --prompt "$prompt" --no-sort)
+        [ -z "$chosen" ] && return 0
+
+        case "$chosen" in
+            *"$(msg back)"*) return 0 ;;
+            *"$(msg toggle)"*) toggle_border ;;
+            *"$(msg increase)"*) set_border "$(int_adjust "$cur" 1 0 10)" ;;
+            *"$(msg decrease)"*) set_border "$(int_adjust "$cur" -1 0 10)" ;;
+            *"0px"*) set_border 0 ;;
+            *"1px"*) set_border 1 ;;
+            *"2px"*) set_border 2 ;;
+            *"3px"*) set_border 3 ;;
+            *"4px"*) set_border 4 ;;
+        esac
+    done
+}
+
+# --- Opacity ---
+set_opacity() {
+    local act="$1"
+    local inact="$2"
+    apply_setting "decoration:active_opacity" "$act" "hl.config({ decoration = { active_opacity = $act, inactive_opacity = $inact } })"
+    apply_setting "decoration:inactive_opacity" "$inact" ""
+    send_notif "$(printf "$(msg notif_opacity)" "$act" "$inact")"
+}
+
+menu_opacity_active() {
+    while true; do
+        local act inact
+        act=$(get_hl_float decoration:active_opacity)
+        inact=$(get_hl_float decoration:inactive_opacity)
+        local prompt
+        prompt=$(printf "$(msg p_opacity_act)" "$act")
+
+        local items=(
+            "$(msg increase) (+0.05)"
+            "$(msg decrease) (-0.05)"
+            "🔘 1.00 — 100%"
+            "🔘 0.95 — 95%"
+            "🔘 0.90 — 90%"
+            "🔘 0.85 — 85%"
+            "🔘 0.80 — 80%"
+            "$(msg back)"
+        )
+
+        local chosen
+        chosen=$(printf '%s\n' "${items[@]}" | fuzzel --dmenu --lines 8 --width 46 --prompt "$prompt" --no-sort)
+        [ -z "$chosen" ] && return 0
+
+        case "$chosen" in
+            *"$(msg back)"*) return 0 ;;
+            *"$(msg increase)"*) set_opacity "$(float_adjust "$act" 0.05 0.30 1.00)" "$inact" ;;
+            *"$(msg decrease)"*) set_opacity "$(float_adjust "$act" -0.05 0.30 1.00)" "$inact" ;;
+            *"1.00"*) set_opacity 1.00 "$inact" ;;
+            *"0.95"*) set_opacity 0.95 "$inact" ;;
+            *"0.90"*) set_opacity 0.90 "$inact" ;;
+            *"0.85"*) set_opacity 0.85 "$inact" ;;
+            *"0.80"*) set_opacity 0.80 "$inact" ;;
+        esac
+    done
+}
+
+menu_opacity_inactive() {
+    while true; do
+        local act inact
+        act=$(get_hl_float decoration:active_opacity)
+        inact=$(get_hl_float decoration:inactive_opacity)
+        local prompt
+        prompt=$(printf "$(msg p_opacity_inact)" "$inact")
+
+        local items=(
+            "$(msg increase) (+0.05)"
+            "$(msg decrease) (-0.05)"
+            "🔘 1.00 — 100%"
+            "🔘 0.95 — 95%"
+            "🔘 0.90 — 90%"
+            "🔘 0.85 — 85%"
+            "🔘 0.80 — 80%"
+            "🔘 0.70 — 70%"
+            "$(msg back)"
+        )
+
+        local chosen
+        chosen=$(printf '%s\n' "${items[@]}" | fuzzel --dmenu --lines 9 --width 46 --prompt "$prompt" --no-sort)
+        [ -z "$chosen" ] && return 0
+
+        case "$chosen" in
+            *"$(msg back)"*) return 0 ;;
+            *"$(msg increase)"*) set_opacity "$act" "$(float_adjust "$inact" 0.05 0.20 1.00)" ;;
+            *"$(msg decrease)"*) set_opacity "$act" "$(float_adjust "$inact" -0.05 0.20 1.00)" ;;
+            *"1.00"*) set_opacity "$act" 1.00 ;;
+            *"0.95"*) set_opacity "$act" 0.95 ;;
+            *"0.90"*) set_opacity "$act" 0.90 ;;
+            *"0.85"*) set_opacity "$act" 0.85 ;;
+            *"0.80"*) set_opacity "$act" 0.80 ;;
+            *"0.70"*) set_opacity "$act" 0.70 ;;
+        esac
+    done
+}
+
+menu_opacity() {
+    while true; do
+        local act inact
+        act=$(get_hl_float decoration:active_opacity)
+        inact=$(get_hl_float decoration:inactive_opacity)
+        local prompt
+        prompt=$(printf "$(msg p_opacity)" "$act" "$inact")
+
+        local items=(
+            "$(msg op_solid)"
+            "$(msg op_focus_soft)"
+            "$(msg op_focus_hard)"
+            "$(msg op_glass)"
+            "$(msg op_ghost)"
+            "$(msg op_act_menu)"
+            "$(msg op_inact_menu)"
+            "$(msg back)"
+        )
+
+        local chosen
+        chosen=$(printf '%s\n' "${items[@]}" | fuzzel --dmenu --lines 8 --width 46 --prompt "$prompt" --no-sort)
+        [ -z "$chosen" ] && return 0
+
+        case "$chosen" in
+            *"$(msg back)"*) return 0 ;;
+            *"$(msg op_act_menu)"*) menu_opacity_active ;;
+            *"$(msg op_inact_menu)"*) menu_opacity_inactive ;;
+            *"1.00 / 1.00"*) set_opacity 1.00 1.00 ;;
+            *"1.00 / 0.90"*) set_opacity 1.00 0.90 ;;
+            *"1.00 / 0.80"*) set_opacity 1.00 0.80 ;;
+            *"0.95 / 0.85"*) set_opacity 0.95 0.85 ;;
+            *"0.90 / 0.75"*) set_opacity 0.90 0.75 ;;
+        esac
+    done
+}
+
+# --- Blur ---
+toggle_blur() {
+    local cur
+    cur=$(get_hl_bool decoration:blur:enabled)
+    local target="true"
+    [ "$cur" = "true" ] && target="false"
+    apply_setting "decoration:blur:enabled" "$target" "hl.config({ decoration = { blur = { enabled = $target } } })"
+    local status_lbl
+    [ "$target" = "true" ] && status_lbl="$(msg on)" || status_lbl="$(msg off)"
+    send_notif "$(printf "$(msg notif_blur)" "$status_lbl")"
+}
+
+# --- Shadows ---
+toggle_shadow() {
+    local cur
+    cur=$(get_hl_bool "$SHADOW_KEY")
+    local target="true"
+    [ "$cur" = "true" ] && target="false"
+    apply_setting "$SHADOW_KEY" "$target" "hl.config({ decoration = { shadow = { enabled = $target } } })"
+    local status_lbl
+    [ "$target" = "true" ] && status_lbl="$(msg on)" || status_lbl="$(msg off)"
+    send_notif "$(printf "$(msg notif_shadow)" "$status_lbl")"
+}
+
+# --- Animations ---
+toggle_animations() {
+    local cur
+    cur=$(get_hl_bool animations:enabled)
+    local target="true"
+    [ "$cur" = "true" ] && target="false"
+    apply_setting "animations:enabled" "$target" "hl.config({ animations = { enabled = $target } })"
+    local status_lbl
+    [ "$target" = "true" ] && status_lbl="$(msg on)" || status_lbl="$(msg off)"
+    send_notif "$(printf "$(msg notif_anim)" "$status_lbl")"
+}
+
+# --- Dim Inactive ---
+toggle_dim_inactive() {
+    local cur
+    cur=$(get_hl_bool decoration:dim_inactive)
+    local target="true"
+    [ "$cur" = "true" ] && target="false"
+    apply_setting "decoration:dim_inactive" "$target" "hl.config({ decoration = { dim_inactive = $target } })"
+    local status_lbl
+    [ "$target" = "true" ] && status_lbl="$(msg on)" || status_lbl="$(msg off)"
+    send_notif "$(printf "$(msg notif_dim)" "$status_lbl")"
+}
+
+# --- Dim Around ---
+set_dim_around() {
+    local val="$1"
+    apply_setting "decoration:dim_around" "$val" "hl.config({ decoration = { dim_around = $val } })"
+    send_notif "$(printf "$(msg notif_dim_around)" "$val")"
+}
+
+toggle_dim_around() {
+    local cur
+    cur=$(get_hl_float decoration:dim_around)
+    if [ "$(awk -v c="$cur" 'BEGIN { print (c > 0.0) ? "yes" : "no" }')" = "yes" ]; then
+        set_dim_around 0.00
+    else
+        set_dim_around "${DEF_DIM_AROUND:-0.40}"
+    fi
+}
+
+menu_dim_around() {
+    while true; do
+        local cur
+        cur=$(get_hl_float decoration:dim_around)
+        local prompt
+        prompt=$(printf "$(msg p_dim_around)" "$cur")
+
+        local items=(
+            "$(msg toggle) (0.00 ↔ ${DEF_DIM_AROUND})"
+            "🔘 0.00 — $(msg off)"
+            "🔘 0.20 — $(msg small)"
+            "🔘 0.40 — $(msg default) (0.40)"
+            "🔘 0.60 — $(msg medium)"
+            "🔘 0.80 — $(msg extra)"
+            "$(msg back)"
+        )
+
+        local chosen
+        chosen=$(printf '%s\n' "${items[@]}" | fuzzel --dmenu --lines 7 --width 46 --prompt "$prompt" --no-sort)
+        [ -z "$chosen" ] && return 0
+
+        case "$chosen" in
+            *"$(msg back)"*) return 0 ;;
+            *"$(msg toggle)"*) toggle_dim_around ;;
+            *"0.00"*) set_dim_around 0.00 ;;
+            *"0.20"*) set_dim_around 0.20 ;;
+            *"0.40"*) set_dim_around 0.40 ;;
+            *"0.60"*) set_dim_around 0.60 ;;
+            *"0.80"*) set_dim_around 0.80 ;;
+        esac
+    done
+}
+
+# --- Language Toggle ---
+toggle_language() {
+    if [ "$CURRENT_LANG" = "ru" ]; then
+        CURRENT_LANG="en"
+    else
+        CURRENT_LANG="ru"
+    fi
+    save_state
+    send_notif "$(msg notif_lang)"
+}
+
+# --- Reset All to Defaults ---
+reset_all_defaults() {
+    set_rounding "$DEF_ROUNDING"
+    set_gaps "$DEF_GAPS_IN" "$DEF_GAPS_OUT"
+    set_border "$DEF_BORDER"
+    set_opacity "$DEF_ACTIVE_OPACITY" "$DEF_INACTIVE_OPACITY"
+    
+    apply_setting "decoration:blur:enabled" "$DEF_BLUR" "hl.config({ decoration = { blur = { enabled = $DEF_BLUR } } })"
+    apply_setting "$SHADOW_KEY" "$DEF_SHADOW" "hl.config({ decoration = { shadow = { enabled = $DEF_SHADOW } } })"
+    apply_setting "animations:enabled" "$DEF_ANIMATIONS" "hl.config({ animations = { enabled = $DEF_ANIMATIONS } })"
+    apply_setting "decoration:dim_inactive" "$DEF_DIM_INACTIVE" "hl.config({ decoration = { dim_inactive = $DEF_DIM_INACTIVE } })"
+    apply_setting "decoration:dim_around" "$DEF_DIM_AROUND" "hl.config({ decoration = { dim_around = $DEF_DIM_AROUND } })"
+    
+    send_notif "$(msg notif_reset)"
+}
+
+# ------------------------------------------------------------------------------
+# 8. Main Interactive Fuzzel Loop
+# ------------------------------------------------------------------------------
+run_fuzzel_gui() {
+    while true; do
+        local r_val gin gout b_val act inact blur_val shadow_val anim_val dim_inact dim_around
+        r_val=$(get_hl_int decoration:rounding)
+        gin=$(get_hl_gap general:gaps_in)
+        gout=$(get_hl_gap general:gaps_out)
+        b_val=$(get_hl_int general:border_size)
+        act=$(get_hl_float decoration:active_opacity)
+        inact=$(get_hl_float decoration:inactive_opacity)
+        blur_val=$(get_hl_bool decoration:blur:enabled)
+        shadow_val=$(get_hl_bool "$SHADOW_KEY")
+        anim_val=$(get_hl_bool animations:enabled)
+        dim_inact=$(get_hl_bool decoration:dim_inactive)
+        dim_around=$(get_hl_float decoration:dim_around)
+
+        local blur_lbl shadow_lbl anim_lbl dim_lbl
+        [ "$blur_val" = "true" ]   && blur_lbl="$(msg on)" || blur_lbl="$(msg off)"
+        [ "$shadow_val" = "true" ] && shadow_lbl="$(msg on)" || shadow_lbl="$(msg off)"
+        [ "$anim_val" = "true" ]   && anim_lbl="$(msg on)" || anim_lbl="$(msg off)"
+        [ "$dim_inact" = "true" ]  && dim_lbl="$(msg on)" || dim_lbl="$(msg off)"
+
+        local items=(
+            "$(msg m_rounding): ${r_val}px ➔"
+            "$(msg m_gaps): ${gin}px / ${gout}px ➔"
+            "$(msg m_border): ${b_val}px ➔"
+            "$(msg m_opacity): ${act} / ${inact} ➔"
+            "$(msg m_blur): [${blur_lbl}]"
+            "$(msg m_shadow): [${shadow_lbl}]"
+            "$(msg m_animations): [${anim_lbl}]"
+            "$(msg m_dim_inactive): [${dim_lbl}]"
+            "$(msg m_dim_around): [${dim_around}] ➔"
+            "$(msg m_lang_switch)"
+            "$(msg m_reset)"
+            "$(msg m_exit)"
+        )
+
+        local chosen
+        chosen=$(printf '%s\n' "${items[@]}" | fuzzel --dmenu --lines 12 --width 46 --prompt "$(msg main_prompt)" --no-sort)
+
+        [ -z "$chosen" ] && exit 0
+
+        case "$chosen" in
+            *"$(msg m_exit)"*)
+                exit 0
+                ;;
+            *"$(msg m_rounding)"*)
+                menu_rounding
+                ;;
+            *"$(msg m_gaps)"*)
+                menu_gaps
+                ;;
+            *"$(msg m_border)"*)
+                menu_border
+                ;;
+            *"$(msg m_opacity)"*)
+                menu_opacity
+                ;;
+            *"$(msg m_blur)"*)
+                toggle_blur
+                ;;
+            *"$(msg m_shadow)"*)
+                toggle_shadow
+                ;;
+            *"$(msg m_animations)"*)
+                toggle_animations
+                ;;
+            *"$(msg m_dim_inactive)"*)
+                toggle_dim_inactive
+                ;;
+            *"$(msg m_dim_around)"*)
+                menu_dim_around
+                ;;
+            *"$(msg m_lang_switch)"*)
+                toggle_language
+                ;;
+            *"$(msg m_reset)"*)
+                reset_all_defaults
+                ;;
+        esac
+    done
+}
+
+# ------------------------------------------------------------------------------
+# 9. CLI Argument Handling
+# ------------------------------------------------------------------------------
+CLI_LANG=""
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --lang|-l)
+            CLI_LANG="$2"
+            shift 2
+            ;;
+        --toggle-blur)
+            load_state
+            init_language
+            toggle_blur
+            exit 0
+            ;;
+        --toggle-shadow)
+            load_state
+            init_language
+            toggle_shadow
+            exit 0
+            ;;
+        --toggle-anim|--toggle-animations)
+            load_state
+            init_language
+            toggle_animations
+            exit 0
+            ;;
+        --toggle-dim|--toggle-dim-inactive)
+            load_state
+            init_language
+            toggle_dim_inactive
+            exit 0
+            ;;
+        --toggle-dim-around)
+            load_state
+            init_language
+            toggle_dim_around
+            exit 0
+            ;;
+        --toggle-rounding)
+            load_state
+            init_language
+            toggle_rounding
+            exit 0
+            ;;
+        --toggle-gaps)
+            load_state
+            init_language
+            toggle_gaps
+            exit 0
+            ;;
+        --toggle-border)
+            load_state
+            init_language
+            toggle_border
+            exit 0
+            ;;
+        --reset)
+            load_state
+            init_language
+            reset_all_defaults
+            exit 0
+            ;;
+        --status)
+            load_state
+            init_language
+            cat <<EOF
+Hyprland Window Settings Status:
+  Parser: $( [ "$IS_LUA" = "true" ] && echo "Lua (hyprctl eval)" || echo "Legacy (hyprctl keyword)" )
+  Language: $CURRENT_LANG
+  Rounding: $(get_hl_int decoration:rounding)px (default: ${DEF_ROUNDING}px)
+  Gaps In: $(get_hl_gap general:gaps_in)px (default: ${DEF_GAPS_IN}px)
+  Gaps Out: $(get_hl_gap general:gaps_out)px (default: ${DEF_GAPS_OUT}px)
+  Border Size: $(get_hl_int general:border_size)px (default: ${DEF_BORDER}px)
+  Active Opacity: $(get_hl_float decoration:active_opacity)
+  Inactive Opacity: $(get_hl_float decoration:inactive_opacity)
+  Blur Enabled: $(get_hl_bool decoration:blur:enabled)
+  Shadow Enabled: $(get_hl_bool "$SHADOW_KEY") (key: $SHADOW_KEY)
+  Animations Enabled: $(get_hl_bool animations:enabled)
+  Dim Inactive: $(get_hl_bool decoration:dim_inactive)
+  Dim Around: $(get_hl_float decoration:dim_around)
+EOF
+            exit 0
+            ;;
+        --help|-h)
+            cat <<EOF
+Usage: $(basename "$0") [OPTIONS]
+
+Options:
+  -l, --lang <en|ru>      Set interface language
+  --toggle-blur           Toggle window blur
+  --toggle-shadow         Toggle window drop shadows
+  --toggle-anim           Toggle window animations
+  --toggle-dim            Toggle dimming of inactive windows
+  --toggle-dim-around     Toggle dim around floating windows
+  --toggle-rounding       Toggle window rounding (0 vs default)
+  --toggle-gaps           Toggle gaps (0 vs default)
+  --toggle-border         Toggle window border (0 vs default)
+  --reset                 Reset all settings to defaults
+  --status                Print current window settings summary
+  -h, --help              Show this help message
+
+Running without arguments launches the interactive Fuzzel menu.
+EOF
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1" >&2
+            exit 1
+            ;;
+    esac
+done
+
+load_state
+init_language
+save_state
+run_fuzzel_gui
