@@ -44,7 +44,7 @@ My personal **Hyprland** configuration for **Gentoo Linux** and **Arch Linux**.
 
 Switch themes seamlessly at any moment:
 * Press **`Super + Shift + T`**
-* Or **Right-Click** the Arch logo on the Waybar
+* Or **Right-Click** the Gentoo logo on the Waybar
 
 All **30 themes** sync instantly across Waybar, Fuzzel, and Wlogout:
 
