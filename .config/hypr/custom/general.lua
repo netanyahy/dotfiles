@@ -1,16 +1,16 @@
--- Настройка монитора (180 Гц)
+-- Настройка монитора внизу пример как писать если
 hl.monitor({
-    output = "DP-1",
-    mode = "2560x1440@180",
-    position = "0x0",
+    output = "DP-1", -- укажите порт
+    mode = "2560x1440@180", --укажите разрешение вашего монитора
+    position = "0x0", --позицию
     scale = 1,
 })
 
--- Основные настройки
+-- настройка язык
 hl.config({
     input = {
-        kb_layout = "us,ru",
-        kb_options = "grp:alt_shift_toggle",
+        kb_layout = "us,ru", -- меняющейсяя раскладка типо руская англиская
+        kb_options = "grp:alt_shift_toggle", -- бинд на смену
     }
 })
 
