@@ -6,7 +6,6 @@ hl.bind("SUPER + ALT + T", hl.dsp.exec_cmd("~/.config/hypr/scripts/terminal-sett
 -- hl.bind("SUPER + D", hl.dsp.exec_cmd("~/.config/hypr/scripts/window-settings-fuzzel.sh"), { description = "Window Settings: Fuzzel Menu" })
 -- hl.bind("SUPER + SHIFT + D", hl.dsp.exec_cmd("~/.config/hypr/scripts/window-settings-fuzzel.sh"), { description = "Window Settings: Fuzzel Menu" })
 hl.bind("SUPER + SHIFT + G", hl.dsp.exec_cmd("~/.config/hypr/scripts/window-settings-fuzzel.sh"), { description = "Window Settings & Gaps: Fuzzel Menu" })
-hl.bind("SUPER+P", hl.dsp.exec_cmd('vscode'))
 
 -- Окно по центру экрана при переключении в плавающий режим (Win + Alt + Space)
 hl.unbind("SUPER + ALT + Space")
