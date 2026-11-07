@@ -151,7 +151,7 @@ install_packages_gentoo() {
         log "Оверлей hyproverlay уже подключен."
     fi
 
-    # 2. Автоматическое подключение GURU (требуется для fuzzel, wlogout, mpvpaper)
+    # подключение гуру для шпионских программ
     local has_guru=false
     if [ -d /var/db/repos/guru ]; then
         has_guru=true
@@ -171,7 +171,7 @@ install_packages_gentoo() {
     else
         log "Оверлей GURU уже подключен."
     fi
-
+#установка пакетов под gentoo
     local PKGS=(
         "gui-wm/hyprland"
         "gui-apps/waybar"
@@ -225,7 +225,7 @@ install_packages_gentoo() {
         log "Все необходимые пакеты Gentoo уже установлены!"
         return 0
     fi
-
+#Отсутсвуещиее пакеты
     local root_name="${ROOT_CMD:-sudo}"
     echo -e "${YELLOW}Найдено отсутствующих пакетов: ${#to_install[@]}${NC}"
     read -r -p "Установить недостающие пакеты через $root_name emerge? [y/N]: " ans
@@ -244,7 +244,7 @@ install_packages_gentoo() {
         info "Установка пакетов пропущена пользователем."
     fi
 }
-
+#установка под арч линукс бтв
 install_packages_arch() {
     info "Настройка пакетного менеджера Arch Linux (pacman)..."
 
@@ -309,7 +309,7 @@ install_packages_arch() {
         log "Все официальные пакеты Arch Linux уже установлены!"
     fi
 
-    # Проверка AUR пакетов (wlogout, hyprshot, mpvpaper)
+    # аур пакетики с троянами для mpv
     local AUR_PKGS=("wlogout" "hyprshot" "mpvpaper")
     local to_install_aur=()
     for pkg in "${AUR_PKGS[@]}"; do
@@ -346,7 +346,7 @@ install_fonts() {
         log "JetBrains Mono Nerd Font уже установлен в системе."
         return 0
     fi
-
+#Скачивание шрифта дурацкого
     read -r -p "Скачать и установить JetBrains Mono Nerd Font в ~/.local/share/fonts? [Y/n]: " ans
     if [[ -z "$ans" || "$ans" =~ ^[YyДд]$ ]]; then
         local font_dir="$HOME/.local/share/fonts/JetBrainsMono"
@@ -371,7 +371,7 @@ install_fonts() {
     fi
 }
 
-# 4. Резервное копирование
+# резервная копия чтобы твои прекрасные доты не удалились
 backup_configs() {
     heading "4. Резервное копирование текущих конфигов"
 
@@ -399,7 +399,7 @@ backup_configs() {
     log "Бэкап сохранен. В случае необходимости вы можете восстановить свои файлы."
 }
 
-# 5. Установка конфигурационных файлов
+# установка дотфайлов от нетаньяху не орих
 install_configs() {
     heading "5. Установка dotfiles"
 
@@ -417,7 +417,7 @@ install_configs() {
         fi
     done
 
-    # Делаем скрипты исполняемыми
+    # надо сделать скрипты испольняемыми
     if [ -d "$HOME/.config/hypr" ]; then
         find "$HOME/.config/hypr" -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {} + 2>/dev/null || true
         log "Права на исполнение для скриптов Hyprland выданы (+x)"
@@ -428,7 +428,7 @@ install_configs() {
     fi
 }
 
-# 6. Обои
+# обои крутые модные
 install_wallpapers() {
     heading "6. Установка обоев"
 
@@ -448,7 +448,7 @@ install_wallpapers() {
         info "Файл обоев не найден в репозитории, проверка существующих каталогов."
     fi
 
-    # Гарантируем наличие 189d538e3d89f6dcbb4b430d2afb2019.jpg и default.jpg в обеих директориях
+
     for f in "189d538e3d89f6dcbb4b430d2afb2019.jpg" "default.jpg"; do
         if [ -f "$target_dir1/$f" ] && [ ! -f "$target_dir2/$f" ]; then
             ln -sf "$target_dir1/$f" "$target_dir2/$f" 2>/dev/null || cp -f "$target_dir1/$f" "$target_dir2/$f" 2>/dev/null || true
@@ -458,7 +458,7 @@ install_wallpapers() {
     done
 }
 
-# 7. Кэширование иконок
+# кэш иконок
 update_icon_caches() {
     heading "7. Обновление кэша иконок"
 
@@ -487,7 +487,7 @@ update_icon_caches() {
     fi
 }
 
-# 8. Финал
+# конец
 finish_up() {
     heading "Готово!"
     echo -e "${GREEN}${BOLD}Все компоненты успешно установлены!${NC}\n"
@@ -505,7 +505,7 @@ finish_up() {
     echo -e "\n${BOLD}${CYAN}Приятного использования!${NC}\n"
 }
 
-# Запуск
+# запуск шайтан машина
 main() {
     if [[ "${1:-}" == "--update" || "${1:-}" == "-u" ]]; then
         print_banner
