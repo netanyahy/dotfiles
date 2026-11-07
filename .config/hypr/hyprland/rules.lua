@@ -32,6 +32,10 @@ hl.window_rule({ match = { class = ".*" }, no_blur = true })
 -- 3. ВКЛЮЧАЕМ размытие эксклюзивно для Kitty (это правило перекроет предыдущее)
 hl.window_rule({ match = { class = "^(kitty)$" }, no_blur = false })
 
+-- 4. ВКЛЮЧАЕМ размытие и прозрачность для VS Code и Antigravity
+hl.window_rule({ match = { class = "^(code)$" }, no_blur = false, opacity = "0.88 0.88" })
+hl.window_rule({ match = { class = "^([Aa]ntigravity)$" }, no_blur = false, opacity = "0.88 0.88" })
+
 
 
 
