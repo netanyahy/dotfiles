@@ -53,6 +53,51 @@ EOF
     echo -e "${WHITE}Репозиторий:${NC} https://github.com/netanyahy/dotfiles\n"
 }
 
+# 0. Автоматическая проверка обновлений репозитория
+check_for_updates() {
+    heading "0. Проверка обновлений dotfiles"
+
+    if [ ! -d "$SCRIPT_DIR/.git" ] || ! command -v git >/dev/null 2>&1; then
+        info "Репозиторий git не обнаружен, пропуск проверки обновлений."
+        return 0
+    fi
+
+    local current_branch
+    current_branch=$(git -C "$SCRIPT_DIR" rev-parse --abbrev-ref HEAD 2>/dev/null || echo "main")
+
+    info "Проверка наличия обновлений на GitHub (ветка $current_branch)..."
+    if ! git -C "$SCRIPT_DIR" fetch origin "$current_branch" --quiet 2>/dev/null; then
+        warn "Не удалось связаться с удалённым репозиторием (нет сети или ошибка git fetch)."
+        return 0
+    fi
+
+    local local_commit remote_commit
+    local_commit=$(git -C "$SCRIPT_DIR" rev-parse HEAD 2>/dev/null || echo "")
+    remote_commit=$(git -C "$SCRIPT_DIR" rev-parse "origin/$current_branch" 2>/dev/null || echo "")
+
+    if [ -n "$local_commit" ] && [ -n "$remote_commit" ] && [ "$local_commit" != "$remote_commit" ]; then
+        echo -e "\n${YELLOW}${BOLD}Доступно обновление dotfiles!${NC}"
+        echo -e "  Текущая версия: ${CYAN}${local_commit:0:7}${NC}"
+        echo -e "  Новая версия:   ${GREEN}${remote_commit:0:7}${NC}\n"
+
+        read -r -p "Обновить репозиторий перед установкой? [Y/n]: " ans
+        if [[ -z "$ans" || "$ans" =~ ^[YyДд]$ ]]; then
+            info "Загрузка и применение обновлений (git pull)..."
+            if git -C "$SCRIPT_DIR" pull --ff-only origin "$current_branch" 2>/dev/null || git -C "$SCRIPT_DIR" pull origin "$current_branch"; then
+                log "Репозиторий успешно обновлен!"
+                info "Перезапуск установщика с обновленной версией..."
+                exec bash "$0" "$@"
+            else
+                warn "Не удалось выполнить автоматический git pull. Продолжаем с текущей версией."
+            fi
+        else
+            info "Обновление пропущено пользователем."
+        fi
+    else
+        log "Ваш репозиторий dotfiles находится в самом актуальном состоянии."
+    fi
+}
+
 # 1. Проверка дистрибутива
 check_system() {
     heading "1. Проверка системы"
@@ -330,7 +375,7 @@ install_fonts() {
 backup_configs() {
     heading "4. Резервное копирование текущих конфигов"
 
-    local configs=("hypr" "waybar" "kitty" "fuzzel" "dunst" "foot" "wlogout")
+    local configs=("hypr" "waybar" "kitty" "fuzzel" "dunst" "foot" "wlogout" "starship" "fastfetch")
     local found=()
 
     for cfg in "${configs[@]}"; do
@@ -359,7 +404,7 @@ install_configs() {
     heading "5. Установка dotfiles"
 
     mkdir -p "$HOME/.config"
-    local configs=("hypr" "waybar" "kitty" "fuzzel" "dunst" "foot" "wlogout")
+    local configs=("hypr" "waybar" "kitty" "fuzzel" "dunst" "foot" "wlogout" "starship" "fastfetch")
 
     for cfg in "${configs[@]}"; do
         local src="$SCRIPT_DIR/.config/$cfg"
@@ -462,7 +507,26 @@ finish_up() {
 
 # Запуск
 main() {
+    if [[ "${1:-}" == "--update" || "${1:-}" == "-u" ]]; then
+        print_banner
+        heading "Обновление репозитория dotfiles"
+        if [ -d "$SCRIPT_DIR/.git" ] && command -v git >/dev/null 2>&1; then
+            local current_branch
+            current_branch=$(git -C "$SCRIPT_DIR" rev-parse --abbrev-ref HEAD 2>/dev/null || echo "main")
+            info "Подтягивание свежих коммитов (git pull origin $current_branch)..."
+            if git -C "$SCRIPT_DIR" pull origin "$current_branch"; then
+                log "Репозиторий успешно обновлен!"
+            else
+                error "Ошибка при обновлении репозитория."
+            fi
+        else
+            error "Каталог не является git-репозиторием."
+        fi
+        exit 0
+    fi
+
     print_banner
+    check_for_updates "$@"
     check_system
     install_packages
     install_fonts

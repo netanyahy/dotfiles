@@ -1,0 +1,20 @@
+{
+  "name": "solarized-light",
+  "title": "☀️ Solarized Light",
+  "display": {
+    "color": {
+      "keys": "38;2;203;75;22",
+      "title": "38;2;203;75;22",
+      "output": "38;2;7;54;66"
+    },
+    "constants": [
+      "\u001b[38;2;7;54;66m",
+      "\u001b[38;2;203;75;22m"
+    ]
+  },
+  "logo": {
+    "color": {
+      "1": "38;2;203;75;22"
+    }
+  }
+}

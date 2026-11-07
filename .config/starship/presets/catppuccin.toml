@@ -1,0 +1,26 @@
+# Catppuccin Mocha Preset
+add_newline = false
+
+format = """
+[╭─](fg:#89b4fa)[](fg:#89b4fa)[ 󰈺 ](bg:#89b4fa fg:#1e1e2e)[](fg:#89b4fa bg:#313244)[ $directory ](bg:#313244 fg:#cdd6f4)[](fg:#313244 bg:#f5c2e7)$git_branch[](fg:#f5c2e7 bg:#45475a)[ $time ](bg:#45475a fg:#f9e2af)[](fg:#45475a)
+[╰─](fg:#89b4fa)$character"""
+
+[directory]
+style = "bg:#313244 fg:#cdd6f4"
+format = "[$path]($style)"
+truncation_length = 3
+
+[git_branch]
+style = "bg:#f5c2e7 fg:#1e1e2e"
+symbol = " 󰘬 "
+format = "[$symbol$branch ]($style)"
+
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:#45475a fg:#f9e2af"
+format = "[󰥔 $time]($style)"
+
+[character]
+success_symbol = "[❯](bold #a6e3a1)"
+error_symbol = "[❯](bold #f38ba8)"

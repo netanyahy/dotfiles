@@ -1,0 +1,23 @@
+# Cyberpunk Neon Preset
+add_newline = false
+
+format = """[](fg:#00f0ff)[ ⚡ ](bg:#00f0ff fg:#0d0221)[](fg:#00f0ff bg:#2b213a)[ $directory ](bg:#2b213a fg:#00f0ff)[](fg:#2b213a bg:#ff0055)$git_branch[](fg:#ff0055 bg:#18122b)[ $cmd_duration ](bg:#18122b fg:#ffe600)[](fg:#18122b)
+$character"""
+
+[directory]
+style = "bg:#2b213a fg:#00f0ff"
+format = "[$path]($style)"
+
+[git_branch]
+style = "bg:#ff0055 fg:#0d0221"
+symbol = " 󰘬 "
+format = "[$symbol$branch ]($style)"
+
+[cmd_duration]
+min_time = 500
+style = "bg:#18122b fg:#ffe600"
+format = "[󱦟 $duration]($style)"
+
+[character]
+success_symbol = "[⚡❯](bold #00f0ff)"
+error_symbol = "[💀❯](bold #ff0055)"

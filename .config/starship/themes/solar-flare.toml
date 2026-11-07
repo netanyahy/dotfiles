@@ -1,0 +1,59 @@
+# Theme: ☀️ Solar Flare (solar-flare)
+# Generated for Starship Prompt
+add_newline = false
+palette = "solar-flare"
+
+format = """
+[](fg:accent)\
+$os\
+[](fg:accent bg:dir_bg)\
+$directory\
+[](fg:dir_bg)\
+$git_branch\
+$cmd_duration\
+\n$character"""
+
+[palettes.solar-flare]
+accent = "#ff7733"
+accent_fg = "#11111b"
+secondary = "#ffb454"
+secondary_fg = "#11111b"
+dir_bg = "#413a38"
+dir_fg = "#f8ebe6"
+dur_bg = "#342d2b"
+dur_fg = "#f8ebe6"
+error = "#ff5555"
+
+[os]
+disabled = false
+style = "bg:accent fg:accent_fg"
+format = "[ $symbol ]($style)"
+
+[os.symbols]
+Arch = "󰣇"
+Gentoo = ""
+Ubuntu = "󰕈"
+Debian = "󰣚"
+Fedora = "󰣛"
+Manjaro = ""
+Linux = "󰌽"
+
+[directory]
+style = "fg:dir_fg bg:dir_bg"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[git_branch]
+style = "fg:secondary_fg bg:secondary"
+symbol = "󰘬 "
+format = " [](fg:secondary)[ $symbol$branch ]($style)[](fg:secondary)"
+
+[cmd_duration]
+min_time = 500
+style = "fg:dur_fg bg:dur_bg"
+format = " [](fg:dur_bg)[ 󰔛 $duration ]($style)[](fg:dur_bg)"
+
+[character]
+success_symbol = "[➜](bold fg:accent) "
+error_symbol = "[➜](bold fg:error) "

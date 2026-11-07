@@ -1,0 +1,59 @@
+# Theme: 👑 Cyber Gold (cyber-gold)
+# Generated for Starship Prompt
+add_newline = false
+palette = "cyber-gold"
+
+format = """
+[](fg:accent)\
+$os\
+[](fg:accent bg:dir_bg)\
+$directory\
+[](fg:dir_bg)\
+$git_branch\
+$cmd_duration\
+\n$character"""
+
+[palettes.cyber-gold]
+accent = "#ffd000"
+accent_fg = "#11111b"
+secondary = "#ffe866"
+secondary_fg = "#11111b"
+dir_bg = "#3c3a30"
+dir_fg = "#fff8e0"
+dur_bg = "#2e2c23"
+dur_fg = "#fff8e0"
+error = "#ff5555"
+
+[os]
+disabled = false
+style = "bg:accent fg:accent_fg"
+format = "[ $symbol ]($style)"
+
+[os.symbols]
+Arch = "󰣇"
+Gentoo = ""
+Ubuntu = "󰕈"
+Debian = "󰣚"
+Fedora = "󰣛"
+Manjaro = ""
+Linux = "󰌽"
+
+[directory]
+style = "fg:dir_fg bg:dir_bg"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[git_branch]
+style = "fg:secondary_fg bg:secondary"
+symbol = "󰘬 "
+format = " [](fg:secondary)[ $symbol$branch ]($style)[](fg:secondary)"
+
+[cmd_duration]
+min_time = 500
+style = "fg:dur_fg bg:dur_bg"
+format = " [](fg:dur_bg)[ 󰔛 $duration ]($style)[](fg:dur_bg)"
+
+[character]
+success_symbol = "[➜](bold fg:accent) "
+error_symbol = "[➜](bold fg:error) "

@@ -1,0 +1,72 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "type": "file",
+    "source": "~/.config/fastfetch/gentoo.txt",
+    "position": "left",
+    "color": {
+      "1": "38;2;250;189;47"
+    }
+  },
+  "display": {
+    "separator": "  ",
+    "color": {
+      "keys": "38;2;250;189;47",
+      "title": "38;2;250;189;47",
+      "output": "38;2;251;241;199"
+    },
+    "constants": [
+      "\u001b[38;2;251;241;199m",
+      "\u001b[38;2;250;189;47m"
+    ]
+  },
+  "modules": [
+    "break",
+    {
+      "type": "custom",
+      "key": "╭───────────────────────────────────╮"
+    },
+    {
+      "type": "title",
+      "key": "│ {$2}{$1}  user  ",
+      "format": "{$1}{user-name>15}@{host-name}{$2} │"
+    },
+    {
+      "type": "kernel",
+      "key": "│ {$2}{$1}  kernel",
+      "format": "{$1}{release>22}{$2} │"
+    },
+    {
+      "type": "command",
+      "key": "│ {$2}{$1}  uptime",
+      "text": "uptime -p | cut -d ' ' -f 2-",
+      "format": "{$1}{>22}{$2} │"
+    },
+    {
+      "type": "shell",
+      "key": "│ {$2}{$1}  shell ",
+      "format": "{$1}{pretty-name>22}{$2} │"
+    },
+    {
+      "type": "command",
+      "key": "│ {$2}{$1}  mem   ",
+      "text": "free -m | awk 'NR==2{printf \"%.2f GiB / %.2f GiB\",$3/1024,$2/1024}'",
+      "format": "{$1}{>22}{$2} │"
+    },
+    {
+      "type": "packages",
+      "key": "│ {$2}{$1}  pkgs  ",
+      "format": "{$1}{all>22}{$2} │"
+    },
+    {
+      "type": "os",
+      "key": "│ {$2}󰻀{$1}  distro",
+      "format": "{$1}{pretty-name>22}{$2} │"
+    },
+    {
+      "type": "custom",
+      "key": "╰───────────────────────────────────╯"
+    },
+    "break"
+  ]
+}

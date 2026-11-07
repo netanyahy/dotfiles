@@ -1,0 +1,20 @@
+{
+  "name": "catppuccin-frappe",
+  "title": "🧋 Catppuccin Frappé",
+  "display": {
+    "color": {
+      "keys": "38;2;129;200;190",
+      "title": "38;2;129;200;190",
+      "output": "38;2;198;208;245"
+    },
+    "constants": [
+      "\u001b[38;2;198;208;245m",
+      "\u001b[38;2;129;200;190m"
+    ]
+  },
+  "logo": {
+    "color": {
+      "1": "38;2;129;200;190"
+    }
+  }
+}

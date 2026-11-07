@@ -1,0 +1,17 @@
+# Minimal Preset
+add_newline = false
+
+format = "$directory$git_branch$character"
+
+[directory]
+style = "bold cyan"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[git_branch]
+style = "bold purple"
+symbol = " "
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"

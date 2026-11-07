@@ -1,0 +1,20 @@
+{
+  "name": "catppuccin-macchiato",
+  "title": "🧁 Catppuccin Macchiato",
+  "display": {
+    "color": {
+      "keys": "38;2;245;189;230",
+      "title": "38;2;245;189;230",
+      "output": "38;2;202;211;245"
+    },
+    "constants": [
+      "\u001b[38;2;202;211;245m",
+      "\u001b[38;2;245;189;230m"
+    ]
+  },
+  "logo": {
+    "color": {
+      "1": "38;2;245;189;230"
+    }
+  }
+}
