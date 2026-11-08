@@ -1,4 +1,4 @@
-d#!/usr/bin/env bash
+#!/usr/bin/env bash
 # ╔═══════════════════════════════════════════════════════════════╗
 # ║        Hyprland • Waybar • Gentoo / Arch Linux • Fuzzel       ║
 # ╚═══════════════════════════════════════════════════════════════╝
@@ -517,7 +517,7 @@ main() {
             if git -C "$SCRIPT_DIR" pull origin "$current_branch"; then
                 log "Репозиторий успешно обновлен!"
             else
-                error "Ошибка при обновлении репозитория."
+                error "Ошибка при обновлдении репозитория"
             fi
         else
             error "Каталог не является git-репозиторием."
